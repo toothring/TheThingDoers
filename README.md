@@ -10,8 +10,8 @@
     <meta name="format-detection" content="telephone=no">
 </head>
 <body>
-<h1>The Thing Doers</h1>
-<h2>Jigaw Tetris</h2>
+<h1>Jigaw Tetris</h1>
+<h2>The Thing Doers</h2>
 <h2>Installation</h2>
 <p>Empty</p>
 <h2>License</h2>
