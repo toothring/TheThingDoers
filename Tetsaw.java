@@ -11,9 +11,11 @@ public class Tetsaw {
 		String userSelection;
 		Scanner sc=new Scanner(System.in);
 		if(players == 1)
-			System.out.println("Welcome to Tetsaw!\nQ to exit");
+			System.out.println("Welcome to Tetsaw!\nQ to exit\n"
+					+ "You're playing on " + difficulty);
 		else
-			System.out.println("Welcome to Tetsaw for two!\nQ to exit");
+			System.out.println("Welcome to Tetsaw for two!\nQ to exit\n"
+					+ "You're playing on " + difficulty);
 		userSelection=sc.nextLine();
 			
 	}
