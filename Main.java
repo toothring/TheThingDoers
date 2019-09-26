@@ -62,7 +62,7 @@ public class Main{
 					System.out.print("Select what you want to change:\n\n"
 							+ "A - Graphics\n"
 							+ "B - Sound\n"
-							+ "C - Accessability"
+							+ "C - Accessability\n"
 							+ "Q - Quit\n\n"
 							+ "Enter your choice: ");
 					menuSelect=sc.nextLine().toUpperCase().strip().charAt(0);
@@ -77,6 +77,7 @@ public class Main{
 							System.out.println("Invalid input. Please try again.\n\nEnter your choice: ");
 					}
 				} while (menuSelect != 'Q');
+				menuSelect='\u0000';
 			} else
 				if(menuSelect != 'Q')
 					System.out.println("Invalid input. Please try again.\n\nEnter your choice: ");
