@@ -10,11 +10,14 @@
     <meta name="format-detection" content="telephone=no">
 </head>
 <body>
-<h1>Jigaw Tetris</h1>
-<h2>The Thing Doers</h2>
-<h2>Installation</h2>
-<p>Empty</p>
-<h2>License</h2>
-<p>Empty</p>
+    <h1>Jigaw Tetris</h1>
+    <h2>The Thing Doers</h2>
+    <h2>What is done here:</h2>
+    <p>Play area</p>
+    <p>Tile definition</p>
+    <p>Tile movement</p>
+    <p>Tile Collision</p>
+    <p>(basic) Tile Drawing</p>
+    <p>Tile bounding</p>
 </body>
 </html>
