@@ -13,7 +13,7 @@
     <h1>Jigaw Tetris</h1>
     <h2>The Thing Doers</h2>
     <h2>What is done here:</h2>
-    <p>Play area</p>
+    <p>Play area + Basic tick system</p>
     <p>Tile definition</p>
     <p>Tile movement</p>
     <p>Tile Collision</p>
