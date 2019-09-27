@@ -10,7 +10,7 @@
     <meta name="format-detection" content="telephone=no">
 </head>
 <body>
-<h1>Tetsaw</h1>
+<h1>Jigaw Tetris</h1>
 <h2>The Thing Doers</h2>
 <h2>Installation</h2>
 <p>Empty</p>
