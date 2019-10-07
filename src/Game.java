@@ -1,7 +1,12 @@
 
 public class Game {
-
+	// private Shapes[] shape = Shapes("shapeT", "shapeI", "ShapeL", "ShapeO", "ShapeS");
+	
 	public Game() {
+		
+	}
+	
+	public void StartGame() {
 		
 	}
 	
@@ -18,6 +23,34 @@ public class Game {
 	}
 	
 	public void DropPiece() {
+		
+	}
+	
+	public void PlayMusic() {
+		
+	}
+	
+	public void PlaySound() {
+		
+	}
+	
+	public void PauseGame() {
+		
+	}
+	
+	public void RestartGame() {
+		
+	}
+	
+	public void ResumeGame() {
+		
+	}
+	
+	public void SaveGame() {
+		
+	}
+	
+	public void LoadGame() {
 		
 	}
 }
