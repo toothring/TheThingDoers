@@ -11,7 +11,16 @@ public class Game {
 	}
 	
 	public void MovePiece() {
-		
+//		scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+//		    if(key.getCode()==KeyCode.RIGHT) {
+//		        blockPosition == (0,+1);
+//		    }
+//		    if(key.getCode()==KeyCode.LEFT) {
+//		        blockPosition == (0,-1);
+//		    }
+//		    if(key.getCode()==KeyCode.DOWN) {
+//		        blockPosition == (1,0);
+//		    }
 	}
 	
 	public void TurnPiece() {
