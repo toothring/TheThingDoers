@@ -61,7 +61,7 @@ public class TetrisBlock {
     public TetrisBlock moveTest(Vector2I delta) {
         Vector2I[] holder = new Vector2I[area.length];
         for (int i = 0; i < area.length; i++) {
-            holder[i] = area[i].add(delta);
+            holder[i] = area[i].transformExternal(delta);
         }
 
         return new TetrisBlock(holder, pattern);
@@ -69,7 +69,7 @@ public class TetrisBlock {
 
     public void move(Vector2I delta) {
         for (int i = 0; i < area.length; i++) {
-            area[i] = area[i].add(delta);
+            area[i].transform(delta);
         }
     }
 
@@ -77,7 +77,7 @@ public class TetrisBlock {
         Vector2I[] holder = new Vector2I[area.length];
         boolean invalid = false;
         for (int i = 0; i < area.length; i++) {
-            holder[i] = area[i].add(delta);
+            holder[i] = area[i].transformExternal(delta);
             invalid = (holder[i].getX() >= xBounds) || (holder[i].getY() >= yBounds) || invalid;
         }
         if (!invalid) {

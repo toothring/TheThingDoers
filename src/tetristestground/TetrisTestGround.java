@@ -32,7 +32,6 @@ public class TetrisTestGround extends Canvas {
     private final Vector2I[] playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
     private final ArrayList<TetrisBlock> block = new ArrayList<>();
     
-
     /**
      * @param args the command line arguments
      */
@@ -76,8 +75,8 @@ public class TetrisTestGround extends Canvas {
             System.out.println(pattern);
             do {
                 selectedTile = r.nextInt(playArea.length);
-            } while (playArea[selectedTile].add(Data.patternDimension[pattern]).getX() > PLAY_AREA_WIDTH || playArea[selectedTile].add(Data.patternDimension[pattern]).getY() > PLAY_AREA_HEIGHT);
-            TetrisBlock tile = new TetrisBlock(playArea[selectedTile].add(Data.patterns[pattern][0]), playArea[selectedTile].add(Data.patterns[pattern][1]), playArea[selectedTile].add(Data.patterns[pattern][2]), playArea[selectedTile].add(Data.patterns[pattern][3]), pattern);
+            } while (playArea[selectedTile].transformExternal(Data.patternDimension[pattern]).getX() > PLAY_AREA_WIDTH || playArea[selectedTile].transformExternal(Data.patternDimension[pattern]).getY() > PLAY_AREA_HEIGHT);
+            TetrisBlock tile = new TetrisBlock(playArea[selectedTile].transformExternal(Data.patterns[pattern][0]), playArea[selectedTile].transformExternal(Data.patterns[pattern][1]), playArea[selectedTile].transformExternal(Data.patterns[pattern][2]), playArea[selectedTile].transformExternal(Data.patterns[pattern][3]), pattern);
             boolean intersects = false;
             for (TetrisBlock blocks : block) {
                 intersects = (tile.intersects(blocks) || intersects);
