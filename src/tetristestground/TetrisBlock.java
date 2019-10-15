@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tetristestground;
+package testjfxapp;
 
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.util.Arrays;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import orion.number.Vector2I;
 
 /**
@@ -17,7 +19,7 @@ import orion.number.Vector2I;
 public class TetrisBlock {
 
     private final Vector2I[] area;
-    private final Color colour = new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+    public final Color colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     private int pattern;
 
     public TetrisBlock(Vector2I tile1, Vector2I tile2, Vector2I tile3, Vector2I tile4, int pattern) {
@@ -36,8 +38,8 @@ public class TetrisBlock {
         this.area = area;
     }
 
-    public void drawSelf(Graphics g, int scaleMultiplier) {
-        g.setColor(colour);
+    public void drawSelf(GraphicsContext g, int scaleMultiplier) {
+        g.setFill(colour);
         for (Vector2I i : area) {
             g.fillRect(i.getX() * scaleMultiplier, i.getY() * scaleMultiplier, scaleMultiplier, scaleMultiplier);
         }
