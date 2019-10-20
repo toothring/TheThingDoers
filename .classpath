@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="deps/LibOrion.jar"/>
+	<classpathentry kind="lib" path="dist/TestJFXApp.jar"/>
+	<classpathentry kind="lib" path="dist/TetrisTestGround.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX12"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
