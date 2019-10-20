@@ -17,17 +17,19 @@
  */
 package testjfxapp;
 
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Random;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import orion.number.Vector2I;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
@@ -143,6 +145,3 @@ public class TestJFXApp extends Application {
         }
     }
 }
-
-// Just adding a nice little comment down here to make sure I can successfully push to Git under a new branch without causing
-// an apocolypse...
