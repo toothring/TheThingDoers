@@ -64,7 +64,7 @@ public class TestJFXApp extends Application {
 
     @Override
     public void start(Stage arg0) throws Exception {
-        arg0.setTitle("Test Program");
+        arg0.setTitle("Tetris");
         root.getChildren().add(CANVAS);
         Scene scene = new Scene(root);
         arg0.setScene(scene);
