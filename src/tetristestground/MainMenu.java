@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -30,24 +29,24 @@ public class MainMenu extends Application {
         filler4 = new Label("I wanna be a settings menu when I grow up.");
         window = primaryStage;
 
-        playTetris = new Button();
+        playTetris = new Button("Play Tetris");
         playTetris.setOnAction(e -> window.setScene(tetris));
 
-        playTetsaw = new Button();
+        playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> window.setScene(tetsaw));
 
-        enterScoreboard = new Button();
+        enterScoreboard = new Button("Scoreboard");
         enterScoreboard.setOnAction(e -> window.setScene(scoreboard));
 
-        enterSettings = new Button();
+        enterSettings = new Button("Settings");
         enterSettings.setOnAction(e -> window.setScene(settings));
 
-        backToMenu = new Button();
+        backToMenu = new Button("Back to Menu");
         backToMenu.setOnAction(e -> window.setScene(mainMenu));
 
         // Main menu layout:
-        StackPane mainMenuLayout = new StackPane();
-        mainMenuLayout.getChildren().addAll(playTetris, playTetsaw, enterSettings, enterSettings);
+        VBox mainMenuLayout = new VBox(40);
+        mainMenuLayout.getChildren().addAll(filler, playTetris, playTetsaw, enterSettings, enterScoreboard);
         mainMenu = new Scene(mainMenuLayout, 300, 300);
 
         // Tetsaw layout:
