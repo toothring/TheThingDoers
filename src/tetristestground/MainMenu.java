@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 public class MainMenu extends Application {
 
     Stage window;
-    Scene mainMenu, tetris, tetsaw, settings, scoreboard;
-    Button playTetris, playTetsaw, enterSettings, enterScoreboard, closeProgram;
-    Button btm1, btm2, btm3, btm4;
-    Label filler, filler1, filler2, filler3, filler4;
+    Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
+    Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
+    Button btm1, btm2, btm3, btm4, btm5, btm6;
+    Label filler, filler1, filler2, filler3, filler4, fillerSP, fillerMP;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,6 +30,8 @@ public class MainMenu extends Application {
         filler2 = new Label("I am also a placeholder");
         filler3 = new Label("I aspire to be a scoreboard one day.");
         filler4 = new Label("I wanna be a settings menu when I grow up.");
+        fillerSP = new Label("You will eventually be able to play stuff in here.");
+        fillerMP = new Label("You'll probs play things in here one day.");
         window = primaryStage;
 
         closeProgram = new Button("Quit");
@@ -38,14 +40,26 @@ public class MainMenu extends Application {
         playTetris = new Button("Play Tetris");
         playTetris.setOnAction(e -> window.setScene(tetris));
 
+        playTetrisMP = new Button("Play Tetris");
+        playTetrisMP.setOnAction(e -> window.setScene(tetris));
+
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> window.setScene(tetsaw));
+
+        playTetsawMP = new Button("Play Tetsaw");
+        playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
 
         enterScoreboard = new Button("Scoreboard");
         enterScoreboard.setOnAction(e -> window.setScene(scoreboard));
 
         enterSettings = new Button("Settings");
         enterSettings.setOnAction(e -> window.setScene(settings));
+
+        sp = new Button("Single Player");
+        sp.setOnAction(e -> window.setScene(singlePlayer));
+
+        mp = new Button("Multi Player");
+        mp.setOnAction(e -> window.setScene(multiPlayer));
 
         btm1 = new Button("Back to Menu");
         btm1.setOnAction(e -> window.setScene(mainMenu));
@@ -59,30 +73,52 @@ public class MainMenu extends Application {
         btm4 = new Button("Back to Menu");
         btm4.setOnAction(e -> window.setScene(mainMenu));
 
+        btm5 = new Button("Back to Menu");
+        btm5.setOnAction(e -> window.setScene(mainMenu));
+
+        btm6 = new Button("Back to Menu");
+        btm6.setOnAction(e -> window.setScene(mainMenu));
+
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
-        mainMenuLayout.getChildren().addAll(filler1, playTetris, playTetsaw, enterSettings, enterScoreboard, closeProgram);
+        mainMenuLayout.getChildren().addAll(filler1, sp, mp, enterSettings, enterScoreboard, closeProgram);
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 400);
+
+        // Single player layout:
+        VBox singlePlayerLayout = new VBox(40);
+        singlePlayerLayout.getChildren().addAll(fillerSP, playTetsaw, playTetris, btm5);
+        singlePlayerLayout.setAlignment(Pos.CENTER);
+        singlePlayer = new Scene(singlePlayerLayout, 300, 400);
+
+        // Multi player layout:
+        VBox multiPlayerLayout = new VBox(40);
+        multiPlayerLayout.getChildren().addAll(fillerMP, playTetsawMP, playTetrisMP, btm6);
+        multiPlayerLayout.setAlignment(Pos.CENTER);
+        multiPlayer = new Scene(multiPlayerLayout, 300, 400);
 
         // Tetsaw layout:
         VBox tetsawLayout = new VBox(40);
         tetsawLayout.getChildren().addAll(filler2, btm1);
+        tetsawLayout.setAlignment(Pos.CENTER);
         tetsaw = new Scene(tetsawLayout, 300, 300);
 
         // Tetris layout:
         VBox tetrisLayout = new VBox(40);
         tetrisLayout.getChildren().addAll(filler, btm2);
+        tetrisLayout.setAlignment(Pos.CENTER);
         tetris = new Scene(tetrisLayout, 300, 300);
 
         // Scoreboard layout:
         VBox scoreboardLayout = new VBox(40);
         scoreboardLayout.getChildren().addAll(filler3, btm3);
+        scoreboardLayout.setAlignment(Pos.CENTER);
         scoreboard = new Scene(scoreboardLayout, 300, 300);
 
         // Settings layout:
         VBox settingsLayout = new VBox(40);
         settingsLayout.getChildren().addAll(filler4, btm4);
+        settingsLayout.setAlignment(Pos.CENTER);
         settings = new Scene(settingsLayout, 300, 300);
 
         window.setScene(mainMenu);
