@@ -19,7 +19,8 @@ public class MainMenu extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
+        }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -84,42 +85,49 @@ public class MainMenu extends Application {
         mainMenuLayout.getChildren().addAll(filler1, sp, mp, enterSettings, enterScoreboard, closeProgram);
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 400);
+        mainMenu.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         // Single player layout:
         VBox singlePlayerLayout = new VBox(40);
         singlePlayerLayout.getChildren().addAll(fillerSP, playTetsaw, playTetris, btm5);
         singlePlayerLayout.setAlignment(Pos.CENTER);
         singlePlayer = new Scene(singlePlayerLayout, 300, 400);
+        singlePlayer.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         // Multi player layout:
         VBox multiPlayerLayout = new VBox(40);
         multiPlayerLayout.getChildren().addAll(fillerMP, playTetsawMP, playTetrisMP, btm6);
         multiPlayerLayout.setAlignment(Pos.CENTER);
         multiPlayer = new Scene(multiPlayerLayout, 300, 400);
+        multiPlayer.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         // Tetsaw layout:
         VBox tetsawLayout = new VBox(40);
         tetsawLayout.getChildren().addAll(filler2, btm1);
         tetsawLayout.setAlignment(Pos.CENTER);
-        tetsaw = new Scene(tetsawLayout, 300, 300);
+        tetsaw = new Scene(tetsawLayout, 300, 400);
+        tetsaw.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         // Tetris layout:
         VBox tetrisLayout = new VBox(40);
         tetrisLayout.getChildren().addAll(filler, btm2);
         tetrisLayout.setAlignment(Pos.CENTER);
-        tetris = new Scene(tetrisLayout, 300, 300);
+        tetris = new Scene(tetrisLayout, 300, 400);
+        tetris.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         // Scoreboard layout:
         VBox scoreboardLayout = new VBox(40);
         scoreboardLayout.getChildren().addAll(filler3, btm3);
         scoreboardLayout.setAlignment(Pos.CENTER);
-        scoreboard = new Scene(scoreboardLayout, 300, 300);
+        scoreboard = new Scene(scoreboardLayout, 300, 400);
+        scoreboard.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         // Settings layout:
         VBox settingsLayout = new VBox(40);
         settingsLayout.getChildren().addAll(filler4, btm4);
         settingsLayout.setAlignment(Pos.CENTER);
-        settings = new Scene(settingsLayout, 300, 300);
+        settings = new Scene(settingsLayout, 300, 400);
+        settings.getStylesheets().add("src/tetristestground/TetsawStylesheet.css");
 
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");

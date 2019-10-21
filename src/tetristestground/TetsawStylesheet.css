@@ -2,7 +2,6 @@
     -fx-background-color: #1d66b5;
     /*-fx-background-image: ;*/
     -fx-font: 12pt "Calibri";
-    -fx-text-fill: #e9ebf0; /* This */
-    -fx-text-inner-color: #e9ebf0; /* This */
-    -fx-fill: #e9ebf0; /* And this should be turning the font off-white... But none off them are. */
+    -fx-text-fill: #ffffff;
+    -fx-text-inner-color: #ffffff;
 }
