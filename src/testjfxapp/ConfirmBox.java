@@ -1,4 +1,4 @@
-package tetristestground;
+package testjfxapp;
 
 import javafx.stage.*;
 import javafx.scene.*;

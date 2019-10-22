@@ -1,4 +1,4 @@
-package tetristestground;
+package testjfxapp;
 // Work in progress
 
 import javafx.application.Application;
