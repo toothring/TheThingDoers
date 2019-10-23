@@ -29,7 +29,7 @@ public class BlockMovementTest extends Application {
 	
 	private Parent createContent() {
 		//board size. 10 accross and 10 down based on 40px block
-		root.setPrefSize(440, 840);
+		root.setPrefSize(400, 800);
 		root.getChildren().add(player);
 		//creates the timer
 		AnimationTimer timer = new AnimationTimer() {
@@ -66,6 +66,12 @@ public class BlockMovementTest extends Application {
 				case RIGHT:
 					player.moveRight();
 					break;
+                case DOWN:
+                    player.manualDown();
+                    break;
+                case UP:
+                    player.dropPiece();
+                    break;
 				case Z:
 					switch (currentRotation) {
 						case 0:
@@ -128,14 +134,32 @@ public class BlockMovementTest extends Application {
 		}
 		// key events are each a 40px movement
 		void moveLeft() {
-			setTranslateX(getTranslateX() - 40);
-		}
-		void moveRight() {
-			setTranslateX(getTranslateX() + 40);
-		}
-		void moveDown() {
-			setTranslateY(getTranslateY() + 40);
-		}
+
+            if (getTranslateX() > 0) {
+                setTranslateX(getTranslateX() - 40);
+            }
+        }
+
+        void moveRight() {
+            if (getTranslateX() < 340) {
+                setTranslateX(getTranslateX() + 40);
+            }
+        }
+        void moveDown() {
+
+            if (getTranslateY() < 730) {
+                setTranslateY(getTranslateY() + 40);
+            }
+        }
+	    void manualDown() {
+            if (getTranslateY() < 730) {
+                setTranslateY(getTranslateY() + 80);
+            }
+        }
+
+        void dropPiece() {
+            setTranslateY(760);
+        }
 	}
 
 	public static void main(String[] args) {
