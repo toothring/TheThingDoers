@@ -17,19 +17,18 @@
  */
 package testjfxapp;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Random;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import orion.number.Vector2I;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -39,25 +38,42 @@ public class TestJFXApp extends Application {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int PLAY_AREA_WIDTH = 10;
-    private static final int PLAY_AREA_HEIGHT = 20;
-    private static final int TILE_SIZE = 30;
+    private static int PLAY_AREA_WIDTH;
+    private static int PLAY_AREA_HEIGHT;
+    private static int TILE_SIZE;
 
     private final Vector2I movement = new Vector2I(0, 1);
     private final Random r = new Random();
-    private final Vector2I[] playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
-    private final ArrayList<TetrisBlock> block = new ArrayList<>();
+    private static Vector2I[] playArea;
+    private static ArrayList<TetrisBlock> block;
     private Boolean running = true;
     private int x = 0;
 
-    private final Group root = new Group();
-    private static final Canvas CANVAS = new Canvas(PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
-    private static final GraphicsContext GRAPHICS = CANVAS.getGraphicsContext2D();
+    private static Group root;
+    private static Canvas CANVAS;
+    private static GraphicsContext GRAPHICS;
+
+    private MainMenu menu;
+    private Scene scene;
+
+    public TestJFXApp(int Width, int Height, int Scale, MainMenu menu) {
+        PLAY_AREA_WIDTH = Width;
+        PLAY_AREA_HEIGHT = Height;
+        TILE_SIZE = Scale;
+        root = new Group();
+        CANVAS = new Canvas(PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
+        GRAPHICS = CANVAS.getGraphicsContext2D();
+        System.out.println(GRAPHICS.toString());
+        block = new ArrayList<>();
+        playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
+        this.menu = menu;
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+// Easier to run this class via the main menu than directly.
         Application.launch(args);
 
     }
@@ -65,8 +81,17 @@ public class TestJFXApp extends Application {
     @Override
     public void start(Stage arg0) throws Exception {
         arg0.setTitle("Tetris");
-        root.getChildren().add(CANVAS);
-        Scene scene = new Scene(root);
+        running = true;
+        if (root.getChildren().size() < 1) {
+            Button rtm = new Button();
+            rtm.setText("Main Menu");
+            rtm.setOnAction(e -> {
+                running = false;
+                menu.showMenu();
+                    });
+            root.getChildren().addAll(CANVAS, rtm);
+            scene = new Scene(root);
+        }
         arg0.setScene(scene);
         arg0.show();
         System.out.println("ARGH");
@@ -140,7 +165,7 @@ public class TestJFXApp extends Application {
                 if(tile.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)){
                 }
             }
-            System.out.println();
+            System.out.println(".");
             tile.drawSelf(GRAPHICS, scaleMult);
         }
     }
