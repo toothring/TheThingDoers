@@ -1,5 +1,6 @@
 package testjfxapp;
 // Work in progress
+    // Write a fx to show main menu, call this within TestJFXApp w/ button.
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -17,6 +18,8 @@ public class MainMenu extends Application {
     Button btm1, btm2, btm3, btm4, btm5, btm6;
     Label filler, filler1, filler2, filler3, filler4, fillerSP, fillerMP;
 
+    TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
+
     public static void main(String[] args) {
         launch(args);
         }
@@ -24,13 +27,14 @@ public class MainMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+
         // 'filler' is just a placeholder label used in the GUI scenes
         filler = new Label("I am a placeholder");
         filler1 = new Label("I am a main menu.");
         filler2 = new Label("I am also a placeholder");
         filler3 = new Label("I aspire to be a scoreboard one day.");
         filler4 = new Label("I wanna be a settings menu when I grow up.");
-        fillerSP = new Label("You will eventually be able to play stuff in here.");
+        fillerSP = new Label("You will eventually be able to \nplay stuff in here.");
         fillerMP = new Label("You'll probs play things in here one day.");
         window = primaryStage;
 
@@ -38,13 +42,28 @@ public class MainMenu extends Application {
         closeProgram.setOnAction(e -> quitProgram());
 
         playTetris = new Button("Play Tetris");
-        playTetris.setOnAction(e -> window.setScene(tetris));
+        playTetris.setOnAction(e -> {
+            tetrisGame.init();
+            try {
+                tetrisGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         playTetrisMP = new Button("Play Tetris");
-        playTetrisMP.setOnAction(e -> window.setScene(tetris));
+        playTetrisMP.setOnAction(e -> {
+            tetrisGame.init();
+            try {
+                tetrisGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> window.setScene(tetsaw));
+
 
         playTetsawMP = new Button("Play Tetsaw");
         playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
@@ -141,6 +160,12 @@ public class MainMenu extends Application {
     private void quitProgram() {
         Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "Are you sure you want to quit?");
         if(answer)
+            tetrisGame.stop();
             window.close();
         }
+
+    public void showMenu() {
+        window.setScene(mainMenu);
+        }
 }
+
