@@ -165,7 +165,7 @@ public class TestJFXApp extends Application {
                 if(tile.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)){
                 }
             }
-            System.out.println(".");
+            System.out.println("tick, tock");
             tile.drawSelf(GRAPHICS, scaleMult);
         }
     }
