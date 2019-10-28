@@ -1,6 +1,6 @@
 .root{
     -fx-background-color: #1d66b5;
-    -fx-background-image: url("\images\TetsawImage.jpg");
+    -fx-background-image: url("../../../images/TetsawImage.jpg");
     -fx-font: 12pt "Calibri";
     -fx-text-fill: #e9ebf0; /* This */
     -fx-text-inner-color: #e9ebf0; /* This */
