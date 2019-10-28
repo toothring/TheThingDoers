@@ -103,49 +103,49 @@ public class MainMenu extends Application {
         mainMenuLayout.getChildren().addAll(filler1, sp, mp, enterSettings, enterScoreboard, closeProgram);
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 400);
-        mainMenu.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        mainMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Single player layout:
         VBox singlePlayerLayout = new VBox(40);
         singlePlayerLayout.getChildren().addAll(fillerSP, playTetsaw, playTetris, btm5);
         singlePlayerLayout.setAlignment(Pos.CENTER);
         singlePlayer = new Scene(singlePlayerLayout, 300, 400);
-        singlePlayer.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        singlePlayer.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Multi player layout:
         VBox multiPlayerLayout = new VBox(40);
         multiPlayerLayout.getChildren().addAll(fillerMP, playTetsawMP, playTetrisMP, btm6);
         multiPlayerLayout.setAlignment(Pos.CENTER);
         multiPlayer = new Scene(multiPlayerLayout, 300, 400);
-        multiPlayer.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        multiPlayer.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Tetsaw layout:
         VBox tetsawLayout = new VBox(40);
         tetsawLayout.getChildren().addAll(filler2, btm1);
         tetsawLayout.setAlignment(Pos.CENTER);
         tetsaw = new Scene(tetsawLayout, 300, 400);
-        tetsaw.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Tetris layout:
         VBox tetrisLayout = new VBox(40);
         tetrisLayout.getChildren().addAll(filler, btm2);
         tetrisLayout.setAlignment(Pos.CENTER);
         tetris = new Scene(tetrisLayout, 300, 400);
-        tetris.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        tetris.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Scoreboard layout:
         VBox scoreboardLayout = new VBox(40);
         scoreboardLayout.getChildren().addAll(filler3, btm3);
         scoreboardLayout.setAlignment(Pos.CENTER);
         scoreboard = new Scene(scoreboardLayout, 300, 400);
-        scoreboard.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        scoreboard.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Settings layout:
         VBox settingsLayout = new VBox(40);
         settingsLayout.getChildren().addAll(filler4, btm4);
         settingsLayout.setAlignment(Pos.CENTER);
         settings = new Scene(settingsLayout, 300, 400);
-        settings.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");
