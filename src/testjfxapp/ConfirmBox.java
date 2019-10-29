@@ -18,15 +18,16 @@ public class ConfirmBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
+        window.setMinHeight(150);
 
         Label label = new Label();
         label.setText(message);
-        Button yes = new Button("Yes");
+        Button yes = new Button("Quit");
         yes.setOnAction(e -> {
             answer = true;
             window.close();
         });
-        Button no = new Button("No");
+        Button no = new Button("No, wait!");
         no.setOnAction(e -> {
             answer = false;
             window.close();
@@ -38,7 +39,7 @@ public class ConfirmBox {
 
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
-        scene.getStylesheets().add("src/testjfxapp/TetsawStylesheet.css");
+        scene.getStylesheets().add(ConfirmBox.class.getResource("TetsawStylesheet.css").toString());
         window.setScene(scene);
         window.showAndWait();
         return answer;
