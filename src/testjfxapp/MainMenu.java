@@ -7,7 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
@@ -32,6 +34,7 @@ public class MainMenu extends Application {
         // 'filler' is just a placeholder label used in the GUI scenes
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
+        mainMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
         scoreboardMenuLabel = new Label("I aspire to be a scoreboard one day.");
         settingsMenuLabel = new Label("I wanna be a settings menu when I grow up.");
         singlePlayerMenuLabel = new Label("Two's a crowd. \nI'd go solo too if I were you. \n\n...What're you playing?");
@@ -153,6 +156,7 @@ public class MainMenu extends Application {
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
+        window.getIcons().add(new Image("/images/icon.png"));
         window.setOnCloseRequest(e -> {
           e.consume();
           quitProgram();
