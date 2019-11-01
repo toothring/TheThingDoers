@@ -46,6 +46,7 @@ public class TestJFXApp extends Application {
     private final Random r = new Random();
     private static Vector2I[] playArea;
     private static ArrayList<TetrisBlock> block;
+    private static TetrisBlock currentTile;
     private Boolean running = true;
     private int x = 0;
 
@@ -88,17 +89,18 @@ public class TestJFXApp extends Application {
             rtm.setOnAction(e -> {
                 running = false;
                 menu.showMenu();
-                    });
+            });
             root.getChildren().addAll(CANVAS, rtm);
             scene = new Scene(root);
         }
         arg0.setScene(scene);
         arg0.show();
         System.out.println("ARGH");
+        //This is the magic thread that runs the game
         new Thread(() -> {
             double delta = 0;
             long timer = System.nanoTime();
-            final double ticks = 1.0;
+            final double ticks = 2.0; // The larger this number is, the faster the game
             double ns = 1000000000 / ticks;
             while (running) {
                 long now = System.nanoTime();
@@ -121,52 +123,85 @@ public class TestJFXApp extends Application {
 
     @Override
     public void init() {
+        //Set up the play area
         for (int i = 0; i < playArea.length; i++) {
             playArea[i] = new Vector2I(i % PLAY_AREA_WIDTH, (int) Math.floor(i / PLAY_AREA_WIDTH));
         }
         /*for (int i = 0; i < playArea.length; i++) {
             System.out.println(Arrays.toString(playArea[i].getPos()));
         }*/
-        int selectedTile;
-        while (block.size() < 15) {
-            int pattern = r.nextInt(Data.patterns.length);
-            System.out.println(pattern);
-            do {
-                selectedTile = r.nextInt(playArea.length);
-            } while (playArea[selectedTile].transformExternal(Data.patternDimension[pattern]).getX() > PLAY_AREA_WIDTH || playArea[selectedTile].transformExternal(Data.patternDimension[pattern]).getY() > PLAY_AREA_HEIGHT);
-            TetrisBlock tile = new TetrisBlock(playArea[selectedTile].transformExternal(Data.patterns[pattern][0]), playArea[selectedTile].transformExternal(Data.patterns[pattern][1]), playArea[selectedTile].transformExternal(Data.patterns[pattern][2]), playArea[selectedTile].transformExternal(Data.patterns[pattern][3]), pattern);
-            boolean intersects = false;
-            for (TetrisBlock blocks : block) {
-                intersects = (tile.intersects(blocks) || intersects);
-            }
-            if (!intersects) {
-                block.add(tile);
-            }
-        }
+        //Spawn our first tile
+        makeTile();
+
     }
 
     public void testRender() {
-        int scaleMult = TILE_SIZE;
+        //THIS IS THE DRAWING CODE
+        //And also some game logic
+        //Whoops
+        //Just in case we decide to split logic and rendering, don't try to push frames to JavaFX more than about 1000 times per second, it gets mad
         
+        //Scale multiplier, just equal to TILE_SIZE
+        int scaleMult = TILE_SIZE;
+        //Blank the screen
         GRAPHICS.setFill(Color.WHITE);
         GRAPHICS.fillRect(0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
+        
+        //Draw the background grid
         GRAPHICS.setFill(Color.BLACK);
         for (Vector2I tile : playArea) {
             GRAPHICS.strokeRect(tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
         }
+        
+        //Check collision with the current tile
+        boolean intersects = false;
+        for (TetrisBlock blocks : block) {
+            //Don't check collisions with ourself!
+            if (!(currentTile == blocks)) {
+                //Do we intersect a block?
+                intersects = (currentTile.moveTest(movement).intersects(blocks) || intersects);
+            }
+        }
+        //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
+        if (!intersects) {
+            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+            if (!currentTile.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                makeTile();
+            }
+        } else {
+            makeTile();
+        }
+        //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
+        //System.out.println("tick, tock");
+        
+        //Draw all known tiles
         for (TetrisBlock tile : block) {
-            boolean intersects = false;
-            for (TetrisBlock blocks : block) {
-                if (!(tile == blocks)) {
-                    intersects = (tile.moveTest(movement).intersects(blocks) || intersects);
-                }
-            }
-            if (!intersects) {
-                if(tile.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)){
-                }
-            }
-            System.out.println("tick, tock");
             tile.drawSelf(GRAPHICS, scaleMult);
         }
+
+    }
+
+    //Make a new tile
+    private void makeTile() {
+        //Semi-obsolete formatting from tech demo
+        int selectedTile;
+        
+        //Get an existing pattern
+        int pattern = r.nextInt(Data.patterns.length);
+        //Rotate it to one of four possible positions
+        int rotate = r.nextInt(3);
+        //Debug statement
+        //System.out.println(rotate);
+        
+        //Get the position our block will start at
+        selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
+        
+        //Make a new block
+        TetrisBlock tile = new TetrisBlock(playArea[selectedTile], pattern, rotate);
+        
+        //Add it to our list of blocks
+        block.add(tile);
+        //Set it as our active block
+        currentTile = tile;
     }
 }
