@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import testjfxapp.subsystems.AudioSubsystem;
 
 public class MainMenu extends Application {
 
@@ -22,6 +23,7 @@ public class MainMenu extends Application {
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
+    AudioSubsystem audio;
 
     public static void main(String[] args) {
         launch(args);
@@ -29,6 +31,8 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        audio = new AudioSubsystem();
+        audio.playTest();
 
 
         // 'filler' is just a placeholder label used in the GUI scenes
