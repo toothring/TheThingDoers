@@ -8,6 +8,7 @@
     <SOURCES>
       <root url="file://C:/eclipse/javafx-sdk-13/lib" />
       <root url="jar://$PROJECT_DIR$/deps/LibOrion.jar!/" />
+      <root url="file://$PROJECT_DIR$/images" />
     </SOURCES>
     <jarDirectory url="file://C:/eclipse/javafx-sdk-13/lib" recursive="false" />
     <jarDirectory url="file://C:/eclipse/javafx-sdk-13/lib" recursive="false" type="SOURCES" />
