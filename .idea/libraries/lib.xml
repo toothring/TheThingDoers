@@ -1,16 +1,27 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="file://C:/eclipse/javafx-sdk-13/lib" />
       <root url="jar://$PROJECT_DIR$/deps/LibOrion.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.base.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.controls.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.swing.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.web.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx-swt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.fxml.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.graphics.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.media.jar!/" />
     </CLASSES>
     <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/../../jdk-13.0.1.jdk/Contents/Home/lib" />
+    </NATIVE>
     <SOURCES>
       <root url="file://C:/eclipse/javafx-sdk-13/lib" />
       <root url="jar://$PROJECT_DIR$/deps/LibOrion.jar!/" />
       <root url="file://$PROJECT_DIR$/images" />
+      <root url="file://$PROJECT_DIR$/../../jdk-13.0.1.jdk/Contents/Home/lib" />
     </SOURCES>
-    <jarDirectory url="file://C:/eclipse/javafx-sdk-13/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../jdk-13.0.1.jdk/Contents/Home/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://C:/eclipse/javafx-sdk-13/lib" recursive="false" type="SOURCES" />
   </library>
 </component>

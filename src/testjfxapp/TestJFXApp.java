@@ -121,6 +121,14 @@ public class TestJFXApp extends Application {
         System.exit(0);
     }
 
+    public void pause() {
+        running = false;
+    }
+
+    public void resume() {
+        running = true;
+    }
+
     @Override
     public void init() {
         //Set up the play area
