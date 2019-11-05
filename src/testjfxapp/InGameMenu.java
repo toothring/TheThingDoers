@@ -23,7 +23,7 @@ public class InGameMenu extends Application {
     Button btm1, btm2;
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
 
-    TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
+    //TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
 
     public static void main(String[] args) {
         launch(args);
@@ -34,7 +34,7 @@ public class InGameMenu extends Application {
 
 
         // 'filler' is just a placeholder label used in the GUI scenes
-        InGameMenuLabel = new Label("Need a break? \nHave a KitKat.");
+        InGameMenuLabel = new Label("Needed a break?");
         InGameMenuLabel.setTextAlignment(TextAlignment.CENTER);
         InGameMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
         AudioSettingsLabel = new Label("I aspire to be audio settings one day.");
@@ -55,16 +55,16 @@ public class InGameMenu extends Application {
         inGameVisualSettingsBTN.setOnAction(e -> window.setScene(inGameVisualSettings));
 
         musicVolume = new Slider(0,100,50);
-        //unsure how to listen/handle volume change
+        //unsure how to handle volume change
 
         sfxVolume = new Slider (0,100,50);
-        //unsure how to listen/handle volume change
+        //unsure how to handle volume change
 
         fps = new Slider (30,90,60);
-        //unsure how to listen/handle
+        //unsure how to handle
 
         brightness = new Slider (0,100,50);
-        //unsure how to listen/handle
+        //unsure how to handle
 
 
         btm1 = new Button("Back to Menu");
@@ -78,7 +78,7 @@ public class InGameMenu extends Application {
         inGameMenuLayout.getChildren().addAll(InGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, closeProgram);
         inGameMenuLayout.setAlignment(Pos.CENTER);
         inGameMenu = new Scene(inGameMenuLayout, 300, 500);
-       inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+        inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Audio Settings layout:
         VBox inGameAudioSettingsLayout = new VBox(40);
@@ -108,13 +108,13 @@ public class InGameMenu extends Application {
 
     }
 
-    private void quitProgram() {
-        Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
-        if(answer) {
-            tetrisGame.stop();
-            window.close();
-        }
-    }
+//    private void quitProgram() {
+//        Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
+//        if(answer) {
+//            tetrisGame.stop();
+//            window.close();
+//        }
+//    }
 
 //    public void showMenu() {
 //        window.setScene(mainMenu);
