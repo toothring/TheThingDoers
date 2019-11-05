@@ -50,7 +50,14 @@ public class TetrisBlock {
             System.out.println(Arrays.toString(thing.getPos()));
         }*/
     }
-    
+
+    public void rotateBlock(int direction) {
+        for (var offset : this.pattern){
+            offset.rotate(direction);
+        }
+        generateAreaData();
+    }
+
     //For use when cloning blocks, ignore this constructor
     public TetrisBlock(Vector2I[] area, Vector2I[] pattern) {
         this.area = area;
