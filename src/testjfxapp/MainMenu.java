@@ -194,9 +194,7 @@ public class MainMenu extends Application {
         */
         audio = new AudioSubsystem();
         audio.registerSound("levelend", "levelDone.mp3");
-        audio.playSound("levelend");
         audio.registerMusic("main", "main.mp3");
-        audio.playMusic("main");
     }
 }
 
