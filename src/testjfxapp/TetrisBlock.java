@@ -117,7 +117,7 @@ public class TetrisBlock {
             //Copy a moved tile into a holding variable
             holder[i] = area[i].transformExternal(delta);
             //Check if it is within our bounds
-            invalid = (holder[i].getX() >= xBounds) || (holder[i].getY() >= yBounds) || invalid;
+            invalid = (holder[i].getX() >= xBounds) || (holder[i].getX() <= -1) || (holder[i].getY() >= yBounds) || invalid;
         }
         //If we didn't fail the test, move
         if (!invalid) {

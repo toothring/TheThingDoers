@@ -102,6 +102,10 @@ public class TestJFXApp extends Application {
                     break;
                 case D: userMovement("right");
                     break;
+                case S: tickDown();
+                    break;
+                case W: tickDown();
+                    break;
             }
         });
 
@@ -154,10 +158,12 @@ public class TestJFXApp extends Application {
         int scaleMult = screenSetup();
         boolean intersects = checkForCollision(direction);
 
-        if(direction == "left")
-            currentTile.boundedMove(moveLeft, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
-        if(direction == "right")
-            currentTile.boundedMove(moveRight, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+        if (!intersects) {
+            if (direction == "left")
+                currentTile.boundedMove(moveLeft, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+            if (direction == "right")
+                currentTile.boundedMove(moveRight, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+        }
 
         drawAllTiles(scaleMult);
     }
