@@ -96,10 +96,6 @@ public class TetrisBlock {
         return new TetrisBlock(holder, pattern);
     }
 
-    public void justMove() {
-        realPos.transform(0,0);
-    }
-
     //Move, with no constraints
     public void move(Vector2I delta) {
         for (int i = 0; i < area.length; i++) {
