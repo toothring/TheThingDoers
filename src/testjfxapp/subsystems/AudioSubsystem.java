@@ -34,31 +34,72 @@ import javafx.scene.media.MediaPlayer;
 public class AudioSubsystem {
 
     private Map<String, Media> musicData;
+    private Map<String, Media> seData;
     private ArrayList<MediaPlayer> soundEffects;
     private MediaPlayer backgroundMusic;
 
     public AudioSubsystem() {
         musicData = new HashMap<>();
+        seData = new HashMap<>();
         soundEffects = new ArrayList<>();
 
     }
-
+    /**
+     * This function was made to test the system. There should be no calls to this in the final version of the game, but feel free to add stuff to this function if you need to figure something out
+     */
     public void playTest() {
-        String path = getClass().getClassLoader().getResource("main.mp3").toExternalForm();
-        String fallback;
-        fallback = "file:///E:/User/Orion/Documents/NetBeansProjects/TheThingDoers-All/audiodata/testjfxapp/audiodata/main.mp3";
-        System.out.println(path + "\n" + fallback);
-        Media main;
-        try {
-            System.out.println("Trying main path");
-            main = new Media(path);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            System.out.println("Trying fallback path");
-            main = new Media(fallback);
-        }
+        String path = getClass().getClassLoader().getResource("testjfxapp/audiodata/main.mp3").toExternalForm();
+        Media main = new Media(path);
+        
         musicData.put("main", main);
         backgroundMusic = new MediaPlayer(musicData.get("main"));
         backgroundMusic.play();
     }
+    
+    /**
+     * Adds a music track to the game. 
+     * The music track can be played using the title string in playMusic(), and all files must be in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+     * @param title The title of the track
+     * @param filename the name of the file in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+    */
+    public void registerMusic(String title, String filename){
+        String path = getClass().getClassLoader().getResource("testjfxapp/audiodata/" + filename).toExternalForm();
+        Media track = new Media(path);
+        musicData.put(title, track);
+    }
+    
+    /**
+     * Adds a sound effect to the game. 
+     * The sound effect can be played using the title string in playSound(), and all files must be in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+     * @param title The name of the sound
+     * @param filename the name of the file in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+    */
+    public void registerSound(String title, String filename){
+        String path = getClass().getClassLoader().getResource("testjfxapp/audiodata/" + filename).toExternalForm();
+        Media effect = new Media(path);
+        seData.put(title, effect);
+    }
+    /**
+     * Plays a sound effect
+     * @param title the title of the sound effect to play
+     */
+    public void playSound(String title) {
+        MediaPlayer sound = new MediaPlayer(seData.get(title));
+        soundEffects.add(sound);
+        sound.setOnEndOfMedia(() -> {
+            soundEffects.remove(sound);
+            sound.dispose();
+        });
+        sound.play();
+    }
+    
+    public void playMusic(String title){
+        MediaPlayer music = new MediaPlayer(musicData.get(title));
+        if (backgroundMusic != null){
+            backgroundMusic.dispose();
+        }
+        backgroundMusic = music;
+        backgroundMusic.play();
+    }
+        
 }

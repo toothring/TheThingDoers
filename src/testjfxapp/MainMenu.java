@@ -31,8 +31,7 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        audio = new AudioSubsystem();
-        audio.playTest();
+        initAudio();
 
 
         // 'filler' is just a placeholder label used in the GUI scenes
@@ -180,5 +179,24 @@ public class MainMenu extends Application {
     public void showMenu() {
         window.setScene(mainMenu);
         }
+
+    private void initAudio() {
+        /*
+            PUT NEW AUDIO TRACKS AND SOUND EFFECTS HERE
+        
+            Track listing guideline: Reference Name - Description - Copyright (if applicable, use N/A for tracks/effects Callum has made)
+        
+        Tracks:
+        main - Main background track, currently a placeholder - N/A
+        
+        Sound Effects:
+        levelend - Level ending sound effect - N/A
+        */
+        audio = new AudioSubsystem();
+        audio.registerSound("levelend", "levelDone.mp3");
+        audio.playSound("levelend");
+        audio.registerMusic("main", "main.mp3");
+        audio.playMusic("main");
+    }
 }
 
