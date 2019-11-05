@@ -127,7 +127,7 @@ public class MainMenu extends Application {
 
         graphicSettings = new Button("Graphic Settings");
 
-        masterVolume = new Slider(0,100,50);
+        masterVolume = new Slider(0.0,100,50);
 
         musicVolume = new Slider(0,100,50);
 
@@ -135,16 +135,25 @@ public class MainMenu extends Application {
 
         muteMusic = new CheckBox("Mute Music");
         muteSoundFX = new CheckBox("Mute Sound Effects");
-
-        // create a event handler
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent e) {
-                if (muteMusic.isSelected()) {
-                    audio.setMusicVolume(0);
-                }
+        muteMusic.setOnAction(e -> {
+            if (muteMusic.isSelected()) {
+                audio.setMusicVolume(0);
             }
-        };
+            else{
+                audio.setMusicVolume(0.5); //set to slider value later on
+            }
+        });
+        muteSoundFX.setOnAction(e -> {
+            if (muteSoundFX.isSelected()) {
+                audio.setSFXVolume(0);
+            }
+            else{
+                audio.setSFXVolume(0.5); //set to slider value later on
+            }
+        });
+
+
+
 
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
