@@ -17,13 +17,9 @@
  */
 package testjfxapp.subsystems;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -32,20 +28,28 @@ import javafx.scene.media.MediaPlayer;
  * @author Orion
  */
 public class AudioSubsystem {
-
+    
     private Map<String, Media> musicData;
     private Map<String, Media> seData;
     private ArrayList<MediaPlayer> soundEffects;
     private MediaPlayer backgroundMusic;
-
+    
+    private double masterVolume, sfxVolume, musicVolume;
+    
     public AudioSubsystem() {
+        masterVolume = 1.0;
+        sfxVolume = 0.5;
+        musicVolume = 0.2;
         musicData = new HashMap<>();
         seData = new HashMap<>();
         soundEffects = new ArrayList<>();
-
+        
     }
+
     /**
-     * This function was made to test the system. There should be no calls to this in the final version of the game, but feel free to add stuff to this function if you need to figure something out
+     * This function was made to test the system. There should be no calls to
+     * this in the final version of the game, but feel free to add stuff to this
+     * function if you need to figure something out
      */
     public void playTest() {
         String path = getClass().getClassLoader().getResource("testjfxapp/audiodata/main.mp3").toExternalForm();
@@ -55,32 +59,40 @@ public class AudioSubsystem {
         backgroundMusic = new MediaPlayer(musicData.get("main"));
         backgroundMusic.play();
     }
-    
+
     /**
-     * Adds a music track to the game. 
-     * The music track can be played using the title string in playMusic(), and all files must be in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+     * Adds a music track to the game. The music track can be played using the
+     * title string in playMusic(), and all files must be in
+     * audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+     *
      * @param title The title of the track
-     * @param filename the name of the file in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
-    */
-    public void registerMusic(String title, String filename){
+     * @param filename the name of the file in audiodata/testjfxapp/audiodata
+     * (testjfxapp.audiodata)
+     */
+    public void registerMusic(String title, String filename) {
         String path = getClass().getClassLoader().getResource("testjfxapp/audiodata/" + filename).toExternalForm();
         Media track = new Media(path);
         musicData.put(title, track);
     }
-    
+
     /**
-     * Adds a sound effect to the game. 
-     * The sound effect can be played using the title string in playSound(), and all files must be in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+     * Adds a sound effect to the game. The sound effect can be played using the
+     * title string in playSound(), and all files must be in
+     * audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
+     *
      * @param title The name of the sound
-     * @param filename the name of the file in audiodata/testjfxapp/audiodata (testjfxapp.audiodata)
-    */
-    public void registerSound(String title, String filename){
+     * @param filename the name of the file in audiodata/testjfxapp/audiodata
+     * (testjfxapp.audiodata)
+     */
+    public void registerSound(String title, String filename) {
         String path = getClass().getClassLoader().getResource("testjfxapp/audiodata/" + filename).toExternalForm();
         Media effect = new Media(path);
         seData.put(title, effect);
     }
+
     /**
      * Plays a sound effect
+     *
      * @param title the title of the sound effect to play
      */
     public void playSound(String title) {
@@ -90,16 +102,40 @@ public class AudioSubsystem {
             soundEffects.remove(sound);
             sound.dispose();
         });
+        sound.setVolume(sfxVolume * masterVolume);
         sound.play();
     }
     
-    public void playMusic(String title){
+    public void playMusic(String title) {
         MediaPlayer music = new MediaPlayer(musicData.get(title));
-        if (backgroundMusic != null){
+        if (backgroundMusic != null) {
             backgroundMusic.dispose();
         }
         backgroundMusic = music;
+        backgroundMusic.setVolume(musicVolume * masterVolume);
         backgroundMusic.play();
     }
-        
+    
+    public void setMasterVolume(double v) {
+        masterVolume = v;
+        updateVolumes();
+    }
+    
+    public void setMusicVolume(double v) {
+        musicVolume = v;
+        updateVolumes();
+    }
+    
+    public void setSFXVolume(double v) {
+        sfxVolume = v;
+        updateVolumes();
+    }
+    
+    private void updateVolumes() {
+        backgroundMusic.setVolume(musicVolume * masterVolume);
+        for (var sound : soundEffects) {
+            sound.setVolume(sfxVolume * masterVolume);
+        }
+    }
+    
 }
