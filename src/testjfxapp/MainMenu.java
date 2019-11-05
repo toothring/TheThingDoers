@@ -179,6 +179,10 @@ public class MainMenu extends Application {
     public void showMenu() {
         window.setScene(mainMenu);
         }
+    
+    public AudioSubsystem getAudioSystem(){
+        return audio;
+    }
 
     private void initAudio() {
         /*
