@@ -3,10 +3,14 @@ package testjfxapp;
     // Write a fx to show main menu, call this within TestJFXApp w/ button.
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -18,9 +22,15 @@ public class MainMenu extends Application {
 
     Stage window;
     Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
+    Scene audioSettingsScene, graphicSettingsScene;
     Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
     Button btm1, btm2, btm3, btm4, btm5, btm6;
+    Button audioSettings, graphicSettings;
+    Slider masterVolume, musicVolume, soundfxVolume;
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
+    Label audioSettingLabel,graphicSettingsLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel;
+    CheckBox muteMusic,muteSoundFX;
+
 
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
     AudioSubsystem audio;
@@ -33,6 +43,7 @@ public class MainMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
         initAudio();
 
+        audio.playMusic("main");
 
         // 'filler' is just a placeholder label used in the GUI scenes
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
@@ -44,6 +55,11 @@ public class MainMenu extends Application {
         singlePlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
         multiPlayerMenuLabel = new Label("I'm down for some multitasking. \n\nJust tell me what you're playing.");
         multiPlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
+        audioSettingLabel = new Label("Audio Settings");
+        graphicSettingsLabel = new Label("Graphic Settings");
+        masterVolumeLabel = new Label("Master Volume");
+        musicVolumeLabel = new Label("Music Volume");
+        soundfxLabel = new Label("Sound Effects Volume");
         window = primaryStage;
 
         closeProgram = new Button("Quit");
@@ -106,6 +122,30 @@ public class MainMenu extends Application {
         btm6 = new Button("Back to Menu");
         btm6.setOnAction(e -> window.setScene(mainMenu));
 
+        audioSettings = new Button("Audio Settings");
+        audioSettings.setOnAction(e -> window.setScene(audioSettingsScene));
+
+        graphicSettings = new Button("Graphic Settings");
+
+        masterVolume = new Slider(0,100,50);
+
+        musicVolume = new Slider(0,100,50);
+
+        soundfxVolume = new Slider(0,100,50);
+
+        muteMusic = new CheckBox("Mute Music");
+        muteSoundFX = new CheckBox("Mute Sound Effects");
+
+        // create a event handler
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent e) {
+                if (muteMusic.isSelected()) {
+                    audio.setMusicVolume(0);
+                }
+            }
+        };
+
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
         mainMenuLayout.getChildren().addAll(mainMenuLabel, sp, mp, enterSettings, enterScoreboard, closeProgram);
@@ -150,16 +190,24 @@ public class MainMenu extends Application {
 
         // Settings layout:
         VBox settingsLayout = new VBox(40);
-        settingsLayout.getChildren().addAll(settingsMenuLabel, btm4);
+        settingsLayout.getChildren().addAll(settingsMenuLabel, btm4,audioSettings,graphicSettings);
         settingsLayout.setAlignment(Pos.CENTER);
         settings = new Scene(settingsLayout, 300, 500);
         settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+
+        //Audio Settings layout
+        VBox audioSettingsLayout = new VBox(40);
+        audioSettingsLayout.getChildren().addAll(audioSettingLabel,masterVolumeLabel,masterVolume,musicVolumeLabel,musicVolume,muteMusic,soundfxLabel,muteSoundFX,soundfxVolume,btm4);
+        audioSettingsLayout.setAlignment(Pos.CENTER);
+        audioSettingsScene = new Scene(audioSettingsLayout, 300, 500);
+        audioSettingsScene.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+
 
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
-        window.getIcons().add(new Image("/icon.png"));
+        //window.getIcons().add(new Image("/icon.png"));
         window.setOnCloseRequest(e -> {
           e.consume();
           quitProgram();
