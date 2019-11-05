@@ -106,6 +106,10 @@ public class TestJFXApp extends Application {
                     break;
                 case W: tickDown();
                     break;
+                case O: currentTile.rotateBlock(-1);
+                    break;
+                case P: currentTile.rotateBlock(1);
+                    break;
             }
         });
 
