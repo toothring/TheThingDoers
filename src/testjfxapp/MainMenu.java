@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import testjfxapp.subsystems.AudioSubsystem;
 
 import java.awt.*;
 
@@ -25,6 +26,7 @@ public class MainMenu extends Application {
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     InGameMenu igm = new InGameMenu();
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
+    AudioSubsystem audio;
     Settings settingsMenu = new Settings();
 
 
@@ -34,6 +36,7 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        initAudio();
 
 
         // This will determine the screen size (width and height) which you can then assign to a scene.
@@ -199,6 +202,26 @@ public class MainMenu extends Application {
     public void showMenu() {
         window.setScene(mainMenu);
         }
+    
+    public AudioSubsystem getAudioSystem(){
+        return audio;
+    }
 
+    private void initAudio() {
+        /*
+            PUT NEW AUDIO TRACKS AND SOUND EFFECTS HERE
+        
+            Track listing guideline: Reference Name - Description - Copyright (if applicable, use N/A for tracks/effects Callum has made)
+        
+        Tracks:
+        main - Main background track, currently a placeholder - N/A
+        
+        Sound Effects:
+        levelend - Level ending sound effect - N/A
+        */
+        audio = new AudioSubsystem();
+        audio.registerSound("levelend", "levelDone.mp3");
+        audio.registerMusic("main", "main.mp3");
+    }
 }
 
