@@ -12,8 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-
 public class InGameMenu extends Application {
 
     Stage window;
@@ -32,6 +30,8 @@ public class InGameMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        // Create an object of the main menu class to allow access to quitProgram and other methods.
+        MainMenu mm = new MainMenu();
 
         // 'filler' is just a placeholder label used in the GUI scenes
         InGameMenuLabel = new Label("Needed a break?");
@@ -42,11 +42,14 @@ public class InGameMenu extends Application {
         window = primaryStage;
 
         closeProgram = new Button("Quit Game");
-        closeProgram.setOnAction(e -> quitProgram());
+        closeProgram.setOnAction(e -> mm.quitProgram());
 
+       // There's an issue here with getting the previous scene back after someone wants to close the in-game menu
+        // which I'm thinking you might be able to mitigate by opening the in-game menu as a dialogue box over the top
+        // of the game (like the quit confirmation box). You can pause the game state while it's open, then rather
+        // than playing with returned scenes, it's one line of code to close the dialogue box.
         resumeGame = new Button("Resume Game");
-        //resumeGame.setOnAction(e -> window.setScene(tetris));
-
+       // resumeGame.setOnAction(e -> window.setScene(tetris));
 
         AudioSettingsBTN = new Button("Audio Settings");
         AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));
@@ -102,22 +105,14 @@ public class InGameMenu extends Application {
         window.getIcons().add(new Image("/icon.png"));
         window.setOnCloseRequest(e -> {
             e.consume();
-            quitProgram();
+            mm.quitProgram();
         });
         window.show();
 
     }
 
-//    private void quitProgram() {
-//        Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
-//        if(answer) {
-//            tetrisGame.stop();
-//            window.close();
-//        }
-//    }
-
-//    public void showMenu() {
-//        window.setScene(mainMenu);
-//    }
+    public void showMenu() {
+        window.setScene(inGameMenu);
+    }
 }
 

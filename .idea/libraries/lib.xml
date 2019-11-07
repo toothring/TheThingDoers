@@ -2,26 +2,28 @@
   <library name="lib">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/deps/LibOrion.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.base.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.controls.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.swing.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.web.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx-swt.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.fxml.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.graphics.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-13/lib/javafx.media.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx-swt.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.base.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.controls.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.fxml.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.graphics.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.media.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.swing.jar!/" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/javafx.web.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <NATIVE>
-      <root url="file://$PROJECT_DIR$/../../jdk-13.0.1.jdk/Contents/Home/lib" />
-    </NATIVE>
     <SOURCES>
       <root url="file://C:/eclipse/javafx-sdk-13/lib" />
       <root url="jar://$PROJECT_DIR$/deps/LibOrion.jar!/" />
       <root url="file://$PROJECT_DIR$/images" />
-      <root url="file://$PROJECT_DIR$/../../jdk-13.0.1.jdk/Contents/Home/lib" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.base" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.controls" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.fxml" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.graphics" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.media" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.swing" />
+      <root url="jar://C:/eclipse/javafx-sdk-13/lib/src.zip!/javafx.web" />
     </SOURCES>
-    <jarDirectory url="file://$PROJECT_DIR$/../../jdk-13.0.1.jdk/Contents/Home/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://C:/eclipse/javafx-sdk-13/lib" recursive="false" type="SOURCES" />
   </library>
 </component>
