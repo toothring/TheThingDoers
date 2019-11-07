@@ -21,11 +21,14 @@ public class Settings {
     Label mainMenuLabel;
 
     //Create an object of the MainMenu and TestJFXApp class so we can use it
-    MainMenu mainMenu = new MainMenu();
-    TestJFXApp tetrisGame = new TestJFXApp(10,20,30, mainMenu);
+    MainMenu mainMenu;
 
     public static void main(String[] args) {
         Application.launch(args);
+    }
+    
+    public Settings(MainMenu m){
+        mainMenu = m;
     }
 
    // @Override
@@ -69,7 +72,6 @@ public class Settings {
     public void quitProgram() {
         Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
         if(answer) {
-            tetrisGame.stop();
             window.close();
 
         }

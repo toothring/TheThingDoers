@@ -27,7 +27,7 @@ public class MainMenu extends Application {
     InGameMenu igm = new InGameMenu();
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
     AudioSubsystem audio;
-    Settings settingsMenu = new Settings();
+    Settings settingsMenu = new Settings(this);
 
 
     public static void main(String[] args) {
