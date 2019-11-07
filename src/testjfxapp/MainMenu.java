@@ -27,6 +27,8 @@ public class MainMenu extends Application {
     InGameMenu igm = new InGameMenu();
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
     AudioSubsystem audio;
+    Settings settingsMenu = new Settings();
+
 
     public static void main(String[] args) {
         launch(args);
@@ -86,7 +88,13 @@ public class MainMenu extends Application {
         enterScoreboard.setOnAction(e -> window.setScene(scoreboard));
 
         enterSettings = new Button("Settings");
-        enterSettings.setOnAction(e -> window.setScene(settings));
+        enterSettings.setOnAction(e -> {
+            try {
+                settingsMenu.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         sp = new Button("Single Player");
         sp.setOnAction(e -> window.setScene(singlePlayer));
