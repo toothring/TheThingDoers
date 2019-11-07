@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class Settings {extends Application {}
+public class Settings {
 
     Stage window;
     Scene settings;
@@ -25,10 +25,10 @@ public class Settings {extends Application {}
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, mainMenu);
 
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(args);
     }
 
-    @Override
+   // @Override
     public void start(Stage primaryStage) throws Exception {
 
         window = primaryStage;
