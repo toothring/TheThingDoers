@@ -44,6 +44,8 @@ public class AudioSubsystem {
         musicData = new HashMap<>();
         seData = new HashMap<>();
         soundEffects = new ArrayList<>();
+        channelMuteMusic = false;
+        channelMuteSFX = false;
         
     }
 
