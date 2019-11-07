@@ -25,6 +25,7 @@ public class MainMenu extends Application {
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     InGameMenu igm = new InGameMenu();
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
+    Settings settingsMenu = new Settings();
 
 
     public static void main(String[] args) {
@@ -84,7 +85,13 @@ public class MainMenu extends Application {
         enterScoreboard.setOnAction(e -> window.setScene(scoreboard));
 
         enterSettings = new Button("Settings");
-        enterSettings.setOnAction(e -> window.setScene(settings));
+        enterSettings.setOnAction(e -> {
+            try {
+                settingsMenu.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         sp = new Button("Single Player");
         sp.setOnAction(e -> window.setScene(singlePlayer));

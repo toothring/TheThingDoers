@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class GraphicsOptions extends Application {
+public class Settings {extends Application {}
 
     Stage window;
-    Scene graphicsOptions;
+    Scene settings;
     Button enterSettings, enterScoreboard, closeProgram, sp, mp;
     Button btm1, btm2, btm3;
     Label mainMenuLabel;
@@ -38,22 +38,22 @@ public class GraphicsOptions extends Application {
 
 
         btm1 = new Button("Back to Menu");
-        btm1.setOnAction(e -> window.setScene(graphicsOptions));
+        btm1.setOnAction(e -> window.setScene(settings));
 
         btm2 = new Button("Back to Menu");
-        btm2.setOnAction(e -> window.setScene(graphicsOptions));
+        btm2.setOnAction(e -> window.setScene(settings));
 
         btm3 = new Button("Back to Menu");
-        btm3.setOnAction(e -> window.setScene(graphicsOptions));
+        btm3.setOnAction(e -> window.setScene(settings));
 
         // Graphics Options layout:
         VBox graphicsOptionsLayout = new VBox(40);
         graphicsOptionsLayout.getChildren().addAll(closeProgram);
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
-        graphicsOptions = new Scene(graphicsOptionsLayout, 300, 500);
-        graphicsOptions.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+        settings = new Scene(graphicsOptionsLayout, 300, 500);
+        settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        window.setScene(graphicsOptions);
+        window.setScene(settings);
         window.setTitle("Graphics Options");
         window.setMinWidth(300);
         window.setMinHeight(500);
@@ -76,7 +76,7 @@ public class GraphicsOptions extends Application {
     }
 
     public void showMenu() {
-        window.setScene(graphicsOptions);
+        window.setScene(settings);
     }
 
     public void fullScreenMode(){
