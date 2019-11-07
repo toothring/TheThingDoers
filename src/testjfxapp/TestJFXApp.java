@@ -43,6 +43,8 @@ public class TestJFXApp extends Application {
     private static int TILE_SIZE;
 
     private final Vector2I movement = new Vector2I(0, 1);
+    private final Vector2I moveLeft = new Vector2I(-1, 0);
+    private final Vector2I moveRight = new Vector2I(1, 0);
     private final Random r = new Random();
     private static Vector2I[] playArea;
     private static ArrayList<TetrisBlock> block;
@@ -103,6 +105,26 @@ public class TestJFXApp extends Application {
             root.getChildren().addAll(CANVAS, rtm);
             scene = new Scene(root);
         }
+
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case A: userMovement("left");
+                    break;
+                case D: userMovement("right");
+                    break;
+                case S: tickDown();
+                    break;
+                case W: tickDown();
+                    break;
+                case O: currentTile.rotateBlock(-1);
+                    break;
+                case P: currentTile.rotateBlock(1);
+                    break;
+            }
+        });
+
+
+
         arg0.setScene(scene);
         arg0.show();
         System.out.println("ARGH");
@@ -117,7 +139,8 @@ public class TestJFXApp extends Application {
                 delta += (now - timer) / ns;
                 timer = now;
                 while (delta > 1) {
-                    testRender();
+                    tickDown();
+
                     delta--;
                 }
 
@@ -153,33 +176,26 @@ public class TestJFXApp extends Application {
 
     }
 
-    public void testRender() {
-        //THIS IS THE DRAWING CODE
-        //And also some game logic
-        //Whoops
-        //Just in case we decide to split logic and rendering, don't try to push frames to JavaFX more than about 1000 times per second, it gets mad
-        
-        //Scale multiplier, just equal to TILE_SIZE
-        int scaleMult = TILE_SIZE;
-        //Blank the screen
-        GRAPHICS.setFill(Color.WHITE);
-        GRAPHICS.fillRect(0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
-        
-        //Draw the background grid
-        GRAPHICS.setFill(Color.BLACK);
-        for (Vector2I tile : playArea) {
-            GRAPHICS.strokeRect(tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
+    public void userMovement(String direction) {
+        int scaleMult = screenSetup();
+        boolean intersects = checkForCollision(direction);
+
+        if (!intersects) {
+            if (direction == "left")
+                currentTile.boundedMove(moveLeft, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+            if (direction == "right")
+                currentTile.boundedMove(moveRight, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
         }
-        
-        //Check collision with the current tile
-        boolean intersects = false;
-        for (TetrisBlock blocks : block) {
-            //Don't check collisions with ourself!
-            if (!(currentTile == blocks)) {
-                //Do we intersect a block?
-                intersects = (currentTile.moveTest(movement).intersects(blocks) || intersects);
-            }
-        }
+
+        drawAllTiles(scaleMult);
+    }
+
+    public void tickDown() {
+        int scaleMult = screenSetup();
+
+        String direction = "down";
+        boolean intersects = checkForCollision(direction);
+
         //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
         if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
@@ -191,12 +207,53 @@ public class TestJFXApp extends Application {
         }
         //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
         //System.out.println("tick, tock");
-        
+
+        drawAllTiles(scaleMult);
+    }
+
+    public boolean checkForCollision(String direction) {
+        //Check collision with the current tile
+        boolean intersects = false;
+        for (TetrisBlock blocks : block) {
+            //Don't check collisions with ourself!
+            if (!(currentTile == blocks)) {
+                //Do we intersect a block?
+                if (direction == "down")
+                    intersects = (currentTile.moveTest(movement).intersects(blocks) || intersects);
+                if (direction == "left")
+                    intersects = (currentTile.moveTest(moveLeft).intersects(blocks) || intersects);
+                if (direction == "right")
+                    intersects = (currentTile.moveTest(moveRight).intersects(blocks) || intersects);
+            }
+        }
+        return intersects;
+    }
+
+    public int screenSetup() {
+        //THIS IS THE DRAWING CODE
+        //And also some game logic
+        //Whoops
+        //Just in case we decide to split logic and rendering, don't try to push frames to JavaFX more than about 1000 times per second, it gets mad
+
+        //Scale multiplier, just equal to TILE_SIZE
+        int scaleMult = TILE_SIZE;
+        //Blank the screen
+        GRAPHICS.setFill(Color.WHITE);
+        GRAPHICS.fillRect(0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
+
+        //Draw the background grid
+        GRAPHICS.setFill(Color.BLACK);
+        for (Vector2I tile : playArea) {
+            GRAPHICS.strokeRect(tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
+        }
+        return scaleMult;
+    }
+
+    public void drawAllTiles(int scaleMult) {
         //Draw all known tiles
         for (TetrisBlock tile : block) {
             tile.drawSelf(GRAPHICS, scaleMult);
         }
-
     }
 
     //Make a new tile

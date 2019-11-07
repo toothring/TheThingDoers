@@ -50,7 +50,14 @@ public class TetrisBlock {
             System.out.println(Arrays.toString(thing.getPos()));
         }*/
     }
-    
+
+    public void rotateBlock(int direction) {
+        for (var offset : this.pattern){
+            offset.rotate(direction);
+        }
+        generateAreaData();
+    }
+
     //For use when cloning blocks, ignore this constructor
     public TetrisBlock(Vector2I[] area, Vector2I[] pattern) {
         this.area = area;
@@ -113,7 +120,7 @@ public class TetrisBlock {
             //Copy a moved tile into a holding variable
             holder[i] = area[i].transformExternal(delta);
             //Check if it is within our bounds
-            invalid = (holder[i].getX() >= xBounds) || (holder[i].getY() >= yBounds) || invalid;
+            invalid = (holder[i].getX() >= xBounds) || (holder[i].getX() <= -1) || (holder[i].getY() >= yBounds) || invalid;
         }
         //If we didn't fail the test, move
         if (!invalid) {
