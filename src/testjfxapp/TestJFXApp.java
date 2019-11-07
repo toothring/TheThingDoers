@@ -55,6 +55,7 @@ public class TestJFXApp extends Application {
     private static GraphicsContext GRAPHICS;
 
     private MainMenu menu;
+    private InGameMenu igm;
     private Scene scene;
 
     public TestJFXApp(int Width, int Height, int Scale, MainMenu menu) {
@@ -90,6 +91,15 @@ public class TestJFXApp extends Application {
                 running = false;
                 menu.showMenu();
             });
+//            Button igmbutton = new Button("Open Menu");
+//            igmbutton.setOnAction(e -> {
+//                try {
+//                    running = false;
+//                    igm.start(menu.window);
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
             root.getChildren().addAll(CANVAS, rtm);
             scene = new Scene(root);
         }
@@ -119,6 +129,14 @@ public class TestJFXApp extends Application {
     public void stop() {
         running = false;
         System.exit(0);
+    }
+
+    public void pause() {
+        running = false;
+    }
+
+    public void resume() {
+        running = true;
     }
 
     @Override

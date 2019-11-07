@@ -1,6 +1,5 @@
 package testjfxapp;
 // Work in progress
-    // Write a fx to show main menu, call this within TestJFXApp w/ button.
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -14,14 +13,18 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import testjfxapp.subsystems.AudioSubsystem;
 
+import java.awt.*;
+
 public class MainMenu extends Application {
 
     Stage window;
     Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
     Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
-    Button btm1, btm2, btm3, btm4, btm5, btm6;
+    Button btm1, btm2, btm3, btm4, btm5, btm6, igmbutton;
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
+    //Create an object of the InGameMenu and TestJFXApp class so we can use it
+    InGameMenu igm = new InGameMenu();
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
     AudioSubsystem audio;
 
@@ -34,7 +37,11 @@ public class MainMenu extends Application {
         initAudio();
 
 
-        // 'filler' is just a placeholder label used in the GUI scenes
+        // This will determine the screen size (width and height) which you can then assign to a scene.
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        double fullwidth = screenSize.getWidth();
+        double fullheight = screenSize.getHeight();
+
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
         mainMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
@@ -72,7 +79,6 @@ public class MainMenu extends Application {
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> window.setScene(tetsaw));
 
-
         playTetsawMP = new Button("Play Tetsaw");
         playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
 
@@ -106,6 +112,15 @@ public class MainMenu extends Application {
         btm6 = new Button("Back to Menu");
         btm6.setOnAction(e -> window.setScene(mainMenu));
 
+        igmbutton = new Button("Open Menu");
+        igmbutton.setOnAction(e -> {
+            try {
+                igm.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
         mainMenuLayout.getChildren().addAll(mainMenuLabel, sp, mp, enterSettings, enterScoreboard, closeProgram);
@@ -129,7 +144,7 @@ public class MainMenu extends Application {
 
         // Tetsaw layout:
         VBox tetsawLayout = new VBox(40);
-        tetsawLayout.getChildren().addAll(btm1);
+        tetsawLayout.getChildren().addAll(btm1, igmbutton);
         tetsawLayout.setAlignment(Pos.CENTER);
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
@@ -168,7 +183,7 @@ public class MainMenu extends Application {
 
     }
 
-    private void quitProgram() {
+    public void quitProgram() {
         Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
         if(answer) {
             tetrisGame.stop();
