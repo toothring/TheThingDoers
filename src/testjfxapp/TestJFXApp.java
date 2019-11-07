@@ -100,7 +100,7 @@ public class TestJFXApp extends Application {
 //                    ex.printStackTrace();
 //                }
 //            });
-            root.getChildren().addAll(CANVAS, rtm, igmbutton);
+            root.getChildren().addAll(CANVAS, rtm);
             scene = new Scene(root);
         }
         arg0.setScene(scene);

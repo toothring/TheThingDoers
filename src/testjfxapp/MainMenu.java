@@ -1,6 +1,5 @@
 package testjfxapp;
 // Work in progress
-    // Write a fx to show main menu, call this within TestJFXApp w/ button.
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -193,5 +192,6 @@ public class MainMenu extends Application {
     public void showMenu() {
         window.setScene(mainMenu);
         }
+
 }
 
