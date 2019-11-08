@@ -24,10 +24,12 @@ public class MainMenu extends Application {
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
-    InGameMenu igm = new InGameMenu();
+    InGameMenu igm = new InGameMenu(this);
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
     AudioSubsystem audio;
     Settings settingsMenu = new Settings(this);
+    AudioSettings audioSettings = new AudioSettings(this);
+    AccessibilSettings accessibilSettings = new AccessibilSettings(this);
 
 
     public static void main(String[] args) {
@@ -120,7 +122,7 @@ public class MainMenu extends Application {
         btm6 = new Button("Back to Menu");
         btm6.setOnAction(e -> window.setScene(mainMenu));
 
-        igmbutton = new Button("Open Menu");
+        igmbutton = new Button("Open In-Game Menu");
         igmbutton.setOnAction(e -> {
             try {
                 igm.start(window);
