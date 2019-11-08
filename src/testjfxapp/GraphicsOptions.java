@@ -14,7 +14,7 @@ public class GraphicsOptions {
 
     Stage window;
     Scene graphicsOptions;
-    Button enterSettings, enterScoreboard, closeProgram, sp, mp;
+    Button enterSettings, enterScoreboard, sp, mp;
     Button btm1, btm2, btm3;
     Label mainMenuLabel;
 
@@ -30,11 +30,8 @@ public class GraphicsOptions {
 
         window = primaryStage;
 
-        closeProgram = new Button("Quit");
-        closeProgram.setOnAction(e -> mainMenu.quitProgram());
-
         btm1 = new Button("Back to Menu");
-        btm1.setOnAction(e -> window.setScene(graphicsOptions));
+        btm1.setOnAction(e -> window.setScene(mainMenu.mainMenu));
 
         btm2 = new Button("Back to Menu");
         btm2.setOnAction(e -> window.setScene(graphicsOptions));
@@ -44,7 +41,7 @@ public class GraphicsOptions {
 
         // Graphics Options layout:
         VBox graphicsOptionsLayout = new VBox(40);
-        graphicsOptionsLayout.getChildren().addAll(btm1, closeProgram);
+        graphicsOptionsLayout.getChildren().addAll(btm1);
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
         graphicsOptions = new Scene(graphicsOptionsLayout, 300, 500);
         graphicsOptions.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());

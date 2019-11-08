@@ -4,7 +4,6 @@ package testjfxapp;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -12,11 +11,12 @@ public class Settings {
 
     Stage window;
     Scene settings;
-    Button enterSettings, enterScoreboard, closeProgram, sp, mp;
-    Button btm1, btm2, btm3;
-    Label mainMenuLabel;
+    Button btm1, graphicsOpts, accessSet, audioSet;
 
     MainMenu mainMenu;
+    GraphicsOptions graphicsOptions;
+    AccesSettings accesSettings;
+    AudioSettings audioSettings;
 
     public Settings(MainMenu m){
         mainMenu = m;
@@ -27,27 +27,21 @@ public class Settings {
 
         window = primaryStage;
 
-        closeProgram = new Button("Quit");
-        closeProgram.setOnAction(e -> mainMenu.quitProgram());
-
         btm1 = new Button("Back to Menu");
-        btm1.setOnAction(e -> {
-            try {
-                mainMenu.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        btm1.setOnAction(e -> window.setScene(mainMenu.mainMenu));
 
-        btm2 = new Button("Back to Menu");
-        btm2.setOnAction(e -> window.setScene(settings));
+        graphicsOpts = new Button("Graphics Options");
+        graphicsOpts.setOnAction(e -> window.setScene(graphicsOptions.graphicsOptions));
 
-        btm3 = new Button("Back to Menu");
-        btm3.setOnAction(e -> window.setScene(settings));
+        accessSet = new Button("Accessibility Settings");
+        accessSet.setOnAction(e -> window.setScene(accesSettings.accesSettings));
+
+        audioSet = new Button("Audio Settings");
+        audioSet.setOnAction(e -> window.setScene(audioSettings.audioSettings));
 
         // Graphics Options layout:
         VBox graphicsOptionsLayout = new VBox(40);
-        graphicsOptionsLayout.getChildren().addAll(btm1, closeProgram);
+        graphicsOptionsLayout.getChildren().addAll(graphicsOpts, accessSet, audioSet, btm1);
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
         settings = new Scene(graphicsOptionsLayout, 300, 500);
         settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());

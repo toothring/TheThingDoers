@@ -16,7 +16,7 @@ public class InGameMenu {
     Scene inGameMenu, inGameAudioSettings, inGameVisualSettings;
     Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, closeProgram;
     Slider musicVolume, sfxVolume, fps, brightness;
-    Button btm1, btm2;
+    Button btm1, btm2, btm3;
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
 
     MainMenu mainMenu;
@@ -36,8 +36,6 @@ public class InGameMenu {
         visualSettingsLabel = new Label("I wanna be visual settings when I grow up.");
         window = primaryStage;
 
-        closeProgram = new Button("Quit Game");
-        closeProgram.setOnAction(e -> mainMenu.quitProgram());
 
         // There's an issue here with getting the previous scene back after someone wants to close the in-game menu
         // which I'm thinking you might be able to mitigate by opening the in-game menu as a dialogue box over the top
@@ -64,16 +62,18 @@ public class InGameMenu {
         brightness = new Slider(0, 100, 50);
         //unsure how to handle
 
-
-        btm1 = new Button("Back to Menu");
+        btm1 = new Button("Back to In-Game Menu");
         btm1.setOnAction(e -> window.setScene(inGameMenu));
 
-        btm2 = new Button("Back to Menu");
+        btm2 = new Button("Back to In-Game Menu");
         btm2.setOnAction(e -> window.setScene(inGameMenu));
+
+        btm3 = new Button("Main Menu");
+        btm3.setOnAction((e -> window.setScene(mainMenu.mainMenu)));
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);
-        inGameMenuLayout.getChildren().addAll(InGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, closeProgram);
+        inGameMenuLayout.getChildren().addAll(InGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
         inGameMenuLayout.setAlignment(Pos.CENTER);
         inGameMenu = new Scene(inGameMenuLayout, 300, 500);
         inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
