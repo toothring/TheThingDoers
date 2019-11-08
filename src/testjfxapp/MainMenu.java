@@ -29,7 +29,7 @@ public class MainMenu extends Application {
     AudioSubsystem audio;
     Settings settingsMenu = new Settings(this);
     AudioSettings audioSettings = new AudioSettings(this);
-    AccesSettings accesSettings = new AccesSettings(this);
+    AccessibilSettings accessibilSettings = new AccessibilSettings(this);
 
 
     public static void main(String[] args) {

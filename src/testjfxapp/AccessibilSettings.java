@@ -8,17 +8,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AccesSettings {
+public class AccessibilSettings {
 
     Stage window;
-    Scene accesSettings;
+    Scene accessibilSettings;
     Button enterSettings, enterScoreboard, sp, mp;
     Button btm1, btm2, btm3;
     Label mainMenuLabel;
 
     MainMenu mainMenu;
 
-    public AccesSettings(MainMenu m){
+    public AccessibilSettings(MainMenu m){
         mainMenu = m;
     }
 
@@ -40,10 +40,10 @@ public class AccesSettings {
         VBox graphicsOptionsLayout = new VBox(40);
         graphicsOptionsLayout.getChildren().addAll(btm1);
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
-        accesSettings = new Scene(graphicsOptionsLayout, 300, 500);
-        accesSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+        accessibilSettings = new Scene(graphicsOptionsLayout, 300, 500);
+        accessibilSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        window.setScene(accesSettings);
+        window.setScene(accessibilSettings);
 
     }
 }

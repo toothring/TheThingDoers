@@ -15,7 +15,7 @@ public class Settings {
 
     MainMenu mainMenu;
     GraphicsOptions graphicsOptions;
-    AccesSettings accesSettings;
+    AccessibilSettings accessibilSettings;
     AudioSettings audioSettings;
 
     public Settings(MainMenu m){
@@ -34,7 +34,7 @@ public class Settings {
         graphicsOpts.setOnAction(e -> window.setScene(graphicsOptions.graphicsOptions));
 
         accessSet = new Button("Accessibility Settings");
-        accessSet.setOnAction(e -> window.setScene(accesSettings.accesSettings));
+        accessSet.setOnAction(e -> window.setScene(accessibilSettings.accessibilSettings));
 
         audioSet = new Button("Audio Settings");
         audioSet.setOnAction(e -> window.setScene(audioSettings.audioSettings));
