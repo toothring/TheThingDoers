@@ -222,6 +222,7 @@ public class MainMenu extends Application {
         audio = new AudioSubsystem();
         audio.registerSound("levelend", "levelDone.mp3");
         audio.registerMusic("main", "main.mp3");
+        audio.playMusic("main");
     }
 }
 
