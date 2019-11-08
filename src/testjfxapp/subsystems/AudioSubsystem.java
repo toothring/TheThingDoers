@@ -143,10 +143,12 @@ public class AudioSubsystem {
     
     public void toggleMusicMute(){
         channelMuteMusic = !channelMuteMusic;
+        updateVolumes();
     }
     
     public void toggleSoundMute(){
         channelMuteSFX = !channelMuteSFX;
+        updateVolumes();
     }
     
 }
