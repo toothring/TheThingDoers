@@ -1,6 +1,5 @@
 package testjfxapp;
 
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-public class InGameMenu extends Application {
+public class InGameMenu {
 
     Stage window;
     Scene inGameMenu, inGameAudioSettings, inGameVisualSettings;

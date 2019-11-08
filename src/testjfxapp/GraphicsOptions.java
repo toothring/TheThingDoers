@@ -1,7 +1,6 @@
 package testjfxapp;
 // Work in progress
 
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class GraphicsOptions extends Application {
+public class GraphicsOptions {
 
     Stage window;
     Scene graphicsOptions;
