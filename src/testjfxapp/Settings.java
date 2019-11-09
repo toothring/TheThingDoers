@@ -7,37 +7,41 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Settings {
+public class Settings extends ReversableMenu {
 
     Stage window;
     Scene settings;
     Button btm1, graphicsOpts, accessSet, audioSet;
 
     MainMenu mainMenu;
-    GraphicsOptions graphicsOptions;
-    AccessibilSettings accessibilSettings;
-    AudioSettings audioSettings;
+    ReversableMenu graphicsOptions, accessibilSettings, audioSettings;
 
     public Settings(MainMenu m){
         mainMenu = m;
+        graphicsOptions = new GraphicsOptions(this, mainMenu);
+        accessibilSettings = new AccessibilSettings(this, mainMenu);
+        audioSettings = new AudioSettings(this, mainMenu);
     }
 
-   // @Override
+    @Override
     public void start(Stage primaryStage) throws Exception {
 
         window = primaryStage;
 
         btm1 = new Button("Back to Menu");
-        btm1.setOnAction(e -> window.setScene(mainMenu.mainMenu));
-
+        btm1.setOnAction(e -> mainMenu.showMenu());
+        
+        graphicsOptions.start(window);
         graphicsOpts = new Button("Graphics Options");
-        graphicsOpts.setOnAction(e -> window.setScene(graphicsOptions.graphicsOptions));
+        graphicsOpts.setOnAction(e -> graphicsOptions.setCurrentScene());
 
+        accessibilSettings.start(window);
         accessSet = new Button("Accessibility Settings");
-        accessSet.setOnAction(e -> window.setScene(accessibilSettings.accessibilSettings));
+        accessSet.setOnAction(e -> accessibilSettings.setCurrentScene());
 
+        audioSettings.start(window);
         audioSet = new Button("Audio Settings");
-        audioSet.setOnAction(e -> window.setScene(audioSettings.audioSettings));
+        audioSet.setOnAction(e -> audioSettings.setCurrentScene());
 
         // Graphics Options layout:
         VBox graphicsOptionsLayout = new VBox(40);
@@ -46,8 +50,13 @@ public class Settings {
         settings = new Scene(graphicsOptionsLayout, 300, 500);
         settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        window.setScene(settings);
+        setCurrentScene();
 
+    }
+
+    @Override
+    public void setCurrentScene() {
+        window.setScene(settings);
     }
 }
 
