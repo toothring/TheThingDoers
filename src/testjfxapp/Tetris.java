@@ -115,13 +115,12 @@ public class Tetris extends Application {
                     break;
                 case S: tickDown();
                     break;
-                case W:
-                    boolean touchdown;
+                case W: boolean touchdown = false;
                     int maxFall = 0;
-                    do {
+                    while (touchdown == false && maxFall != 20) {
                         touchdown = tickDown2();
                         maxFall++;
-                    } while (touchdown == false && maxFall <= 20);
+                    }
                     break;
                 case O: currentBlock.rotateBlock(-1);
                     break;
