@@ -120,6 +120,7 @@ public class TestJFXApp extends Application {
                     break;
                 case P: currentTile.rotateBlock(1);
                     break;
+                case ESCAPE: menu.showMenu();
             }
         });
 
@@ -272,7 +273,7 @@ public class TestJFXApp extends Application {
         selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
         
         //Make a new block
-        TetrisBlock tile = new TetrisBlock(playArea[selectedTile], pattern, rotate);
+        TetrisBlock tile = new TetrisBlock(playArea[selectedTile], pattern, 0);
         
         //Add it to our list of blocks
         block.add(tile);
