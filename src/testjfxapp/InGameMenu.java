@@ -20,6 +20,7 @@ public class InGameMenu {
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
 
     MainMenu mainMenu;
+    TestJFXApp tetris;
 
     public InGameMenu(MainMenu m) {
         mainMenu = m;
@@ -37,12 +38,11 @@ public class InGameMenu {
         window = primaryStage;
 
 
-        // There's an issue here with getting the previous scene back after someone wants to close the in-game menu
-        // which I'm thinking you might be able to mitigate by opening the in-game menu as a dialogue box over the top
-        // of the game (like the quit confirmation box). You can pause the game state while it's open, then rather
-        // than playing with returned scenes, it's one line of code to close the dialogue box.
         resumeGame = new Button("Resume Game");
-        // resumeGame.setOnAction(e -> window.setScene(tetris));
+        resumeGame.setOnAction(e -> {
+            // Something else needs to go in here to get back to the game...
+            tetris.resume();
+        });
 
         AudioSettingsBTN = new Button("Audio Settings");
         AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));

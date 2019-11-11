@@ -102,12 +102,13 @@ public class TestJFXApp extends Application {
             igmbutton = new Button("Open In-Game Menu");
             igmbutton.setOnAction(e -> {
                 try {
-                    igm.start(menu.window);
+                    this.pause();
+                    igm.start(menu.window); //tried menu.window, arg0, this. Getting null pointer
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });
-            root.getChildren().addAll(CANVAS, rtm); //add igmbutton
+            root.getChildren().addAll(CANVAS, igmbutton); //add igmbutton
             scene = new Scene(root);
         }
 
