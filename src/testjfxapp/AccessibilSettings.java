@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AccessibilSettings {
+public class AccessibilSettings extends ReversableMenu {
 
     Stage window;
     Scene accessibilSettings;
@@ -18,33 +18,37 @@ public class AccessibilSettings {
 
     MainMenu mainMenu;
 
-    public AccessibilSettings(MainMenu m){
-        mainMenu = m;
+    public AccessibilSettings(ReversableMenu m, MainMenu menu){
+        this.m = m;
+        mainMenu = menu;
     }
 
-   // @Override
+    @Override
     public void start(Stage primaryStage) throws Exception {
 
         window = primaryStage;
 
-        btm1 = new Button("Back to Menu");
-        btm1.setOnAction(e -> window.setScene(mainMenu.mainMenu));
+        btm1 = new Button("Back to Main Menu");
+        btm1.setOnAction(e -> mainMenu.showMenu());
 
-//        btm2 = new Button("Back to Menu");
-//        btm2.setOnAction(e -> window.setScene(settings));
+        btm2 = new Button("Back to Menu");
+        btm2.setOnAction(e -> setPreviousScene());
 //
 //        btm3 = new Button("Back to Menu");
 //        btm3.setOnAction(e -> window.setScene(settings));
 
         // Graphics Options layout:
         VBox graphicsOptionsLayout = new VBox(40);
-        graphicsOptionsLayout.getChildren().addAll(btm1);
+        graphicsOptionsLayout.getChildren().addAll(btm1, btm2);
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
         accessibilSettings = new Scene(graphicsOptionsLayout, 300, 500);
         accessibilSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        window.setScene(accessibilSettings);
+    }
 
+    @Override
+    public void setCurrentScene() {
+        window.setScene(accessibilSettings);
     }
 }
 

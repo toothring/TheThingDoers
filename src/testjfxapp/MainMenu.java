@@ -15,7 +15,7 @@ import testjfxapp.subsystems.AudioSubsystem;
 
 import java.awt.*;
 
-public class MainMenu extends Application {
+public class MainMenu extends Application{
 
     Stage window;
     Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
@@ -27,9 +27,9 @@ public class MainMenu extends Application {
     InGameMenu igm = new InGameMenu(this);
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
     AudioSubsystem audio;
-    Settings settingsMenu = new Settings(this);
-    AudioSettings audioSettings = new AudioSettings(this);
-    AccessibilSettings accessibilSettings = new AccessibilSettings(this);
+    ReversableMenu settingsMenu = new Settings(this);
+    //AudioSettings audioSettings = new AudioSettings(this);
+    //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
 
 
     public static void main(String[] args) {
