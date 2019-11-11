@@ -34,29 +34,29 @@ import java.util.Random;
  *
  * @author Orion
  */
-public class TestJFXApp extends Application {
+public class TestJFXApp {
 
     private static final long serialVersionUID = 1L;
 
-    private static int PLAY_AREA_WIDTH;
-    private static int PLAY_AREA_HEIGHT;
-    private static int TILE_SIZE;
+    static int PLAY_AREA_WIDTH;
+    static int PLAY_AREA_HEIGHT;
+    static int TILE_SIZE;
 
     private final Vector2I movement = new Vector2I(0, 1);
     private final Vector2I moveLeft = new Vector2I(-1, 0);
     private final Vector2I moveRight = new Vector2I(1, 0);
-    private final Random r = new Random();
-    private static Vector2I[] playArea;
-    private static ArrayList<TetrisBlock> block;
-    private static TetrisBlock currentTile;
+    final Random r = new Random();
+    static Vector2I[] playArea;
+    static ArrayList<TetrisBlock> block;
+    static TetrisBlock currentTile;
     private Boolean running = true;
     private int x = 0;
 
-    private static Group root;
-    private static Canvas CANVAS;
-    private static GraphicsContext GRAPHICS;
+    static Group root;
+    static Canvas CANVAS;
+    static GraphicsContext GRAPHICS;
 
-    private MainMenu menu;
+    MainMenu menu;
     private InGameMenu igm;
     private Scene scene;
 
@@ -82,7 +82,6 @@ public class TestJFXApp extends Application {
 
     }
 
-    @Override
     public void start(Stage arg0) throws Exception {
         arg0.setTitle("Tetris");
         running = true;
@@ -148,7 +147,6 @@ public class TestJFXApp extends Application {
         }).start();
     }
 
-    @Override
     public void stop() {
         running = false;
         System.exit(0);
@@ -162,7 +160,6 @@ public class TestJFXApp extends Application {
         running = true;
     }
 
-    @Override
     public void init() {
         //Set up the play area
         for (int i = 0; i < playArea.length; i++) {
@@ -257,7 +254,7 @@ public class TestJFXApp extends Application {
     }
 
     //Make a new tile
-    private void makeTile() {
+    void makeTile() {
         //Semi-obsolete formatting from tech demo
         int selectedTile;
         
