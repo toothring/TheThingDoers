@@ -120,6 +120,8 @@ public class Tetris extends Application {
                     break;
                 case P: currentBlock.rotateBlock(1);
                     break;
+                case ESCAPE: menu.showMenu();
+                    break;
             }
         });
 
@@ -269,10 +271,13 @@ public class Tetris extends Application {
         //System.out.println(rotate);
         
         //Get the position our block will start at
-        selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
+        if (pattern >= 1 && pattern <5)
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 2;
+        else
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
         
         //Make a new block
-        TetrisBlock block = new TetrisBlock(playArea[selectedTile], pattern, rotate);
+        TetrisBlock block = new TetrisBlock(playArea[selectedTile], pattern, 0);
         
         //Add it to our list of blocks
         blocks.add(block);
