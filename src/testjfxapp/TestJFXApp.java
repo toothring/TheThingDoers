@@ -60,6 +60,8 @@ public class TestJFXApp extends Application {
     private InGameMenu igm;
     private Scene scene;
 
+    private int completedLines;
+
     public TestJFXApp(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
         PLAY_AREA_HEIGHT = Height;
@@ -120,11 +122,10 @@ public class TestJFXApp extends Application {
                     break;
                 case P: currentTile.rotateBlock(1);
                     break;
-                case ESCAPE: menu.showMenu();
+                case ESCAPE: checkRun();
+                    break;
             }
         });
-
-
 
         arg0.setScene(scene);
         arg0.show();
@@ -147,6 +148,13 @@ public class TestJFXApp extends Application {
 
             }
         }).start();
+    }
+
+    public void checkRun(){
+        if (running == true)
+            pause();
+        if (running == false)
+            resume();
     }
 
     @Override
@@ -204,12 +212,28 @@ public class TestJFXApp extends Application {
                 makeTile();
             }
         } else {
+            findCompletedLines();
             makeTile();
         }
         //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
         //System.out.println("tick, tock");
 
         drawAllTiles(scaleMult);
+    }
+
+    public void findCompletedLines() {
+//        int lineCount=0;
+//        for(int i=1; i<=20; i++){
+//            for(int j=0; j<10; j++) {
+//                if (currentTile == blocks) {
+//                    lineCount++;
+//                }
+//            }
+//            if (lineCount == 10) {
+//                System.out.println("Completed line found!");
+//            }
+//            lineCount=0;
+//        }
     }
 
     public boolean checkForCollision(String direction) {
@@ -270,7 +294,11 @@ public class TestJFXApp extends Application {
         //System.out.println(rotate);
         
         //Get the position our block will start at
-        selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
+        // pattern 0=o, 1=T, 2=s, 3=l, 4=L
+        if (pattern >= 1 && pattern < 5)
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 2;
+        else
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
         
         //Make a new block
         TetrisBlock tile = new TetrisBlock(playArea[selectedTile], pattern, 0);
