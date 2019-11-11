@@ -34,7 +34,7 @@ import java.util.Random;
  *
  * @author Orion
  */
-public class TestJFXApp extends Application {
+public class Tetris extends Application {
 
     private static final long serialVersionUID = 1L;
 
@@ -60,7 +60,7 @@ public class TestJFXApp extends Application {
     private InGameMenu igm;
     private Scene scene;
 
-    public TestJFXApp(int Width, int Height, int Scale, MainMenu menu) {
+    public Tetris(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
         PLAY_AREA_HEIGHT = Height;
         TILE_SIZE = Scale;
