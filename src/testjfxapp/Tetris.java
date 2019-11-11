@@ -29,6 +29,7 @@ import orion.number.Vector2I;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -114,7 +115,13 @@ public class Tetris extends Application {
                     break;
                 case S: tickDown();
                     break;
-                case W: tickDown();
+                case W:
+                    boolean touchdown;
+                    int maxFall = 0;
+                    do {
+                        touchdown = tickDown2();
+                        maxFall++;
+                    } while (touchdown == false && maxFall <= 20);
                     break;
                 case O: currentBlock.rotateBlock(-1);
                     break;
@@ -211,6 +218,28 @@ public class Tetris extends Application {
         //System.out.println("tick, tock");
 
         drawAllTiles(scaleMult);
+    }
+
+    public boolean tickDown2() {
+        int scaleMult = screenSetup();
+
+        String direction = "down";
+        boolean intersects = checkForCollision(direction);
+
+        //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
+        if (!intersects) {
+            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                makeTile();
+            }
+        } else {
+            makeTile();
+        }
+        //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
+        //System.out.println("tick, tock");
+
+        drawAllTiles(scaleMult);
+        return intersects;
     }
 
     public boolean checkForCollision(String direction) {
