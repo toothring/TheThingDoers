@@ -212,28 +212,12 @@ public class TestJFXApp extends Application {
                 makeTile();
             }
         } else {
-            findCompletedLines();
             makeTile();
         }
         //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
         //System.out.println("tick, tock");
 
         drawAllTiles(scaleMult);
-    }
-
-    public void findCompletedLines() {
-//        int lineCount=0;
-//        for(int i=1; i<=20; i++){
-//            for(int j=0; j<10; j++) {
-//                if (currentTile == blocks) {
-//                    lineCount++;
-//                }
-//            }
-//            if (lineCount == 10) {
-//                System.out.println("Completed line found!");
-//            }
-//            lineCount=0;
-//        }
     }
 
     public boolean checkForCollision(String direction) {
