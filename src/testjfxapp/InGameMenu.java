@@ -14,18 +14,19 @@ public class InGameMenu {
 
     Stage window;
     Scene inGameMenu, inGameAudioSettings, inGameVisualSettings;
-    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, closeProgram;
+    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, resetGame;
     Slider musicVolume, sfxVolume, fps, brightness;
     Button btm1, btm2, btm3;
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
 
     MainMenu mainMenu;
+    Tetris tetris;
 
-    public InGameMenu(MainMenu m) {
+    public InGameMenu(MainMenu m, Tetris t) {
+        tetris = t;
         mainMenu = m;
-    }
+            }
 
-    //@Override
     public void start(Stage primaryStage) throws Exception {
 
         // 'filler' is just a placeholder label used in the GUI scenes
@@ -36,13 +37,15 @@ public class InGameMenu {
         visualSettingsLabel = new Label("I wanna be visual settings when I grow up.");
         window = primaryStage;
 
-
-        // There's an issue here with getting the previous scene back after someone wants to close the in-game menu
-        // which I'm thinking you might be able to mitigate by opening the in-game menu as a dialogue box over the top
-        // of the game (like the quit confirmation box). You can pause the game state while it's open, then rather
-        // than playing with returned scenes, it's one line of code to close the dialogue box.
-        resumeGame = new Button("Resume Game");
-        // resumeGame.setOnAction(e -> window.setScene(tetris));
+        resumeGame = new Button("Resume Game"); // This will need to be adjusted to account for Tetsaw too.
+        resumeGame.setOnAction(e -> {
+            try {
+                tetris.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            tetris.resume();
+        });
 
         AudioSettingsBTN = new Button("Audio Settings");
         AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));
@@ -69,7 +72,7 @@ public class InGameMenu {
         btm2.setOnAction(e -> window.setScene(inGameMenu));
 
         btm3 = new Button("Main Menu");
-        btm3.setOnAction((e -> window.setScene(mainMenu.mainMenu)));
+        btm3.setOnAction(e -> tetris.returnToMenu());
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);

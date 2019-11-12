@@ -61,6 +61,9 @@ public class Tetris extends Application {
     private InGameMenu igm;
     private Scene scene;
 
+    private double ticks = 2.0; // The larger this number is, the faster the game
+    private double ns = 1000000000 / ticks;
+
     public Tetris(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
         PLAY_AREA_HEIGHT = Height;
@@ -72,13 +75,13 @@ public class Tetris extends Application {
         blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
+        igm = new InGameMenu(menu, this);
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-// Easier to run this class via the main menu than directly.
         Application.launch(args);
 
     }
@@ -91,19 +94,21 @@ public class Tetris extends Application {
             Button rtm = new Button();
             rtm.setText("Main Menu");
             rtm.setOnAction(e -> {
-                running = false;
-                menu.showMenu();
+                this.returnToMenu();
             });
-//            Button igmbutton = new Button("Open Menu");
-//            igmbutton.setOnAction(e -> {
-//                try {
-//                    running = false;
-//                    igm.start(menu.window);
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
-            root.getChildren().addAll(CANVAS, rtm);
+
+            //Can possibly replace button with escape key
+            Button igmbutton = new Button("Open Menu");
+            igmbutton = new Button("Open In-Game Menu");
+            igmbutton.setOnAction(e -> {
+                try {
+                    this.pause();
+                    igm.start(menu.window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+            root.getChildren().addAll(CANVAS, igmbutton);
             scene = new Scene(root);
         }
 
@@ -140,16 +145,17 @@ public class Tetris extends Application {
         new Thread(() -> {
             double delta = 0;
             long timer = System.nanoTime();
-            final double ticks = 2.0; // The larger this number is, the faster the game
-            double ns = 1000000000 / ticks;
             while (running) {
                 long now = System.nanoTime();
                 delta += (now - timer) / ns;
                 timer = now;
                 while (delta > 1) {
                     tickDown();
-
                     delta--;
+                    if (ticks < 10) { // 10 ticks is pretty fast
+                        ticks = ticks + 0.01; // This will do 1000 ticks
+                        ns = 1000000000 / ticks;
+                    }
                 }
 
             }
@@ -168,6 +174,11 @@ public class Tetris extends Application {
 
     public void resume() {
         running = true;
+    }
+
+    public void returnToMenu(){
+        running = false;
+        menu.showMenu();
     }
 
     @Override
