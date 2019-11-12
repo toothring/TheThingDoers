@@ -23,8 +23,8 @@ public class InGameMenu {
     TestJFXApp tetris;
 
     public InGameMenu(MainMenu m, TestJFXApp t) {
-        t = tetris;
-        m = mainMenu;
+        tetris = t;
+        mainMenu = m;
             }
 
     //@Override
@@ -42,6 +42,11 @@ public class InGameMenu {
         resumeGame = new Button("Resume Game");
         resumeGame.setOnAction(e -> {
             // Something else needs to go in here to get back to the game...
+            try {
+                tetris.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             tetris.resume();
         });
 
