@@ -81,7 +81,6 @@ public class TestJFXApp extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-// Easier to run this class via the main menu than directly.
         Application.launch(args);
 
     }
@@ -97,18 +96,18 @@ public class TestJFXApp extends Application {
                 this.returnToMenu();
             });
 
-            //The below button doesn't quite work...
+            //Can possibly replace button with escape key
             Button igmbutton = new Button("Open Menu");
             igmbutton = new Button("Open In-Game Menu");
             igmbutton.setOnAction(e -> {
                 try {
                     this.pause();
-                    igm.start(menu.window); //tried menu.window, arg0, this. Getting null pointer
+                    igm.start(menu.window);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });
-            root.getChildren().addAll(CANVAS, igmbutton); //add igmbutton
+            root.getChildren().addAll(CANVAS, igmbutton);
             scene = new Scene(root);
         }
 
