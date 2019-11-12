@@ -96,20 +96,22 @@ public class Tetris extends Application {
                 this.returnToMenu();
             });
 
-            //Can possibly replace button with escape key
-            Button igmbutton = new Button("Open Menu");
-            igmbutton = new Button("Open In-Game Menu");
-            igmbutton.setOnAction(e -> {
-                try {
-                    this.pause();
-                    igm.start(menu.window);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-            root.getChildren().addAll(CANVAS, igmbutton);
+// *Removed as escape key used in place of return to menu button*
+//            Button igmbutton = new Button("Open In-Game Menu");
+//            igmbutton.setOnAction(e -> {
+//                try {
+//                    this.pause();
+//                    igm.start(menu.window);
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            });
+
+            root.getChildren().addAll(CANVAS);
             scene = new Scene(root);
         }
+
+
 
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
@@ -130,7 +132,12 @@ public class Tetris extends Application {
                     break;
                 case P: currentBlock.rotateBlock(1);
                     break;
-                case ESCAPE: menu.showMenu();
+                case ESCAPE: try {
+                    this.pause();
+                    igm.start(menu.window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                };
                     break;
             }
         });
