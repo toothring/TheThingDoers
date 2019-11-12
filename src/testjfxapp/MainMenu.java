@@ -204,6 +204,11 @@ public class MainMenu extends Application{
     public void showMenu() {
         window.setScene(mainMenu);
         }
+
+    public void resetGame(){
+        tetrisGame = new Tetris(10,20,30,this);
+        tetrisGame.init();
+    }
     
     public AudioSubsystem getAudioSystem(){
         return audio;

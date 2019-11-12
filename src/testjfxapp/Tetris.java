@@ -178,11 +178,6 @@ public class Tetris extends Application {
         menu.showMenu();
     }
 
-    public void resetGame(){
-        Tetris tetris = new Tetris(10,20,30, menu);
-        this.resume();
-    }
-
     @Override
     public void init() {
         //Set up the play area

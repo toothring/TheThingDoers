@@ -48,8 +48,9 @@ public class InGameMenu {
 
         resetGame = new Button("Reset Game"); // This will re-instantiate the Tetris class
         resetGame.setOnAction(e -> {
+           mainMenu.resetGame();
             try {
-                tetris.resetGame();
+                tetris.start(window);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
