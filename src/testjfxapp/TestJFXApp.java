@@ -74,7 +74,7 @@ public class TestJFXApp extends Application {
         block = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
-        igm = new InGameMenu(this);
+        igm = new InGameMenu(menu, this);
     }
 
     /**

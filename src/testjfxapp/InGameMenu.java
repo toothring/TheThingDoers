@@ -22,8 +22,9 @@ public class InGameMenu {
     MainMenu mainMenu;
     TestJFXApp tetris;
 
-    public InGameMenu(TestJFXApp t) {
+    public InGameMenu(MainMenu m, TestJFXApp t) {
         t = tetris;
+        m = mainMenu;
             }
 
     //@Override
@@ -70,7 +71,7 @@ public class InGameMenu {
 
         // Returning to the main menu doesn't seem to play nice
         btm3 = new Button("Main Menu");
-        btm3.setOnAction(e -> mainMenu.showMenu()); // I've tried this and tetris.returnToMenu and neither work
+        btm3.setOnAction(e -> tetris.returnToMenu()); // I've tried mainMenu.showMenu() and tetris.returnToMenu and neither work
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);

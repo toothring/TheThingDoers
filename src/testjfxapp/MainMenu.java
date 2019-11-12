@@ -26,7 +26,7 @@ public class MainMenu extends Application{
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
 
     TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
-    InGameMenu igm = new InGameMenu(tetrisGame);
+    InGameMenu igm = new InGameMenu(this, tetrisGame);
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
     //AudioSettings audioSettings = new AudioSettings(this);
