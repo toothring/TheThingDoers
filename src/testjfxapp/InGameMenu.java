@@ -14,7 +14,7 @@ public class InGameMenu {
 
     Stage window;
     Scene inGameMenu, inGameAudioSettings, inGameVisualSettings;
-    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, resetGame;
+    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN;
     Slider musicVolume, sfxVolume, fps, brightness;
     Button btm1, btm2, btm3;
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
@@ -46,17 +46,7 @@ public class InGameMenu {
             }
         });
 
-        resetGame = new Button("Reset Game"); // This will re-instantiate the Tetris class
-        resetGame.setOnAction(e -> {
-           mainMenu.resetGame();
-            try {
-                tetris.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-        AudioSettingsBTN = new Button("Audio Settings");
+                AudioSettingsBTN = new Button("Audio Settings");
         AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));
 
         inGameVisualSettingsBTN = new Button("Visual Settings");
@@ -85,7 +75,7 @@ public class InGameMenu {
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);
-        inGameMenuLayout.getChildren().addAll(InGameMenuLabel, resetGame, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
+        inGameMenuLayout.getChildren().addAll(InGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
         inGameMenuLayout.setAlignment(Pos.CENTER);
         inGameMenu = new Scene(inGameMenuLayout, 300, 500);
         inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
