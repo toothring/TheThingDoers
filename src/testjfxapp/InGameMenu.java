@@ -14,7 +14,7 @@ public class InGameMenu {
 
     Stage window;
     Scene inGameMenu, inGameAudioSettings, inGameVisualSettings;
-    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, closeProgram;
+    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, resetGame;
     Slider musicVolume, sfxVolume, fps, brightness;
     Button btm1, btm2, btm3;
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
@@ -37,8 +37,7 @@ public class InGameMenu {
         visualSettingsLabel = new Label("I wanna be visual settings when I grow up.");
         window = primaryStage;
 
-
-        resumeGame = new Button("Resume Game");
+        resumeGame = new Button("Resume Game"); // This will need to be adjusted to account for Tetsaw too.
         resumeGame.setOnAction(e -> {
             try {
                 tetris.start(window);
