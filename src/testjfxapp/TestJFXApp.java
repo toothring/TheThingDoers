@@ -74,6 +74,7 @@ public class TestJFXApp extends Application {
         block = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
+        igm = new InGameMenu(this);
     }
 
     /**
@@ -93,8 +94,7 @@ public class TestJFXApp extends Application {
             Button rtm = new Button();
             rtm.setText("Main Menu");
             rtm.setOnAction(e -> {
-                running = false;
-                menu.showMenu();
+                this.returnToMenu();
             });
 
             //The below button doesn't quite work...
@@ -167,6 +167,11 @@ public class TestJFXApp extends Application {
 
     public void resume() {
         running = true;
+    }
+
+    public void returnToMenu(){
+        running = false;
+        menu.showMenu();
     }
 
     @Override
