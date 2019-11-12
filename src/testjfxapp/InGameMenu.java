@@ -14,7 +14,7 @@ public class InGameMenu {
 
     Stage window;
     Scene inGameMenu, inGameAudioSettings, inGameVisualSettings;
-    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, resetGame;
+    Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN;
     Slider musicVolume, sfxVolume, fps, brightness;
     Button btm1, btm2, btm3;
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
@@ -44,10 +44,9 @@ public class InGameMenu {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            tetris.resume();
         });
 
-        AudioSettingsBTN = new Button("Audio Settings");
+                AudioSettingsBTN = new Button("Audio Settings");
         AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));
 
         inGameVisualSettingsBTN = new Button("Visual Settings");

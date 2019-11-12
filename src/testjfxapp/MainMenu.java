@@ -45,6 +45,7 @@ public class MainMenu extends Application{
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         double fullwidth = screenSize.getWidth();
         double fullheight = screenSize.getHeight();
+        final boolean running = false;
 
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
@@ -62,13 +63,14 @@ public class MainMenu extends Application{
 
         playTetris = new Button("Play Tetris");
         playTetris.setOnAction(e -> {
-            tetrisGame.init();
-            try {
-                tetrisGame.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+                try {
+                    tetrisGame.start(window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-        });
+        );
 
         playTetrisMP = new Button("Play Tetris");
         playTetrisMP.setOnAction(e -> {
@@ -204,6 +206,11 @@ public class MainMenu extends Application{
     public void showMenu() {
         window.setScene(mainMenu);
         }
+
+    public void resetGame(){
+        tetrisGame = new Tetris(10,20,30,this);
+        tetrisGame.init();
+    }
     
     public AudioSubsystem getAudioSystem(){
         return audio;
