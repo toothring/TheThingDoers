@@ -64,7 +64,7 @@ public class Tetris extends Application {
     private double ticks = 2.0; // The larger this number is, the faster the game
     private double ns = 1000000000 / ticks;
 
-    public TestJFXApp(int Width, int Height, int Scale, MainMenu menu) {
+    public Tetris(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
         PLAY_AREA_HEIGHT = Height;
         TILE_SIZE = Scale;

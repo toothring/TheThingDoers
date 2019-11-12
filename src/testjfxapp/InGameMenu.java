@@ -20,9 +20,9 @@ public class InGameMenu {
     Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
 
     MainMenu mainMenu;
-    TestJFXApp tetris;
+    Tetris tetris;
 
-    public InGameMenu(MainMenu m, TestJFXApp t) {
+    public InGameMenu(MainMenu m, Tetris t) {
         tetris = t;
         mainMenu = m;
             }
