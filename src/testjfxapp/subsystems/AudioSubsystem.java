@@ -35,6 +35,7 @@ public class AudioSubsystem {
     private MediaPlayer backgroundMusic;
     
     private double masterVolume, sfxVolume, musicVolume;
+    private boolean channelMuteMusic, channelMuteSFX;
     
     public AudioSubsystem() {
         masterVolume = 1.0;
@@ -43,6 +44,8 @@ public class AudioSubsystem {
         musicData = new HashMap<>();
         seData = new HashMap<>();
         soundEffects = new ArrayList<>();
+        channelMuteMusic = false;
+        channelMuteSFX = false;
         
     }
 
@@ -132,10 +135,20 @@ public class AudioSubsystem {
     }
     
     private void updateVolumes() {
-        backgroundMusic.setVolume(musicVolume * masterVolume);
+        backgroundMusic.setVolume(channelMuteMusic ? 0.0 : musicVolume * masterVolume);
         for (var sound : soundEffects) {
-            sound.setVolume(sfxVolume * masterVolume);
+            sound.setVolume(channelMuteSFX ? 0.0 : sfxVolume * masterVolume);
         }
+    }
+    
+    public void toggleMusicMute(){
+        channelMuteMusic = !channelMuteMusic;
+        updateVolumes();
+    }
+    
+    public void toggleSoundMute(){
+        channelMuteSFX = !channelMuteSFX;
+        updateVolumes();
     }
     
 }

@@ -1,6 +1,5 @@
 package testjfxapp;
 // Work in progress
-    // Write a fx to show main menu, call this within TestJFXApp w/ button.
 
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
@@ -23,7 +22,9 @@ import testjfxapp.subsystems.AudioSubsystem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-public class MainMenu extends Application {
+import java.awt.*;
+
+public class MainMenu extends Application{
 
     Stage window;
     Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
@@ -32,13 +33,20 @@ public class MainMenu extends Application {
     Button btm1, btm2, btm3, btm4, btm5, btm6;
     Button audioSettings, graphicSettings;
     Slider masterVolume, musicVolume, soundfxVolume;
+    Button btm1, btm2, btm3, btm4, btm5, btm6, igmbutton;
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
     Label audioSettingLabel,graphicSettingsLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue;
     CheckBox muteMusic,muteSoundFX, muteMaster;
 
 
-    TestJFXApp tetrisGame = new TestJFXApp(10,20,30, this);
+    //Create an object of the InGameMenu and TestJFXApp class so we can use it
+    Tetris tetrisGame = new Tetris(10,20,30, this);
+    InGameMenu igm = new InGameMenu(this, tetrisGame);
     AudioSubsystem audio;
+    ReversableMenu settingsMenu = new Settings(this);
+    //AudioSettings audioSettings = new AudioSettings(this);
+    //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
+
 
     public static void main(String[] args) {
         launch(args);
@@ -50,7 +58,12 @@ public class MainMenu extends Application {
 
         audio.playMusic("main");
 
-        // 'filler' is just a placeholder label used in the GUI scenes
+        // This will determine the screen size (width and height) which you can then assign to a scene.
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        double fullwidth = screenSize.getWidth();
+        double fullheight = screenSize.getHeight();
+        final boolean running = false;
+
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
         mainMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
@@ -73,13 +86,14 @@ public class MainMenu extends Application {
 
         playTetris = new Button("Play Tetris");
         playTetris.setOnAction(e -> {
-            tetrisGame.init();
-            try {
-                tetrisGame.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+                try {
+                    tetrisGame.start(window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
-        });
+        );
 
         playTetrisMP = new Button("Play Tetris");
         playTetrisMP.setOnAction(e -> {
@@ -94,7 +108,6 @@ public class MainMenu extends Application {
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> window.setScene(tetsaw));
 
-
         playTetsawMP = new Button("Play Tetsaw");
         playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
 
@@ -102,7 +115,13 @@ public class MainMenu extends Application {
         enterScoreboard.setOnAction(e -> window.setScene(scoreboard));
 
         enterSettings = new Button("Settings");
-        enterSettings.setOnAction(e -> window.setScene(settings));
+        enterSettings.setOnAction(e -> {
+            try {
+                settingsMenu.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         sp = new Button("Single Player");
         sp.setOnAction(e -> window.setScene(singlePlayer));
@@ -209,6 +228,15 @@ public class MainMenu extends Application {
 
 
 
+        igmbutton = new Button("Open In-Game Menu");
+        igmbutton.setOnAction(e -> {
+            try {
+                igm.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
         mainMenuLayout.getChildren().addAll(mainMenuLabel, sp, mp, enterSettings, enterScoreboard, closeProgram);
@@ -232,7 +260,7 @@ public class MainMenu extends Application {
 
         // Tetsaw layout:
         VBox tetsawLayout = new VBox(40);
-        tetsawLayout.getChildren().addAll(btm1);
+        tetsawLayout.getChildren().addAll(btm1, igmbutton);
         tetsawLayout.setAlignment(Pos.CENTER);
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
@@ -279,7 +307,7 @@ public class MainMenu extends Application {
 
     }
 
-    private void quitProgram() {
+    public void quitProgram() {
         Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
         if(answer) {
             tetrisGame.stop();
@@ -290,6 +318,15 @@ public class MainMenu extends Application {
     public void showMenu() {
         window.setScene(mainMenu);
         }
+
+    public void resetGame(){
+        tetrisGame = new Tetris(10,20,30,this);
+        tetrisGame.init();
+    }
+
+    public AudioSubsystem getAudioSystem(){
+        return audio;
+    }
 
     private void initAudio() {
         /*
@@ -306,6 +343,7 @@ public class MainMenu extends Application {
         audio = new AudioSubsystem();
         audio.registerSound("levelend", "levelDone.mp3");
         audio.registerMusic("main", "main.mp3");
+        audio.playMusic("main");
     }
 }
 
