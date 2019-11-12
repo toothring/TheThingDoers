@@ -190,7 +190,7 @@ public class MainMenu extends Application {
             }
             //else set volume to slider value
             else{
-                audio.setMusicVolume(musicVolume.getValue()/1000.0);
+                audio.setMusicVolume(musicVolume.getValue()/100.0);
             }
         });
 
