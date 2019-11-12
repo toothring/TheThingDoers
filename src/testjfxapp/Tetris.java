@@ -29,12 +29,13 @@ import orion.number.Vector2I;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
  * @author Orion
  */
-public class TestJFXApp extends Application {
+public class Tetris extends Application {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,8 +48,8 @@ public class TestJFXApp extends Application {
     private final Vector2I moveRight = new Vector2I(1, 0);
     private final Random r = new Random();
     private static Vector2I[] playArea;
-    private static ArrayList<TetrisBlock> block;
-    private static TetrisBlock currentTile;
+    private static ArrayList<TetrisBlock> blocks;
+    private static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
 
@@ -71,7 +72,7 @@ public class TestJFXApp extends Application {
         CANVAS = new Canvas(PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
         GRAPHICS = CANVAS.getGraphicsContext2D();
         System.out.println(GRAPHICS.toString());
-        block = new ArrayList<>();
+        blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
         igm = new InGameMenu(menu, this);
@@ -119,11 +120,18 @@ public class TestJFXApp extends Application {
                     break;
                 case S: tickDown();
                     break;
-                case W: tickDown();
+                case W: boolean touchdown = false;
+                    int maxFall = 0;
+                    while (touchdown == false && maxFall != 20) {
+                        touchdown = tickDown2();
+                        maxFall++;
+                    }
                     break;
-                case O: currentTile.rotateBlock(-1);
+                case O: currentBlock.rotateBlock(-1);
                     break;
-                case P: currentTile.rotateBlock(1);
+                case P: currentBlock.rotateBlock(1);
+                    break;
+                case ESCAPE: menu.showMenu();
                     break;
             }
         });
@@ -192,10 +200,10 @@ public class TestJFXApp extends Application {
         boolean intersects = checkForCollision(direction);
 
         if (!intersects) {
-            if (direction == "left")
-                currentTile.boundedMove(moveLeft, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
-            if (direction == "right")
-                currentTile.boundedMove(moveRight, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+            if ("left".equals(direction))
+                currentBlock.boundedMove(moveLeft, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+            if ("right".equals(direction))
+                currentBlock.boundedMove(moveRight, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
         }
 
         drawAllTiles(scaleMult);
@@ -210,7 +218,7 @@ public class TestJFXApp extends Application {
         //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
         if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
-            if (!currentTile.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
                 makeTile();
             }
         } else {
@@ -222,19 +230,41 @@ public class TestJFXApp extends Application {
         drawAllTiles(scaleMult);
     }
 
+    public boolean tickDown2() {
+        int scaleMult = screenSetup();
+
+        String direction = "down";
+        boolean intersects = checkForCollision(direction);
+
+        //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
+        if (!intersects) {
+            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                makeTile();
+            }
+        } else {
+            makeTile();
+        }
+        //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
+        //System.out.println("tick, tock");
+
+        drawAllTiles(scaleMult);
+        return intersects;
+    }
+
     public boolean checkForCollision(String direction) {
         //Check collision with the current tile
         boolean intersects = false;
-        for (TetrisBlock blocks : block) {
+        for (TetrisBlock block : blocks) {
             //Don't check collisions with ourself!
-            if (!(currentTile == blocks)) {
+            if (!(currentBlock == block)) {
                 //Do we intersect a block?
-                if (direction == "down")
-                    intersects = (currentTile.moveTest(movement).intersects(blocks) || intersects);
-                if (direction == "left")
-                    intersects = (currentTile.moveTest(moveLeft).intersects(blocks) || intersects);
-                if (direction == "right")
-                    intersects = (currentTile.moveTest(moveRight).intersects(blocks) || intersects);
+                if ("down".equals(direction))
+                    intersects = (currentBlock.moveTest(movement).intersects(block) || intersects);
+                if ("left".equals(direction))
+                    intersects = (currentBlock.moveTest(moveLeft).intersects(block) || intersects);
+                if ("right".equals(direction))
+                    intersects = (currentBlock.moveTest(moveRight).intersects(block) || intersects);
             }
         }
         return intersects;
@@ -262,8 +292,8 @@ public class TestJFXApp extends Application {
 
     public void drawAllTiles(int scaleMult) {
         //Draw all known tiles
-        for (TetrisBlock tile : block) {
-            tile.drawSelf(GRAPHICS, scaleMult);
+        for (TetrisBlock block : blocks) {
+            block.drawSelf(GRAPHICS, scaleMult);
         }
     }
 
@@ -280,14 +310,17 @@ public class TestJFXApp extends Application {
         //System.out.println(rotate);
         
         //Get the position our block will start at
-        selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
+        if (pattern >= 1 && pattern <5)
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 2;
+        else
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
         
         //Make a new block
-        TetrisBlock tile = new TetrisBlock(playArea[selectedTile], pattern, rotate);
+        TetrisBlock block = new TetrisBlock(playArea[selectedTile], pattern, 0);
         
         //Add it to our list of blocks
-        block.add(tile);
+        blocks.add(block);
         //Set it as our active block
-        currentTile = tile;
+        currentBlock = block;
     }
 }

@@ -42,7 +42,7 @@ public class TetrisBlock {
             offset.rotate(rotate);
         }
         //This is the real position
-        realPos = tile.transformExternal(0, 0);
+        realPos = tile.transformExternal(0, -2);
         
         generateAreaData();
         //Debug Statement
