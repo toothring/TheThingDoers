@@ -138,7 +138,7 @@ public class MainMenu extends Application {
         masterVolume.valueProperty().addListener(observable -> {
 
                 if (masterVolume.isValueChanging()) {
-                    audio.setMasterVolume(masterVolume.getValue() / 1000.0);
+                    audio.setMasterVolume(masterVolume.getValue() / 100.0);
                 }
         });
 
@@ -151,7 +151,7 @@ public class MainMenu extends Application {
         musicVolume.valueProperty().addListener(observable -> {
             if (!muteMusic.isSelected()) {
                 if (musicVolume.isValueChanging()) {
-                    audio.setMusicVolume(musicVolume.getValue() / 1000.0);
+                    audio.setMusicVolume(musicVolume.getValue() / 100.0);
                 }
             }
         });
@@ -162,7 +162,7 @@ public class MainMenu extends Application {
         soundfxVolume.valueProperty().addListener(observable -> {
             if (!muteSoundFX.isSelected()){
                 if (soundfxVolume.isValueChanging()) {
-                    audio.setSFXVolume(soundfxVolume.getValue() / 1000.0);
+                    audio.setSFXVolume(soundfxVolume.getValue() / 100.0);
                 }
             }
         });
@@ -175,7 +175,7 @@ public class MainMenu extends Application {
             }
             //else set volume to slider value
             else{
-                audio.setMasterVolume(masterVolume.getValue()/1000.0);
+                audio.setMasterVolume(masterVolume.getValue()/100.0);
             }
         });
 
@@ -202,7 +202,7 @@ public class MainMenu extends Application {
                 audio.setSFXVolume(0);
             }
             else{
-                audio.setSFXVolume(soundfxVolume.getValue()/1000.0);
+                audio.setSFXVolume(soundfxVolume.getValue()/100.0);
             }
         });
 
