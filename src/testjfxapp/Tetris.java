@@ -46,6 +46,9 @@ public class Tetris extends Application {
     private final Vector2I movement = new Vector2I(0, 1);
     private final Vector2I moveLeft = new Vector2I(-1, 0);
     private final Vector2I moveRight = new Vector2I(1, 0);
+    private int currentRotation;
+    private int newBlock;
+
     private final Random r = new Random();
     private static Vector2I[] playArea;
     private static ArrayList<TetrisBlock> blocks;
@@ -122,9 +125,68 @@ public class Tetris extends Application {
                         maxFall++;
                     }
                     break;
-                case O: currentBlock.rotateBlock(-1);
+                case O: currentRotation--;
+                    //0 = O, 1 = T, 2 = S, 3 = I, 4 = J
+                    if (currentRotation == -4)
+                        currentRotation = 0;
+                    currentBlock.rotateBlock(-1);
+                    if (newBlock == 0){
+                        if (currentRotation == -2 || currentRotation == 2)
+                            userMovement("left");
+                        if (currentRotation == 0)
+                            userMovement("right");
+                    }
                     break;
-                case P: currentBlock.rotateBlock(1);
+                case P: currentRotation++;
+                    if (currentRotation == 4)
+                        currentRotation = 0;
+                    currentBlock.rotateBlock(1);
+                    // O block
+                    if (newBlock == 0){
+                        if (currentRotation == -1 || currentRotation == 3)
+                            userMovement("left");
+                        if (currentRotation == 0)
+                            userMovement("right");
+                    }
+                    // T block
+                    if (newBlock == 1) {
+
+                    }
+                    // S block
+                    if (newBlock == 2) {
+
+                    }
+                    // I block
+                    if (newBlock == 3) {
+                        if (currentRotation == 0 || currentRotation == 4) {
+                            userMovement("left");
+                        }
+                        if (currentRotation == 1) {
+                            userMovement("right");
+                        }
+                        if (currentRotation == 2) {
+                            userMovement("right");
+                            userMovement("right");
+                        }
+                        if (currentRotation == 3) {
+                            userMovement("left");
+                            userMovement("left");
+                        }
+                    }
+                    // J block
+                    if (newBlock == 4) {
+                        if (currentRotation == 1) {
+                            tickDown2();
+                            userMovement("right");
+                        }
+                        if (currentRotation == 2) {
+                            userMovement("right");
+                        }
+                        if (currentRotation == 3) {
+                            userMovement("left");
+                            userMovement("left");
+                        }
+                    }
                     break;
                 case ESCAPE: menu.showMenu();
                     break;
@@ -293,6 +355,7 @@ public class Tetris extends Application {
         
         //Get an existing pattern
         int pattern = r.nextInt(Data.patterns.length);
+        newBlock = pattern;
         //Rotate it to one of four possible positions
         int rotate = r.nextInt(3);
         //Debug statement
@@ -306,6 +369,7 @@ public class Tetris extends Application {
         
         //Make a new block
         TetrisBlock block = new TetrisBlock(playArea[selectedTile], pattern, 0);
+        currentRotation=0;
         
         //Add it to our list of blocks
         blocks.add(block);
