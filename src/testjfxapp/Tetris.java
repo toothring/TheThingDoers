@@ -29,7 +29,6 @@ import orion.number.Vector2I;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  *
@@ -136,8 +135,6 @@ public class Tetris extends Application {
             }
         });
 
-
-
         arg0.setScene(scene);
         arg0.show();
         System.out.println("ARGH");
@@ -179,6 +176,11 @@ public class Tetris extends Application {
     public void returnToMenu(){
         running = false;
         menu.showMenu();
+    }
+
+    public void resetGame(){
+        Tetris tetris = new Tetris(10,20,30, menu);
+        this.resume();
     }
 
     @Override
