@@ -27,7 +27,6 @@ public class InGameMenu {
         mainMenu = m;
             }
 
-    //@Override
     public void start(Stage primaryStage) throws Exception {
 
         // 'filler' is just a placeholder label used in the GUI scenes
@@ -41,7 +40,6 @@ public class InGameMenu {
 
         resumeGame = new Button("Resume Game");
         resumeGame.setOnAction(e -> {
-            // Something else needs to go in here to get back to the game...
             try {
                 tetris.start(window);
             } catch (Exception ex) {
@@ -74,9 +72,8 @@ public class InGameMenu {
         btm2 = new Button("Back to In-Game Menu");
         btm2.setOnAction(e -> window.setScene(inGameMenu));
 
-        // Returning to the main menu doesn't seem to play nice
         btm3 = new Button("Main Menu");
-        btm3.setOnAction(e -> tetris.returnToMenu()); // I've tried mainMenu.showMenu() and tetris.returnToMenu and neither work
+        btm3.setOnAction(e -> tetris.returnToMenu());
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);
