@@ -28,6 +28,7 @@ public class MainMenu extends Application{
     InGameMenu igm = new InGameMenu(this, tetrisGame);
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
+    ReversableMenu sb = new Scoreboard(this);
     //AudioSettings audioSettings = new AudioSettings(this);
     //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
 
@@ -89,7 +90,13 @@ public class MainMenu extends Application{
         playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
 
         enterScoreboard = new Button("Scoreboard");
-        enterScoreboard.setOnAction(e -> window.setScene(scoreboard));
+        enterScoreboard.setOnAction(e -> {
+            try{
+                sb.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         enterSettings = new Button("Settings");
         enterSettings.setOnAction(e -> {
@@ -161,26 +168,26 @@ public class MainMenu extends Application{
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // Tetris layout:
-        VBox tetrisLayout = new VBox(40);
-        tetrisLayout.getChildren().addAll(btm2);
-        tetrisLayout.setAlignment(Pos.CENTER);
-        tetris = new Scene(tetrisLayout, 300, 500);
-        tetris.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+//        Tetris layout: **(No longer required, handled by own class)**
+//        VBox tetrisLayout = new VBox(40);
+//        tetrisLayout.getChildren().addAll(btm2);
+//        tetrisLayout.setAlignment(Pos.CENTER);
+//        tetris = new Scene(tetrisLayout, 300, 500);
+//        tetris.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // Scoreboard layout:
-        VBox scoreboardLayout = new VBox(40);
-        scoreboardLayout.getChildren().addAll(scoreboardMenuLabel, btm3);
-        scoreboardLayout.setAlignment(Pos.CENTER);
-        scoreboard = new Scene(scoreboardLayout, 300, 500);
-        scoreboard.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+//        Scoreboard layout: **(No longer required, handled by own class)**
+//        VBox scoreboardLayout = new VBox(40);
+//        scoreboardLayout.getChildren().addAll(scoreboardMenuLabel, btm3);
+//        scoreboardLayout.setAlignment(Pos.CENTER);
+//        scoreboard = new Scene(scoreboardLayout, 300, 500);
+//        scoreboard.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // Settings layout:
-        VBox settingsLayout = new VBox(40);
-        settingsLayout.getChildren().addAll(settingsMenuLabel, btm4);
-        settingsLayout.setAlignment(Pos.CENTER);
-        settings = new Scene(settingsLayout, 300, 500);
-        settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+//        Settings layout **(no longer required, handled by own class)**
+//        VBox settingsLayout = new VBox(40);
+//        settingsLayout.getChildren().addAll(settingsMenuLabel, btm4);
+//        settingsLayout.setAlignment(Pos.CENTER);
+//        settings = new Scene(settingsLayout, 300, 500);
+//        settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");

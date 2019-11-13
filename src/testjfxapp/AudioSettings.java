@@ -31,17 +31,14 @@ public class AudioSettings extends ReversableMenu {
         btm1 = new Button("Back to Main Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
 
-        btm2 = new Button("Back to Menu");
+        btm2 = new Button("Back");
         btm2.setOnAction(e -> setPreviousScene());
-//
-//        btm3 = new Button("Back to Menu");
-//        btm3.setOnAction(e -> window.setScene(settings));
 
         // Graphics Options layout:
-        VBox graphicsOptionsLayout = new VBox(40);
-        graphicsOptionsLayout.getChildren().addAll(btm1, btm2);
-        graphicsOptionsLayout.setAlignment(Pos.CENTER);
-        audioSettings = new Scene(graphicsOptionsLayout, 300, 500);
+        VBox audioSettingsLayout = new VBox(40);
+        audioSettingsLayout.getChildren().addAll(btm1, btm2);
+        audioSettingsLayout.setAlignment(Pos.CENTER);
+        audioSettings = new Scene(audioSettingsLayout, 300, 500);
         audioSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         
