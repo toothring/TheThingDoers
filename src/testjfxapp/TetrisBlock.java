@@ -20,7 +20,7 @@ public class TetrisBlock {
 
     private final Vector2I[] area;
     //We're all special snowflakes with unique colours
-    public final Color colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+    public Color colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     private Vector2I[] pattern = new Vector2I[4];
     private Vector2I realPos;
     private int rotate;
@@ -42,7 +42,7 @@ public class TetrisBlock {
             offset.rotate(rotate);
         }
         //This is the real position
-        realPos = tile.transformExternal(0, 0);
+        realPos = tile.transformExternal(0, -2);
         
         generateAreaData();
         //Debug Statement

@@ -17,12 +17,20 @@
  */
 package testjfxapp;
 
+import javafx.scene.paint.Color;
+import orion.number.Vector2I;
+
 /**
  *
  * @author Orion
  */
 public class TetsawBlock extends TetrisBlock {
     
+    public TetsawBlock(Vector2I tile, int pattern, int rotate) {
+        super(tile, pattern, rotate);
+        colour = Color.rgb(0, 0, 0);
+        System.out.println("Tetsaw BLAWK");
+    }
     
     
     

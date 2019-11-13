@@ -21,51 +21,39 @@ import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import orion.number.Vector2I;
-import static testjfxapp.TestJFXApp.PLAY_AREA_WIDTH;
 
 /**
  *
  * @author Orion
  */
-public class Tetsaw extends TestJFXApp {
-    
+public class Tetsaw extends Tetris {
+
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu) {
-        PLAY_AREA_WIDTH = Width;
-        PLAY_AREA_HEIGHT = Height;
-        TILE_SIZE = Scale;
-        root = new Group();
-        CANVAS = new Canvas(PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
-        GRAPHICS = CANVAS.getGraphicsContext2D();
-        System.out.println(GRAPHICS.toString());
-        block = new ArrayList<>();
-        playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
-        this.menu = menu;
+        super(Width, Height, Scale, menu);
+        System.out.println("Oh lawd we doin dis");
     }
-    
-    
-    
-    
+
     @Override
-    void makeTile() {
+    protected void makeTile() {
         //Semi-obsolete formatting from tech demo
-        int selectedTile;
-        
+        int selectedBlock;
+
         //Get an existing pattern
         int pattern = r.nextInt(Data.patterns.length);
         //Rotate it to one of four possible positions
         int rotate = r.nextInt(3);
         //Debug statement
         //System.out.println(rotate);
-        
+
         //Get the position our block will start at
-        selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
-        
+        selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
+        System.out.println("We doin dis bois");
         //Make a new block
-        TetrisBlock tile = new TetrisBlock(playArea[selectedTile], pattern, rotate);
-        
+        TetsawBlock block = new TetsawBlock(playArea[selectedBlock], pattern, rotate);
+
         //Add it to our list of blocks
-        block.add(tile);
+        blocks.add(block);
         //Set it as our active block
-        currentTile = tile;
+        currentBlock = block;
     }
 }
