@@ -29,7 +29,6 @@ public class InGameMenu {
 
     public void start(Stage primaryStage) throws Exception {
 
-        // 'filler' is just a placeholder label used in the GUI scenes
         InGameMenuLabel = new Label("Needed a break?");
         InGameMenuLabel.setTextAlignment(TextAlignment.CENTER);
         InGameMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
