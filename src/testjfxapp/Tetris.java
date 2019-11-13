@@ -60,6 +60,8 @@ public class Tetris extends Application {
     private InGameMenu igm;
     private Scene scene;
 
+    private static int[] rowCount = new int[20];
+
     private double ticks = 2.0; // The larger this number is, the faster the game
     private double ns = 1000000000 / ticks;
 
@@ -223,9 +225,13 @@ public class Tetris extends Application {
         if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                //Mike is checking for line removal
+                isCompletedRow();
                 makeTile();
             }
         } else {
+            //Mike is checking for line removal
+            isCompletedRow();
             makeTile();
         }
         //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
@@ -244,9 +250,13 @@ public class Tetris extends Application {
         if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                //Mike is checking for line removal
+                isCompletedRow();
                 makeTile();
             }
         } else {
+            //Mike is checking for line removal
+            isCompletedRow();
             makeTile();
         }
         //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
@@ -326,5 +336,18 @@ public class Tetris extends Application {
         blocks.add(block);
         //Set it as our active block
         currentBlock = block;
+    }
+
+    // Mike trying to find completed rows
+    public void isCompletedRow() {
+        for (int i=0; i<4; i++)
+            rowCount[currentBlock.getArea()[i].getY()]++;
+        for (int i=0; i<20; i++)
+            if (rowCount[i]==10)
+                removeRow(i);
+    }
+    // Mike trying to remove completed rows
+    public void removeRow(int row){
+        System.out.println("Row " + row + " is marked for deletion.");
     }
 }
