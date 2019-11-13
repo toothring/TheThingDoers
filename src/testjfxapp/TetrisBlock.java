@@ -7,7 +7,10 @@ package testjfxapp;
 
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Vector;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import orion.number.Vector2I;
@@ -24,6 +27,10 @@ public class TetrisBlock {
     private Vector2I[] pattern = new Vector2I[4];
     private Vector2I realPos;
     private int rotate;
+
+    private static Vector2I[] blockTracker = new Vector2I[4];
+    private static int lastBlockCounter;
+    private static boolean[][] boardMap = new boolean[10][20];
 
     public TetrisBlock(Vector2I tile, int pattern, int rotate) {
         //Initialise the area
@@ -49,6 +56,11 @@ public class TetrisBlock {
         /*for (Vector2I thing : area) {
             System.out.println(Arrays.toString(thing.getPos()));
         }*/
+
+        blockTracker[0]=realPos;
+        blockTracker[1]=realPos;
+        blockTracker[2]=realPos;
+        blockTracker[3]=realPos;
     }
 
     public void rotateBlock(int direction) {
@@ -123,9 +135,28 @@ public class TetrisBlock {
             invalid = (holder[i].getX() >= xBounds) || (holder[i].getX() <= -1) || (holder[i].getY() >= yBounds) || invalid;
         }
         //If we didn't fail the test, move
+
         if (!invalid) {
             for (int i = 0; i < area.length; i++) {
                 area[i] = holder[i];
+
+                if (blockTracker[lastBlockCounter].getY() <= holder[i].getY()) {
+                    blockTracker[lastBlockCounter] = holder[i];
+                    if (lastBlockCounter == 3)
+                        lastBlockCounter=0;
+                    else
+                        lastBlockCounter++;
+                } else {
+                    for (int j = 0; j < 4; j++) {
+                        int x = blockTracker[j].getX();
+                        int y = blockTracker[j].getY();
+                        boardMap[x][y] = true;
+                        System.out.println("Block registered " + boardMap[x][y] + " at co-ordinates: " + x + " and " + y);
+                    }
+                    for (int j = 0; j < 4; j++) {
+                        blockTracker[j] = holder[i];
+                    }
+                }
             }
             realPos.transform(delta);
         }
