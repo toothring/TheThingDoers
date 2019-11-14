@@ -22,7 +22,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import orion.number.Vector2I;
@@ -52,6 +51,8 @@ public class Tetris extends Application {
     private static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
+    private int scorePerTick = 0; // To hold the score per line dropped.
+    private int scorePerLandedBlock = 0; // To hold the score per landed block
 
     private static Group root;
     private static Canvas CANVAS;
@@ -93,22 +94,6 @@ public class Tetris extends Application {
         arg0.setTitle("Tetris");
         running = true;
         if (root.getChildren().size() < 1) {
-            Button rtm = new Button();
-            rtm.setText("Main Menu");
-            rtm.setOnAction(e -> {
-                this.returnToMenu();
-            });
-
-// *Removed as escape key used in place of return to menu button*
-//            Button igmbutton = new Button("Open In-Game Menu");
-//            igmbutton.setOnAction(e -> {
-//                try {
-//                    this.pause();
-//                    igm.start(menu.window);
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//            });
             root.getChildren().addAll(CANVAS);
             scene = new Scene(root);
         }
@@ -242,8 +227,8 @@ public class Tetris extends Application {
             isCompletedRow();
             makeTile();
         }
-        //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
-        //System.out.println("tick, tock");
+        scorePerTick++; // Increase the score with each tick
+        System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
     }
@@ -267,8 +252,6 @@ public class Tetris extends Application {
             isCompletedRow();
             makeTile();
         }
-        //Brendan's way of clogging STDOut, removed while I work on stuff and use STDOut for debugging
-        //System.out.println("tick, tock");
 
         drawAllTiles(scaleMult);
         return intersects;
@@ -324,6 +307,9 @@ public class Tetris extends Application {
 
     //Make a new tile
     private void makeTile() {
+        // Increase the scorePerBlockLanded (A block must've just landed if a new one is being made)
+        scorePerLandedBlock++;
+
         //Semi-obsolete formatting from tech demo
         int selectedTile;
 

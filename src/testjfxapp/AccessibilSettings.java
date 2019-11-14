@@ -31,18 +31,15 @@ public class AccessibilSettings extends ReversableMenu {
         btm1 = new Button("Back to Main Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
 
-        btm2 = new Button("Back to Menu");
+        btm2 = new Button("Back");
         btm2.setOnAction(e -> setPreviousScene());
-//
-//        btm3 = new Button("Back to Menu");
-//        btm3.setOnAction(e -> window.setScene(settings));
 
         // Graphics Options layout:
-        VBox graphicsOptionsLayout = new VBox(40);
-        graphicsOptionsLayout.getChildren().addAll(btm1, btm2);
-        graphicsOptionsLayout.setAlignment(Pos.CENTER);
-        accessibilSettings = new Scene(graphicsOptionsLayout, 300, 500);
-        accessibilSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+        VBox accessibilSettings = new VBox(40);
+        accessibilSettings.getChildren().addAll(btm1, btm2);
+        accessibilSettings.setAlignment(Pos.CENTER);
+        this.accessibilSettings = new Scene(accessibilSettings, 300, 500);
+        this.accessibilSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
     }
 

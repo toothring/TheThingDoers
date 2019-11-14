@@ -34,10 +34,10 @@ public class GraphicsOptions extends ReversableMenu {
         btm1 = new Button("Back to Main Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
 
-        btm2 = new Button("Back to Menu");
+        btm2 = new Button("Back");
         btm2.setOnAction(e -> setPreviousScene());
 
-        btm3 = new Button("Back to Menu");
+        btm3 = new Button("Back");
         btm3.setOnAction(e -> window.setScene(graphicsOptions));
 
         // Graphics Options layout:
