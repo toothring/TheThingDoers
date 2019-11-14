@@ -25,6 +25,7 @@ public class MainMenu extends Application{
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame;
+    Tetsaw tetsawGame;
     InGameMenu igm = new InGameMenu(this, tetrisGame);
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
@@ -87,18 +88,27 @@ public class MainMenu extends Application{
 
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> {
-            tetrisGame = new Tetsaw(10, 20, 30, this);
-            tetrisGame.init();
+            tetsawGame = new Tetsaw(10, 20, 30, this);
+            tetsawGame.init();
             this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
                 try {
-                    tetrisGame.start(window);
+                    tetsawGame.start(window);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });
 
         playTetsawMP = new Button("Play Tetsaw");
-        playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
+        playTetsawMP.setOnAction(e -> {
+            tetsawGame = new Tetsaw(10, 20, 30, this);
+            tetsawGame.init();
+            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+                try {
+                    tetsawGame.start(window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
 
         enterScoreboard = new Button("Scoreboard");
         enterScoreboard.setOnAction(e -> {

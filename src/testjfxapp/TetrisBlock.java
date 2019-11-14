@@ -18,12 +18,12 @@ import orion.number.Vector2I;
  */
 public class TetrisBlock {
 
-    private final Vector2I[] area;
+    protected final Vector2I[] area;
     //We're all special snowflakes with unique colours
-    public Color colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
-    private Vector2I[] pattern = new Vector2I[4];
-    private Vector2I realPos;
-    private int rotate;
+    public Color colour;
+    protected Vector2I[] pattern = new Vector2I[4];
+    protected Vector2I realPos;
+    protected int rotate;
 
     public TetrisBlock(Vector2I tile, int pattern, int rotate) {
         //Initialise the area
@@ -45,6 +45,8 @@ public class TetrisBlock {
         realPos = tile.transformExternal(0, -2);
         
         generateAreaData();
+        
+        colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
         //Debug Statement
         /*for (Vector2I thing : area) {
             System.out.println(Arrays.toString(thing.getPos()));
