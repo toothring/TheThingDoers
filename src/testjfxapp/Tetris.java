@@ -116,6 +116,8 @@ public class Tetris extends Application {
                     break;
                 case ESCAPE: try {
                     this.pause();
+                    this.getBlockScore();
+                    this.getTickScore();
                     igm.start(menu.window);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -211,8 +213,8 @@ public class Tetris extends Application {
             makeTile();
         }
         scorePerTick++; // Increase the score with each tick
-        this.getBlockScore(); // Save each accumulation for later retrieval
-        this.getTickScore(); // Save for later retrieval
+       // this.getBlockScore(); // Save each accumulation for later retrieval [moved to escape key action]
+       // this.getTickScore(); // Save for later retrieval [moved to escape key action]
         System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
