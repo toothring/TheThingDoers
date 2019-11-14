@@ -50,8 +50,8 @@ public class Tetris extends Application {
     private static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
-    private int scorePerTick = 0; // To hold the score per line dropped.
-    private int scorePerLandedBlock = 0; // To hold the score per landed block
+    private static int scorePerTick = 0; // To hold the score per line dropped.
+    private static int scorePerLandedBlock = 0; // To hold the score per landed block
 
     private static Group root;
     private static Canvas CANVAS;
@@ -219,15 +219,17 @@ public class Tetris extends Application {
     }
 
     // To retrieve the cumulative value for score per tick in other classes
-    public int getTickScore(){
-        int tickScore = this.scorePerTick;
-        return tickScore;
+    public static int getTickScore(){
+        return scorePerTick;
+//        int tickScore = this.scorePerTick;
+//        return tickScore;
     }
 
     // To retrieve the cumulative value for score per landed block in other classes
-    public int getBlockScore(){
-        int blockScore = this.scorePerLandedBlock;
-        return blockScore;
+    public static int getBlockScore(){
+        return scorePerLandedBlock;
+//        int blockScore = this.scorePerLandedBlock;
+//        return blockScore;
     }
 
     public boolean tickDown2() {
