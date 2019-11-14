@@ -205,15 +205,29 @@ public class Tetris extends Application {
         if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
-                makeTile();
+                makeTile(); // The score per landed block is recorded in this method.
             }
         } else {
             makeTile();
         }
         scorePerTick++; // Increase the score with each tick
+        this.getBlockScore(); // Save each accumulation for later retrieval
+        this.getTickScore(); // Save for later retrieval
         System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
+    }
+
+    // To retrieve the cumulative value for score per tick in other classes
+    public int getTickScore(){
+        int tickScore = this.scorePerTick;
+        return tickScore;
+    }
+
+    // To retrieve the cumulative value for score per landed block in other classes
+    public int getBlockScore(){
+        int blockScore = this.scorePerLandedBlock;
+        return blockScore;
     }
 
     public boolean tickDown2() {
