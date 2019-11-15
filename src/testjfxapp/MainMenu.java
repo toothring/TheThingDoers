@@ -52,14 +52,14 @@ public class MainMenu extends Application{
         final boolean running = false;
 
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
+        mainMenuLabel.setTextFill(Color.web("#363738", 1.0));
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
-        mainMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
-        scoreboardMenuLabel = new Label("I aspire to be a scoreboard one day.");
-        settingsMenuLabel = new Label("I wanna be a settings menu when I grow up.");
         singlePlayerMenuLabel = new Label("Two's a crowd. \nI'd go solo too if I were you. \n\n...What're you playing?");
         singlePlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
+        singlePlayerMenuLabel.setTextFill(Color.web("#363738", 1.0));
         multiPlayerMenuLabel = new Label("I'm down for some multitasking. \n\nJust tell me what you're playing.");
         multiPlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
+        multiPlayerMenuLabel.setTextFill(Color.web("#363738", 1.0));
         window = primaryStage;
 
         closeProgram = new Button("Quit");

@@ -55,9 +55,9 @@ public class Scoreboard extends ReversableMenu {
         window.setScene(scoreboard);
     }
 
-    public double calculateTetrisScore(){ // Calculate final score using these (just multiplying at the moment)
+    public static double calculateTetrisScore(){ // Calculate final score using these (just multiplying at the moment)
         double finalScore;
-        finalScore = (tetris.getTickScore()*tetris.getBlockScore());
+        finalScore = (Tetris.getTickScore()*Tetris.getBlockScore());
         return finalScore;
     }
 
