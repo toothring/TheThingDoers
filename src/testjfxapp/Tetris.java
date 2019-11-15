@@ -53,6 +53,7 @@ public class Tetris extends Application {
     private int x = 0;
     private static double scorePerTick = 0; // To hold the score per line dropped.
     private static int scorePerLandedBlock = 0; // To hold the score per landed block
+    private static int scorePerRow = 0;
 
     private static Group root;
     private static Canvas CANVAS;
@@ -151,7 +152,7 @@ public class Tetris extends Application {
                     tickDown();
                     delta--;
                     if (ticks < 10) { // 10 ticks is pretty fast
-                        ticks = ticks + 0.01; // This will do 1000 ticks
+                        ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
                         ns = 1000000000 / ticks;
                     }
                 }
@@ -179,10 +180,14 @@ public class Tetris extends Application {
         menu.showMenu();
     }
 
+    public void endGame(){
+        boolean gameEndTimer = true; //set scene to scoreboard, count down, end game using stop().
+
+    }
+
     @Override
     public void init() {
-        //Set up the pla
-        // y area
+        //Set up the play area
         for (int i = 0; i < playArea.length; i++) {
             playArea[i] = new Vector2I(i % PLAY_AREA_WIDTH, (int) Math.floor(i / PLAY_AREA_WIDTH));
         }
@@ -230,7 +235,7 @@ public class Tetris extends Application {
             makeTile();
         }
         scorePerTick = scorePerTick+0.1; // Increase the score slightly with each tick
-       // System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
+        System.out.println(scorePerTick + " " + scorePerLandedBlock + " " + scorePerRow); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
     }
@@ -243,6 +248,11 @@ public class Tetris extends Application {
     // To retrieve the cumulative value for score per landed block in other classes
     public static int getBlockScore(){
         return scorePerLandedBlock;
+    }
+
+    // To retrieve the cumulative value for score per cleared row in other classes
+    public static int getRowScore(){
+        return scorePerRow;
     }
 
     public boolean tickDown2() {
@@ -372,6 +382,7 @@ public class Tetris extends Application {
 
     // Mike trying to remove completed rows
     public void removeRow(int row) {
+        scorePerRow = scorePerRow + 10;
         System.out.println("Row " + row + " completed");
         for (TetrisBlock block : blocks) {
             block.completeTiles(row);
