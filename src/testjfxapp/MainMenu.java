@@ -25,10 +25,13 @@ public class MainMenu extends Application{
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(10,20,30, this);
-    InGameMenu igm = new InGameMenu(this, tetrisGame);
+
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
     ReversableMenu sb = new Scoreboard(this, tetrisGame);
+
+    Scoreboard sboard = new Scoreboard(this, tetrisGame); //Added because I couldn't pass sb into the below
+    InGameMenu igm = new InGameMenu(this, tetrisGame, sboard); //Added sboard so the InGameMenu can access it
     //AudioSettings audioSettings = new AudioSettings(this);
     //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
 

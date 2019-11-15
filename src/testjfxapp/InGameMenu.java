@@ -17,18 +17,22 @@ public class InGameMenu {
     Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN;
     Slider musicVolume, sfxVolume, fps, brightness;
     Button btm1, btm2, btm3;
-    Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel;
+    Label InGameMenuLabel, AudioSettingsLabel, visualSettingsLabel, tetrisScore, tetsawScore;
 
     MainMenu mainMenu;
     Tetris tetris;
+    Scoreboard scoreboard;
 
-    public InGameMenu(MainMenu m, Tetris t) {
+    public InGameMenu(MainMenu m, Tetris t, Scoreboard s) {
         tetris = t;
         mainMenu = m;
+        scoreboard = s; // Added so its' methods can be called...
             }
 
     public void start(Stage primaryStage) throws Exception {
 
+        tetrisScore = new Label("Your last score in Tetris was "+scoreboard.round(scoreboard.calculateTetrisScore(), 2));
+       // tetsawScore = new Label("Your last score in Tetsaw was "+scoreboard.round(scoreboard.calculateTetrisScore(), 2));
         InGameMenuLabel = new Label("Needed a break?");
         InGameMenuLabel.setTextAlignment(TextAlignment.CENTER);
         InGameMenuLabel.setTextFill(Color.web("#2712c4", 1.0));
@@ -74,7 +78,7 @@ public class InGameMenu {
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);
-        inGameMenuLayout.getChildren().addAll(InGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
+        inGameMenuLayout.getChildren().addAll(tetrisScore, tetsawScore, InGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
         inGameMenuLayout.setAlignment(Pos.CENTER);
         inGameMenu = new Scene(inGameMenuLayout, 300, 500);
         inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());

@@ -60,6 +60,7 @@ public class Tetris extends Application {
 
     private MainMenu menu;
     private InGameMenu igm;
+    private Scoreboard scoreboard;
     private Scene scene;
 
     private static int[] rowCount = new int[20];
@@ -78,7 +79,7 @@ public class Tetris extends Application {
         blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
-        igm = new InGameMenu(menu, this);
+        igm = new InGameMenu(menu, this, scoreboard);
     }
 
     /**
@@ -180,7 +181,8 @@ public class Tetris extends Application {
 
     @Override
     public void init() {
-        //Set up the play area
+        //Set up the pla
+        // y area
         for (int i = 0; i < playArea.length; i++) {
             playArea[i] = new Vector2I(i % PLAY_AREA_WIDTH, (int) Math.floor(i / PLAY_AREA_WIDTH));
         }
