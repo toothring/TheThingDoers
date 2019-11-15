@@ -51,7 +51,7 @@ public class Tetris extends Application {
     private static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
-    private static int scorePerTick = 0; // To hold the score per line dropped.
+    private static double scorePerTick = 0; // To hold the score per line dropped.
     private static int scorePerLandedBlock = 0; // To hold the score per landed block
 
     private static Group root;
@@ -227,14 +227,14 @@ public class Tetris extends Application {
             isCompletedRow();
             makeTile();
         }
-        scorePerTick++; // Increase the score with each tick
-        System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
+        scorePerTick = scorePerTick+0.1; // Increase the score slightly with each tick
+       // System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
     }
 
     // To retrieve the cumulative value for score per tick in other classes
-    public static int getTickScore(){
+    public static double getTickScore(){
         return scorePerTick;
     }
 

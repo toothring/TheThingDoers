@@ -13,6 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Scoreboard extends ReversableMenu {
 
     Stage window;
@@ -34,8 +37,8 @@ public class Scoreboard extends ReversableMenu {
 
         btm1 = new Button("Back to Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
-        Label tetrisScore = new Label("Your last score in Tetris was "+this.calculateTetrisScore());
-        Label tetsawScore = new Label("Your last score in Tetsaw was "+this.calculateTetrisScore()); // Change to tetsaw when implemented
+        Label tetrisScore = new Label("Your last score in Tetris was "+this.round(this.calculateTetrisScore(), 2));
+        Label tetsawScore = new Label("Your last score in Tetsaw was "+this.round(this.calculateTetrisScore(), 2)); // Change to tetsaw when implemented
         
         VBox graphicsOptionsLayout = new VBox(40);
         graphicsOptionsLayout.getChildren().addAll(tetrisScore, btm1);
@@ -56,6 +59,15 @@ public class Scoreboard extends ReversableMenu {
         double finalScore;
         finalScore = (tetris.getTickScore()*tetris.getBlockScore());
         return finalScore;
+    }
+
+    //Round the number calculated above
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 //    ***Add when tetsaw class exists***
 //    public double calculateTetsawScore(){
