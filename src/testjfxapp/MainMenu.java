@@ -28,7 +28,7 @@ public class MainMenu extends Application{
     InGameMenu igm = new InGameMenu(this, tetrisGame);
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
-    ReversableMenu sb = new Scoreboard(this);
+    ReversableMenu sb = new Scoreboard(this, tetrisGame);
     //AudioSettings audioSettings = new AudioSettings(this);
     //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
 

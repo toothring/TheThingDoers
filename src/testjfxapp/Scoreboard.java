@@ -20,11 +20,11 @@ public class Scoreboard extends ReversableMenu {
     Button btm1;
 
     MainMenu mainMenu;
-    Tetris tetris = new Tetris(10, 20, 30, mainMenu);
-    // Add same for tetsaw class
+    Tetris tetris;
 
-    public Scoreboard(MainMenu m){
+    public Scoreboard(MainMenu m, Tetris t){
         mainMenu = m;
+        tetris = t;
     }
 
     @Override
