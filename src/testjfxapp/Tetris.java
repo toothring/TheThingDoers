@@ -112,7 +112,8 @@ public class Tetris extends Application {
                 case W:
                     boolean touchdown = false;
                     int maxFall = 0;
-                    while (touchdown == false && maxFall != 20) {
+                    touchdown = tickDown2();
+                    while (touchdown == false && maxFall != 18) {
                         touchdown = tickDown2();
                         maxFall++;
                     }
