@@ -116,7 +116,7 @@ public class Tetris extends Application {
                     boolean touchdown = false;
                     int maxFall = 0;
                     touchdown = tickDown2();
-                    while (touchdown == false && maxFall != 18) {
+                    while (touchdown == false && maxFall != 17) {
                         touchdown = tickDown2();
                         maxFall++;
                     }
@@ -186,7 +186,7 @@ public class Tetris extends Application {
                     break;
                 case ESCAPE: try {
                     this.pause();
-                    this.getBlockScore();
+//                    this.getBlockScore();
                     this.getTickScore();
                     igm.start(menu.window);
                 } catch (Exception ex) {
