@@ -213,8 +213,6 @@ public class Tetris extends Application {
             makeTile();
         }
         scorePerTick++; // Increase the score with each tick
-       // this.getBlockScore(); // Save each accumulation for later retrieval [moved to escape key action]
-       // this.getTickScore(); // Save for later retrieval [moved to escape key action]
         System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
@@ -223,15 +221,11 @@ public class Tetris extends Application {
     // To retrieve the cumulative value for score per tick in other classes
     public static int getTickScore(){
         return scorePerTick;
-//        int tickScore = this.scorePerTick;
-//        return tickScore;
     }
 
     // To retrieve the cumulative value for score per landed block in other classes
     public static int getBlockScore(){
         return scorePerLandedBlock;
-//        int blockScore = this.scorePerLandedBlock;
-//        return blockScore;
     }
 
     public boolean tickDown2() {
