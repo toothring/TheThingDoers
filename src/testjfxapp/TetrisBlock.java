@@ -142,4 +142,8 @@ public class TetrisBlock {
         area[2] = realPos.transformExternal(this.pattern[2]);
         area[3] = realPos.transformExternal(this.pattern[3]);
     }
+    
+    public String reportType(){
+        return "Tetris";
+    }
 }

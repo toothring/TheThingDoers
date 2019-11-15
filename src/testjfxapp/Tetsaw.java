@@ -28,41 +28,50 @@ import orion.number.Vector2I;
  * @author Orion
  */
 public class Tetsaw extends Tetris {
+
     private SpriteSheet ss;
-    
+    private boolean[] selectedChunks;
+
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu) {
         super(Width, Height, Scale, menu);
         System.out.println("Oh lawd we doin dis");
+        selectedChunks = new boolean[playArea.length];
     }
 
     @Override
     protected void makeTile() {
-        //Semi-obsolete formatting from tech demo
-        int selectedBlock;
+        if (currentBlock == null) {
+            //Semi-obsolete formatting from tech demo
+            int selectedBlock;
 
-        //Get an existing pattern
-        int pattern = r.nextInt(Data.patterns.length);
-        //Rotate it to one of four possible positions
-        int rotate = r.nextInt(3);
-        //Debug statement
-        //System.out.println(rotate);
+            //Get an existing pattern
+            int pattern = r.nextInt(Data.patterns.length);
+            //Rotate it to one of four possible positions
+            int rotate = r.nextInt(3);
+            //Debug statement
+            //System.out.println(rotate);
 
-        //Get the position our block will start at
-        selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
+            //Get the position our block will start at
+            selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
+            int targetBlock;
+            do {
+                targetBlock = r.nextInt(PLAY_AREA_WIDTH * (PLAY_AREA_HEIGHT - 3));
+            } while (selectedChunks[targetBlock] == true);
+            selectedChunks[targetBlock] = true;
+            System.out.println("We doin dis bois");
+            //Make a new block
+            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], playArea[targetBlock], pattern, rotate, ss);
+
+            //Add it to our list of blocks
+            blocks.add(block);
+            //Set it as our active block
+            currentBlock = block;
+        }
         
-        int targetBlock = r.nextInt(PLAY_AREA_WIDTH) + PLAY_AREA_WIDTH * (PLAY_AREA_HEIGHT - 1);
-        System.out.println("We doin dis bois");
-        //Make a new block
-        TetsawBlock block = new TetsawBlock(playArea[selectedBlock], playArea[targetBlock], pattern, rotate, ss);
-
-        //Add it to our list of blocks
-        blocks.add(block);
-        //Set it as our active block
-        currentBlock = block;
     }
-    
+
     @Override
-    public void tickDown(){
+    public void tickDown() {
         int scaleMult = screenSetup();
 
         String direction = "down";
@@ -82,19 +91,11 @@ public class Tetsaw extends Tetris {
         //System.out.println("Meep");
         drawAllTiles(scaleMult);
     }
-    
+
     @Override
     public void init() {
-        //Set up the play area
-        for (int i = 0; i < playArea.length; i++) {
-            playArea[i] = new Vector2I(i % PLAY_AREA_WIDTH, (int) Math.floor(i / PLAY_AREA_WIDTH));
-        }
-        /*for (int i = 0; i < playArea.length; i++) {
-            System.out.println(Arrays.toString(playArea[i].getPos()));
-        }*/
-        //Spawn our first tile
         initialiseImageHandler();
-        makeTile();
+        super.init();
 
     }
 

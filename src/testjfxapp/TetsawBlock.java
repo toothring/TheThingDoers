@@ -38,7 +38,7 @@ public class TetsawBlock extends TetrisBlock {
         for (int i = 0; i < area.length; i++) {
             tileImages[i] = new Texture(ss, intendedResult.transformExternal(this.pattern[i]).getX(), Math.abs(intendedResult.transformExternal(this.pattern[i]).getY()));
         }
-        this.colour = Color.BLACK;
+        colour = Color.BLACK;
         System.out.println("Tetsaw BLAWK");
         finalPos = intendedResult;
     }
@@ -53,4 +53,16 @@ public class TetsawBlock extends TetrisBlock {
         }
     }
 
+    @Override
+    public String reportType() {
+        return "Tetsaw";
+    }
+    
+    public boolean checkPositionFinality(){
+        return finalPos.equals(realPos);
+    }
+    
+    public void resetLocation(Vector2I vec){
+        realPos = vec.transformExternal(0, 0);
+    }
 }
