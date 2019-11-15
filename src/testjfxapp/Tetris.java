@@ -54,8 +54,8 @@ public class Tetris extends Application {
     private static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
-    private int scorePerTick = 0; // To hold the score per line dropped.
-    private int scorePerLandedBlock = 0; // To hold the score per landed block
+    private static int scorePerTick = 0; // To hold the score per line dropped.
+    private static int scorePerLandedBlock = 0; // To hold the score per landed block
 
     private static Group root;
     private static Canvas CANVAS;
@@ -115,7 +115,8 @@ public class Tetris extends Application {
                 case W:
                     boolean touchdown = false;
                     int maxFall = 0;
-                    while (touchdown == false && maxFall != 20) {
+                    touchdown = tickDown2();
+                    while (touchdown == false && maxFall != 18) {
                         touchdown = tickDown2();
                         maxFall++;
                     }
@@ -183,14 +184,14 @@ public class Tetris extends Application {
                         }
                     }
                     break;
-                case ESCAPE:
-                    try {
-                        this.pause();
-                        igm.start(menu.window);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    ;
+                case ESCAPE: try {
+                    this.pause();
+                    this.getBlockScore();
+                    this.getTickScore();
+                    igm.start(menu.window);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                };
                     break;
             }
         });
@@ -280,7 +281,7 @@ public class Tetris extends Application {
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
                 //Mike is checking for line removal
                 isCompletedRow();
-                makeTile();
+                makeTile(); // The score per landed block is recorded in this method.
             }
         } else {
             //Mike is checking for line removal
@@ -291,6 +292,16 @@ public class Tetris extends Application {
         System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
 
         drawAllTiles(scaleMult);
+    }
+
+    // To retrieve the cumulative value for score per tick in other classes
+    public static int getTickScore(){
+        return scorePerTick;
+    }
+
+    // To retrieve the cumulative value for score per landed block in other classes
+    public static int getBlockScore(){
+        return scorePerLandedBlock;
     }
 
     public boolean tickDown2() {
