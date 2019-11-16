@@ -20,4 +20,20 @@ public  class Data {
     public static final Vector2I[] patternDimension = {
         new Vector2I(2, 2), new Vector2I(3, 2), new Vector2I(3, 2), new Vector2I(4, 1), new Vector2I(3, 2)
     };
+    
+    
+    private static final TetsawBlockData[] easyModeLevel = {
+        new TetsawBlockData(5, 5, 0, 0)
+    };
+    public static final TetsawLevelData easyMode = new TetsawLevelData(easyModeLevel);
+    
+    private static final TetsawBlockData[] normalModeLevel = {
+        new TetsawBlockData(0, 0, 0, 0)
+    };
+    public static final TetsawLevelData normalMode = new TetsawLevelData(normalModeLevel);
+    
+    private static final TetsawBlockData[] hardModeLevel = {
+        new TetsawBlockData(0, 0, 0, 0)
+    };
+    public static final TetsawLevelData hardMode = new TetsawLevelData(hardModeLevel);
 }

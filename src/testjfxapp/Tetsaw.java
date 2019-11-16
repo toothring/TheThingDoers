@@ -60,7 +60,7 @@ public class Tetsaw extends Tetris {
             selectedChunks[targetBlock] = true;
             System.out.println("We doin dis bois");
             //Make a new block
-            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], playArea[targetBlock], pattern, rotate, ss);
+            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], Data.easyMode.getBlock(0), rotate, ss);
 
             //Add it to our list of blocks
             blocks.add(block);

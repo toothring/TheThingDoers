@@ -32,17 +32,19 @@ public class TetsawBlock extends TetrisBlock {
     private final Texture[] tileImages;
     private final Vector2I finalPos;
     private final SpriteSheet ss;
+    private final TetsawBlockData intendedResult;
 
-    public TetsawBlock(Vector2I tile, Vector2I intendedResult, int pattern, int rotate, SpriteSheet ss) {
-        super(tile, pattern, rotate);
+    public TetsawBlock(Vector2I tile, TetsawBlockData intendedResult, int rotate, SpriteSheet ss) {
+        super(tile, intendedResult.pattern, rotate);
         this.ss = ss;
         tileImages = new Texture[4];
         for (int i = 0; i < area.length; i++) {
-            tileImages[i] = new Texture(this.ss, intendedResult.transformExternal(this.pattern[i]).getX(), Math.abs(intendedResult.transformExternal(this.pattern[i]).getY()));
+            tileImages[i] = new Texture(this.ss, intendedResult.finishPos.transformExternal(Data.patterns[intendedResult.pattern][i]).getX(), intendedResult.finishPos.transformExternal(Data.patterns[intendedResult.pattern][i]).getY());
         }
         colour = Color.BLACK;
         System.out.println("Tetsaw BLAWK");
-        finalPos = intendedResult;
+        this.intendedResult = intendedResult;
+        finalPos = intendedResult.finishPos;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class TetsawBlock extends TetrisBlock {
         }
         for (int i = 0; i < area.length; i++) {
             
-            g.drawImage(tileImages[i].getTexture(), (Data.patterns[patternValue][i].getX() + finalPos.getX()) * scaleMultiplier, (Data.patterns[patternValue][i].getY() + finalPos.getY()) * scaleMultiplier, scaleMultiplier, scaleMultiplier);
+            g.drawImage(tileImages[i].getTexture(), (Data.patterns[intendedResult.pattern][i].getX() + finalPos.getX()) * scaleMultiplier, (Data.patterns[intendedResult.pattern][i].getY() + finalPos.getY()) * scaleMultiplier, scaleMultiplier, scaleMultiplier);
         }
     }
 

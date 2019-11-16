@@ -34,7 +34,9 @@ public class TetrisBlock {
         this.rotate = rotate;
         patternValue = pattern;
         //Store a copy of our pattern, to ensure that we aren't messing up the master pattern list
-        System.arraycopy(Data.patterns[pattern], 0, this.pattern, 0, 4);
+        for (int i = 0; i < 4; i++){
+            this.pattern[i] = Data.patterns[pattern][i].transformExternal(0, 0);
+        }
         
         //Rotate our pattern
         for (var offset : this.pattern){
