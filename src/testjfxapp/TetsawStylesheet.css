@@ -1,10 +1,9 @@
 .root{
-    -fx-background-color: #1d66b5;
     -fx-background-image: url("/TetsawImage.jpg");
     -fx-font: 11pt "Helvetica";
     -fx-font-weight: BOLD;
     -fx-text-alignment: center;
-    -fx-text-fill: #e9ebf0; /* This */
-    -fx-text-inner-color: #e9ebf0; /* This */
-    -fx-fill: #e9ebf0; /* And this should be turning the font off-white... But none off them are. */
+    -fx-text-fill: #363738;
+    -fx-text-inner-color: #363738;
+    -fx-fill: #363738;
 }

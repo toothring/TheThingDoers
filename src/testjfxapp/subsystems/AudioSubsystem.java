@@ -29,13 +29,13 @@ import javafx.scene.media.MediaPlayer;
  */
 public class AudioSubsystem {
     
-    private Map<String, Media> musicData;
-    private Map<String, Media> seData;
-    private ArrayList<MediaPlayer> soundEffects;
-    private MediaPlayer backgroundMusic;
+    private static Map<String, Media> musicData;
+    private static Map<String, Media> seData;
+    private static ArrayList<MediaPlayer> soundEffects;
+    private static MediaPlayer backgroundMusic;
     
-    private double masterVolume, sfxVolume, musicVolume;
-    private boolean channelMuteMusic, channelMuteSFX;
+    private static double masterVolume, sfxVolume, musicVolume;
+    private static boolean channelMuteMusic, channelMuteSFX;
     
     public AudioSubsystem() {
         masterVolume = 1.0;
@@ -98,7 +98,7 @@ public class AudioSubsystem {
      *
      * @param title the title of the sound effect to play
      */
-    public void playSound(String title) {
+    public static void playSound(String title) {
         MediaPlayer sound = new MediaPlayer(seData.get(title));
         soundEffects.add(sound);
         sound.setOnEndOfMedia(() -> {
@@ -109,7 +109,7 @@ public class AudioSubsystem {
         sound.play();
     }
     
-    public void playMusic(String title) {
+    public static void playMusic(String title) {
         MediaPlayer music = new MediaPlayer(musicData.get(title));
         if (backgroundMusic != null) {
             backgroundMusic.dispose();
@@ -119,39 +119,40 @@ public class AudioSubsystem {
         backgroundMusic.play();
     }
     
-    public void setMasterVolume(double v) {
+    public static void setMasterVolume(double v) {
         masterVolume = v;
         updateVolumes();
     }
     
-    public void setMusicVolume(double v) {
+    public static void setMusicVolume(double v) {
         musicVolume = v;
         updateVolumes();
     }
     
-    public void setSFXVolume(double v) {
+    public static void setSFXVolume(double v) {
         sfxVolume = v;
         updateVolumes();
     }
     
-    private void updateVolumes() {
+    private static void updateVolumes() {
         backgroundMusic.setVolume(channelMuteMusic ? 0.0 : musicVolume * masterVolume);
         for (var sound : soundEffects) {
             sound.setVolume(channelMuteSFX ? 0.0 : sfxVolume * masterVolume);
         }
     }
     
-    public void toggleMusicMute(){
+    public static void toggleMusicMute(){
         channelMuteMusic = !channelMuteMusic;
         updateVolumes();
     }
     
-    public void toggleSoundMute(){
+    public static void toggleSoundMute(){
         channelMuteSFX = !channelMuteSFX;
         updateVolumes();
     }
     
-    public void musicPlayMultiplier(double multiplier) {
-        backgroundMusic.setRate(multiplier);
+    public static void setPlaybackMultiplier(double mult){
+        backgroundMusic.setRate(mult);
     }
+    
 }

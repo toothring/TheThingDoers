@@ -27,7 +27,10 @@ import javafx.stage.Stage;
 import orion.number.Vector2I;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +44,14 @@ public class Tetris {
     protected static int PLAY_AREA_HEIGHT;
     protected static int TILE_SIZE;
 
+    private int currentRotation;
+    private int newBlock;
+
+
+    private static int[] patternTracker = {0,0,0,0,0,0,0}; // one for each tetris block
+    private static int patternCount = 0;
+
+
     protected final Vector2I movement = new Vector2I(0, 1);
     protected final Vector2I moveLeft = new Vector2I(-1, 0);
     protected final Vector2I moveRight = new Vector2I(1, 0);
@@ -50,8 +61,10 @@ public class Tetris {
     protected static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
-    protected int scorePerTick = 0; // To hold the score per line dropped.
-    protected int scorePerLandedBlock = 0; // To hold the score per landed block
+    protected static double scorePerTick = 0; // To hold the score per line dropped.
+    protected static int scorePerLandedBlock = 0; // To hold the score per landed block
+    private static int scorePerRow = 1; // Starts at one otherwise no final score is given until a row is filled
+    // because scorePerRow is the multiplier for the other two scores
 
     private static Group root;
     private static Canvas CANVAS;
@@ -61,8 +74,16 @@ public class Tetris {
     protected InGameMenu igm;
     protected Scene scene;
 
+    private Scoreboard scoreboard;
+
+
+    private static int[] rowCount = new int[20];
+
     private double ticks = 2.0; // The larger this number is, the faster the game
     private double ns = 1000000000 / ticks;
+    private boolean gameOver = false; // This determines whether the 'game over' message is displayed in the IGM
+// ** REQUIRED FOR TETSAW:**
+    private boolean levelComplete = false; // This determines whether the 'level complete' message is displayed in the IGM
 
     public Tetris(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
@@ -96,25 +117,40 @@ public class Tetris {
 
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
-                case A: userMovement("left");
+                case A:
+                    userMovement("left");
                     break;
-                case D: userMovement("right");
+                case D:
+                    userMovement("right");
                     break;
-                case S: tickDown();
+                case S:
+                    tickDown();
                     break;
-                case W: boolean touchdown = false;
+                case W:
+                    boolean touchdown = false;
                     int maxFall = 0;
-                    while (touchdown == false && maxFall != 20) {
+                    touchdown = tickDown2();
+                    while (touchdown == false && maxFall != 16) {
                         touchdown = tickDown2();
                         maxFall++;
                     }
                     break;
-                case O: currentBlock.rotateBlock(-1);
+                case O:
+                    if (newBlock > 0) { // O block doesn't rotate
+                        currentRotation--;
+                        currentBlock.rotateBlock(-1);
+                    }
                     break;
-                case P: currentBlock.rotateBlock(1);
+                case P:
+                    if (newBlock > 0) {
+                        currentRotation++;
+                        currentBlock.rotateBlock(1);
+                    }
                     break;
                 case ESCAPE: try {
                     this.pause();
+//                    this.getBlockScore();
+                    this.getTickScore();
                     igm.start(menu.window);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -138,7 +174,7 @@ public class Tetris {
                     tickDown();
                     delta--;
                     if (ticks < 10) { // 10 ticks is pretty fast
-                        ticks = ticks + 0.01; // This will do 1000 ticks
+                        ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
                         ns = 1000000000 / ticks;
                     }
                 }
@@ -148,7 +184,7 @@ public class Tetris {
     }
 
     public void stop() {
-        running = false;
+        running = false; // Stop the game from running
         System.exit(0);
     }
 
@@ -160,9 +196,17 @@ public class Tetris {
         running = true;
     }
 
-    public void returnToMenu(){
+    public void returnToMenu() {
         running = false;
         menu.showMenu();
+    }
+
+    public boolean getGameOverSwitch(){ //So that the IGM can access it
+        return gameOver;
+    }
+// **REQUIRED FOR TETSAW:**
+    public boolean getLevelCompleteSwitch(){ //So that the IGM can access it
+        return levelComplete;
     }
 
     public void init() {
@@ -178,39 +222,102 @@ public class Tetris {
 
     }
 
+    public void rotateCheck(String direction) {
+        if (direction.equals("clockwise")) {
+            switch (currentRotation) {
+                case 4: currentRotation = 0;
+                    break;
+                case -1: currentRotation = 3;
+                    break;
+                case -2: currentRotation = 2;
+                    break;
+                case -3: currentRotation = 1;
+                    break;
+            }
+        }
+        if (direction.equals("counterClockwise")) {
+            switch (currentRotation) {
+                case -4: currentRotation = 0;
+                    break;
+                case 1: currentRotation = -3;
+                    break;
+                case 2: currentRotation = -2;
+                    break;
+                case 3: currentRotation = -1;
+                    break;
+            }
+            if (currentRotation == -4)
+                currentRotation = 0;
+        }
+
+    }
+
     public void userMovement(String direction) {
         int scaleMult = screenSetup();
         boolean intersects = checkForCollision(direction);
 
         if (!intersects) {
-            if ("left".equals(direction))
+            if ("left".equals(direction)) {
                 currentBlock.boundedMove(moveLeft, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
-            if ("right".equals(direction))
+            }
+            if ("right".equals(direction)) {
                 currentBlock.boundedMove(moveRight, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT);
+            }
         }
 
         drawAllTiles(scaleMult);
     }
 
     public void tickDown() {
-        int scaleMult = screenSetup();
+            int scaleMult = screenSetup();
 
-        String direction = "down";
-        boolean intersects = checkForCollision(direction);
+            String direction = "down";
+            boolean intersects = checkForCollision(direction);
 
-        //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
-        if (!intersects) {
-            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
-            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+            //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
+            if (!intersects) {
+                //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+                if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                    //Mike is checking for line removal
+                    isCompletedRow();
+                    makeTile(); // The score per landed block is recorded in this method.
+                }
+            } else {
+                //Mike is checking for line removal
+                isCompletedRow();
                 makeTile();
             }
-        } else {
-            makeTile();
-        }
-        scorePerTick++; // Increase the score with each tick
-        System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
+            scorePerTick = scorePerTick + 0.1; // Increase the score slightly with each tick
+            System.out.println(scorePerTick + " " + scorePerLandedBlock + " " + scorePerRow); // Print in console so BB can see it working
 
-        drawAllTiles(scaleMult);
+            drawAllTiles(scaleMult);
+        }
+
+    // To retrieve the cumulative value for score per tick in other classes
+    public static double getTickScore(){
+        return scorePerTick;
+    }
+
+    // To retrieve the cumulative value for score per landed block in other classes
+    public static int getBlockScore(){
+        return scorePerLandedBlock;
+    }
+
+    // To retrieve the cumulative value for score per cleared row in other classes
+    public static int getRowScore(){
+        return scorePerRow;
+    }
+
+    public void gameIsOver(){
+        this.pause();
+        this.getBlockScore();
+        this.getTickScore();
+        gameOver = true;
+        try {
+            igm.start(menu.window);
+        } catch (Exception ex) {
+            Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean tickDown2() {
@@ -223,9 +330,13 @@ public class Tetris {
         if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                //Mike is checking for line removal
+                isCompletedRow();
                 makeTile();
             }
         } else {
+            //Mike is checking for line removal
+            isCompletedRow();
             makeTile();
         }
 
@@ -240,12 +351,15 @@ public class Tetris {
             //Don't check collisions with ourself!
             if (!(currentBlock == block)) {
                 //Do we intersect a block?
-                if ("down".equals(direction))
+                if ("down".equals(direction)) {
                     intersects = (currentBlock.moveTest(movement).intersects(block) || intersects);
-                if ("left".equals(direction))
+                }
+                if ("left".equals(direction)) {
                     intersects = (currentBlock.moveTest(moveLeft).intersects(block) || intersects);
-                if ("right".equals(direction))
+                }
+                if ("right".equals(direction)) {
                     intersects = (currentBlock.moveTest(moveRight).intersects(block) || intersects);
+                }
             }
         }
         return intersects;
@@ -285,26 +399,122 @@ public class Tetris {
 
         //Semi-obsolete formatting from tech demo
         int selectedTile;
-        
+
         //Get an existing pattern
         int pattern = r.nextInt(Data.patterns.length);
+
+        // Keeps pieces from being too random
+        int trackerCount = 0;
+        boolean patternFound = false;
+        if(patternCount == 14) {
+            for (int i=0; i<patternTracker.length; i++) {
+                patternTracker[i] = 0;
+            }
+            patternCount = 0;
+        }
+        do {
+            if (pattern == patternTracker[trackerCount]) {
+                if (patternTracker[trackerCount] < 2) {
+                    patternTracker[trackerCount]++;
+                    patternCount++;
+                    patternFound = true;
+                } else {
+                    trackerCount = 0;
+                    do {
+                        if (patternTracker[trackerCount] < 2) {
+                            System.out.println("\nBlock " + pattern + " was swapped for " + patternTracker[trackerCount]);
+                            pattern = patternTracker[trackerCount];
+                            patternTracker[trackerCount]++;
+                            patternCount++;
+                            patternFound = true;
+                        } else
+                            trackerCount++;
+                    } while (trackerCount < patternTracker.length && patternFound == false);
+                }
+            } else
+                trackerCount++;
+        } while (trackerCount < patternTracker.length && patternFound == false);
+
+        newBlock = pattern;
         //Rotate it to one of four possible positions
         int rotate = r.nextInt(3);
         //Debug statement
         //System.out.println(rotate);
-        
+
         //Get the position our block will start at
-        if (pattern >= 1 && pattern <5)
-            selectedTile = (PLAY_AREA_WIDTH / 2) - 2;
-        else
+        if (pattern >= 1 && pattern < 5) {
             selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
-        
+        } else {
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
+        }
+
         //Make a new block
         TetrisBlock block = new TetrisBlock(playArea[selectedTile], pattern, 0);
-        
+        currentRotation=0;
+
+
         //Add it to our list of blocks
         blocks.add(block);
         //Set it as our active block
         currentBlock = block;
+    }
+
+    // Mike trying to find completed rows
+    public void isCompletedRow() {
+        ArrayList<Integer> rowCheck = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            int y = currentBlock.getArea()[i].getY();
+            if (!rowCheck.contains(y)) {
+                rowCheck.add(y);
+                System.out.println(y);
+            }
+        }
+        System.out.println();
+        Collections.sort(rowCheck);
+        for (var y : rowCheck) {
+            System.out.println(y);
+            if (checkFilledRow(y)) {
+                removeRow(y);
+            }
+        }
+        System.out.println();
+
+    }
+
+    // Mike trying to remove completed rows
+    public void removeRow(int row) {
+        scorePerRow = scorePerRow + 10;
+        System.out.println("Row " + row + " completed");
+        for (TetrisBlock block : blocks) {
+            block.completeTiles(row);
+        }
+        collectGarbage();
+    }
+
+    private boolean checkFilledRow(int row) {
+        for (var tile : currentBlock.getArea()){
+            if (tile.getY() < 0) {
+                gameIsOver();
+                return false;
+            }
+        }
+        int rowIndex = row * PLAY_AREA_WIDTH;
+        boolean rowFilled = true;
+        for (int i = 0; i < PLAY_AREA_WIDTH; i++) {
+            boolean hasTile = false;
+            for (TetrisBlock block : blocks) {
+                hasTile = block.checkContains(playArea[rowIndex + i]) || hasTile;
+            }
+            rowFilled = hasTile && rowFilled;
+        }
+        return rowFilled;
+    }
+
+    private void collectGarbage() {
+        for (int i = 0; i < blocks.size(); i++){
+            if (blocks.get(i).readyToDelete){
+                blocks.remove(i);
+            }
+        }
     }
 }

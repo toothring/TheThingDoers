@@ -5,7 +5,6 @@
  */
 package testjfxapp;
 
-
 import java.awt.Graphics;
 import java.util.Arrays;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,27 +18,32 @@ import orion.number.Vector2I;
 public class TetrisBlock {
 
     protected final Vector2I[] area;
+
+    public boolean[] completedTile = {false, false, false, false};
     //We're all special snowflakes with unique colours
     public Color colour;
     protected Vector2I[] pattern = new Vector2I[4];
     protected Vector2I realPos;
     protected int rotate;
     protected int patternValue;
+    public boolean readyToDelete = false;
 
     public TetrisBlock(Vector2I tile, int pattern, int rotate) {
         //Initialise the area
         area = new Vector2I[4];
-        
+
         //Store our rotation
         this.rotate = rotate;
         patternValue = pattern;
+
         //Store a copy of our pattern, to ensure that we aren't messing up the master pattern list
         for (int i = 0; i < 4; i++){
             this.pattern[i] = Data.patterns[pattern][i].transformExternal(0, 0);
         }
         
+
         //Rotate our pattern
-        for (var offset : this.pattern){
+        for (var offset : this.pattern) {
             //Debug Statement
             //System.out.println(Arrays.toString(offset.getPos()));
             offset.rotate(rotate);
@@ -57,7 +61,7 @@ public class TetrisBlock {
     }
 
     public void rotateBlock(int direction) {
-        for (var offset : this.pattern){
+        for (var offset : this.pattern) {
             offset.rotate(direction);
         }
         generateAreaData();
@@ -74,20 +78,26 @@ public class TetrisBlock {
         //Set the current fill colour to our special colour
         g.setFill(colour);
         //Draw each tile
-        for (Vector2I i : area) {
-            g.fillRect(i.getX() * scaleMultiplier, i.getY() * scaleMultiplier, scaleMultiplier, scaleMultiplier);
+        for (int i = 0; i < 4; i++) {
+            if (!completedTile[i]) {
+                g.fillRect(area[i].getX() * scaleMultiplier, area[i].getY() * scaleMultiplier, scaleMultiplier, scaleMultiplier);
+            }
         }
     }
-    
+
     //Check if we intersect with another block
     public boolean intersects(TetrisBlock other) {
         //Store the other area
         Vector2I[] otherArea = other.getArea();
         boolean result = false;
-        for (Vector2I otherTile : otherArea) {
-            for (Vector2I tile : area) {
-                //Check each of our tiles with each of the other tiles
-                result = (tile.equals(otherTile) || result);
+        for (int j = 0; j < 4; j++) {
+            if (!other.completedTile[j]) {
+                for (int i = 0; i < 4; i++) {
+                    if (!completedTile[i]) {
+                        //Check each of our tiles with each of the other tiles
+                        result = (area[i].equals(otherArea[j]) || result);
+                    }
+                }
             }
         }
         return result;
@@ -116,7 +126,6 @@ public class TetrisBlock {
         realPos.transform(delta);
     }
 
-    
     //Move, but between 0 -> xBounds and 0 -> yBounds
     public boolean boundedMove(Vector2I delta, int xBounds, int yBounds) {
         Vector2I[] holder = new Vector2I[area.length];
@@ -137,13 +146,39 @@ public class TetrisBlock {
         //To let others know if we failed the test
         return !invalid;
     }
-    
+
     //Generate our tiles from our pattern and actual position
     protected void generateAreaData(){
-        area[0] = realPos.transformExternal(this.pattern[0]);
-        area[1] = realPos.transformExternal(this.pattern[1]);
-        area[2] = realPos.transformExternal(this.pattern[2]);
-        area[3] = realPos.transformExternal(this.pattern[3]);
+        for (int i = 0; i < 4; i++) {
+            if (!completedTile[i]) {
+                area[i] = realPos.transformExternal(this.pattern[i]);
+            }
+        }
+    }
+
+    public void completeTiles(int y) {
+        for (int i = 0; i < 4; i++) {
+            if (!completedTile[i] && area[i].getY() == y) {
+                completedTile[i] = true;
+            } else if (area[i].getY() < y && !completedTile[i]) {
+                area[i].transform(0, 1);
+            }
+        }
+        boolean delete = true;
+        for (var b : completedTile){
+            delete = b && delete;
+        }
+        if (delete){
+            readyToDelete = true;
+        }
+    }
+
+    public boolean checkContains(Vector2I input) {
+        boolean output = false;
+        for (int i = 0; i < 4; i++) {
+            output = (area[i].equals(input) && !completedTile[i] ) || output;
+        }
+        return output;
     }
     
     public String reportType(){
