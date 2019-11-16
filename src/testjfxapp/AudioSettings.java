@@ -20,7 +20,7 @@ public class AudioSettings extends ReversableMenu {
     Label audioSettingLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue;
     CheckBox muteMusic,muteSoundFX, muteMaster;
     Slider masterVolume, musicVolume, soundfxVolume;
-    AudioSubsystem audio;
+    //AudioSubsystem audio;
 
     MainMenu mainMenu;
 
@@ -58,7 +58,7 @@ public class AudioSettings extends ReversableMenu {
         masterVolume.valueProperty().addListener(observable -> {
 
             if (masterVolume.isValueChanging()) {
-                audio.setMasterVolume(masterVolume.getValue() / 100.0);
+                AudioSubsystem.setMasterVolume(masterVolume.getValue() / 100.0);
             }
         });
 
@@ -71,7 +71,7 @@ public class AudioSettings extends ReversableMenu {
         musicVolume.valueProperty().addListener(observable -> {
             if (!muteMusic.isSelected()) {
                 if (musicVolume.isValueChanging()) {
-                    audio.setMusicVolume(musicVolume.getValue() / 100.0);
+                    AudioSubsystem.setMusicVolume(musicVolume.getValue() / 100.0);
                 }
             }
         });
@@ -82,7 +82,7 @@ public class AudioSettings extends ReversableMenu {
         soundfxVolume.valueProperty().addListener(observable -> {
             if (!muteSoundFX.isSelected()){
                 if (soundfxVolume.isValueChanging()) {
-                    audio.setSFXVolume(soundfxVolume.getValue() / 100.0);
+                    AudioSubsystem.setSFXVolume(soundfxVolume.getValue() / 100.0);
                 }
             }
         });
@@ -91,11 +91,11 @@ public class AudioSettings extends ReversableMenu {
         //if checked then mute music
         muteMaster.setOnAction(e -> {
             if (muteMaster.isSelected()) {
-                audio.setMasterVolume(0);
+                AudioSubsystem.setMasterVolume(0);
             }
             //else set volume to slider value
             else{
-                audio.setMasterVolume(masterVolume.getValue()/100.0);
+                AudioSubsystem.setMasterVolume(masterVolume.getValue()/100.0);
             }
         });
 
@@ -106,11 +106,11 @@ public class AudioSettings extends ReversableMenu {
         //if checked then mute music
         muteMusic.setOnAction(e -> {
             if (muteMusic.isSelected()) {
-                audio.setMusicVolume(0);
+                AudioSubsystem.setMusicVolume(0);
             }
             //else set volume to slider value
             else{
-                audio.setMusicVolume(musicVolume.getValue()/100.0);
+                AudioSubsystem.setMusicVolume(musicVolume.getValue()/100.0);
             }
         });
 
@@ -119,10 +119,10 @@ public class AudioSettings extends ReversableMenu {
 
         muteSoundFX.setOnAction(e -> {
             if (muteSoundFX.isSelected()) {
-                audio.setSFXVolume(0);
+                AudioSubsystem.setSFXVolume(0);
             }
             else{
-                audio.setSFXVolume(soundfxVolume.getValue()/100.0);
+                AudioSubsystem.setSFXVolume(soundfxVolume.getValue()/100.0);
             }
         });
 //
