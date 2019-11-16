@@ -29,7 +29,7 @@ import orion.number.Vector2I;
  */
 public class TetsawBlock extends TetrisBlock {
 
-    private final Texture[] tileImages;
+    public final Texture[] tileImages;
     private final Vector2I finalPos;
     private final SpriteSheet ss;
     private final TetsawBlockData intendedResult;

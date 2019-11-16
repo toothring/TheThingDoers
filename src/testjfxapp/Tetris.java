@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import testjfxapp.subsystems.AudioSubsystem;
 
 /**
  *
@@ -40,12 +41,12 @@ public class Tetris {
 
     private static final long serialVersionUID = 1L;
 
-    protected static int PLAY_AREA_WIDTH;
-    protected static int PLAY_AREA_HEIGHT;
-    protected static int TILE_SIZE;
+    protected final int PLAY_AREA_WIDTH;
+    protected final int PLAY_AREA_HEIGHT;
+    protected final int TILE_SIZE;
 
     private int currentRotation;
-    private int newBlock;
+    protected int newBlock;
 
 
     private static int[] patternTracker = {0,0,0,0,0,0,0}; // one for each tetris block
@@ -86,9 +87,9 @@ public class Tetris {
     private boolean levelComplete = false; // This determines whether the 'level complete' message is displayed in the IGM
 
     public Tetris(int Width, int Height, int Scale, MainMenu menu) {
-        PLAY_AREA_WIDTH = Width;
-        PLAY_AREA_HEIGHT = Height;
-        TILE_SIZE = Scale;
+        this.PLAY_AREA_WIDTH = Width;
+        this.PLAY_AREA_HEIGHT = Height;
+        this.TILE_SIZE = Scale;
         root = new Group();
         CANVAS = new Canvas(PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
         GRAPHICS = CANVAS.getGraphicsContext2D();
@@ -97,6 +98,7 @@ public class Tetris {
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
         igm = new InGameMenu(menu, this, menu.sboard);
+        System.out.println(PLAY_AREA_WIDTH);
     }
 
     /**
@@ -158,7 +160,10 @@ public class Tetris {
                     break;
             }
         });
-
+        arg0.setWidth(PLAY_AREA_WIDTH * TILE_SIZE + 0.5 * TILE_SIZE);
+        arg0.setHeight(PLAY_AREA_HEIGHT * TILE_SIZE + 1.5 * TILE_SIZE);
+        CANVAS.setWidth(PLAY_AREA_WIDTH * TILE_SIZE);
+        CANVAS.setHeight(PLAY_AREA_HEIGHT * TILE_SIZE);
         arg0.setScene(scene);
         arg0.show();
         System.out.println("ARGH");
@@ -175,6 +180,7 @@ public class Tetris {
                     delta--;
                     if (ticks < 10) { // 10 ticks is pretty fast
                         ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
+                        AudioSubsystem.setPlaybackMultiplier(ticks / 2);
                         ns = 1000000000 / ticks;
                     }
                 }
@@ -212,6 +218,7 @@ public class Tetris {
     public void init() {
         //Set up the play area
         for (int i = 0; i < playArea.length; i++) {
+            System.out.println(PLAY_AREA_WIDTH);
             playArea[i] = new Vector2I(i % PLAY_AREA_WIDTH, (int) Math.floor(i / PLAY_AREA_WIDTH));
         }
         /*for (int i = 0; i < playArea.length; i++) {

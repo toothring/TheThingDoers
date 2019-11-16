@@ -16,8 +16,8 @@ public  class Data {
         {new Vector2I(-1, 0), new Vector2I(0, 0), new Vector2I(0, 1), new Vector2I(1, 1)}, // Z
         {new Vector2I(-1, 1), new Vector2I(0, 1), new Vector2I(0, 0), new Vector2I(1, 0)}, // S
         {new Vector2I(-1, 0), new Vector2I(0, 0), new Vector2I(1, 0), new Vector2I(2, 0)}, // I
-        {new Vector2I(-1, 0), new Vector2I(0, 0), new Vector2I(1, 0), new Vector2I(1, -1)}, // L
-        {new Vector2I(-1, -1), new Vector2I(-1, 0), new Vector2I(0, 0), new Vector2I(1, 0)} // J
+        {new Vector2I(0, -1), new Vector2I(0, 0), new Vector2I(0, 1), new Vector2I(1, -1)}, // L
+        {new Vector2I(-1, -1), new Vector2I(0, 1), new Vector2I(0, 0), new Vector2I(0, -1)} // J
     };
     public static final Vector2I[] patternDimension = {
         new Vector2I(2, 2), new Vector2I(3, 2), new Vector2I(3, 2), new Vector2I(3, 2), new Vector2I(4, 1), new Vector2I(3, 2), new Vector2I(3, 2)
@@ -25,7 +25,8 @@ public  class Data {
 
     
     private static final TetsawBlockData[] easyModeLevel = {
-        new TetsawBlockData(5, 5, 0, 0)
+        new TetsawBlockData(1, 23, 1, 4),
+        new TetsawBlockData(4, 22, 0, 2)
     };
     public static final TetsawLevelData easyMode = new TetsawLevelData(easyModeLevel);
     

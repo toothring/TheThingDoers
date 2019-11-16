@@ -31,6 +31,7 @@ public class Tetsaw extends Tetris {
 
     private SpriteSheet ss;
     private boolean[] selectedChunks;
+    private int currentPositionBlock = 0;
 
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu) {
         super(Width, Height, Scale, menu);
@@ -60,7 +61,9 @@ public class Tetsaw extends Tetris {
             selectedChunks[targetBlock] = true;
             System.out.println("We doin dis bois");
             //Make a new block
-            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], Data.easyMode.getBlock(0), rotate, ss);
+            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], Data.easyMode.getBlock(currentPositionBlock), rotate, ss);
+            newBlock = Data.easyMode.getBlock(currentPositionBlock).pattern;
+            currentPositionBlock++;
 
             //Add it to our list of blocks
             blocks.add(block);

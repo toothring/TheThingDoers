@@ -27,7 +27,7 @@ public class MainMenu extends Application {
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(0, 0, 0, this);
-    Tetsaw tetsawGame;
+    Tetsaw tetsawGame = new Tetsaw(0, 0, 0, this);
 
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
@@ -71,7 +71,7 @@ public class MainMenu extends Application {
         playTetris.setOnAction(e -> {
             tetrisGame = new Tetris(10, 20, 30, this);
             tetrisGame.init();
-            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
             try {
                 tetrisGame.start(window);
             } catch (Exception ex) {
@@ -92,9 +92,9 @@ public class MainMenu extends Application {
 
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> {
-            tetsawGame = new Tetsaw(10, 20, 30, this);
+            tetsawGame = new Tetsaw(30, 24, 30, this);
             tetsawGame.init();
-            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
             try {
                 tetsawGame.start(window);
             } catch (Exception ex) {
@@ -104,9 +104,9 @@ public class MainMenu extends Application {
 
         playTetsawMP = new Button("Play Tetsaw");
         playTetsawMP.setOnAction(e -> {
-            tetsawGame = new Tetsaw(10, 20, 30, this);
+            tetsawGame = new Tetsaw(30, 24, 30, this);
             tetsawGame.init();
-            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
             try {
                 tetsawGame.start(window);
             } catch (Exception ex) {
@@ -210,6 +210,7 @@ public class MainMenu extends Application {
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
+        
 //        window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
         window.setOnCloseRequest(e -> {
             e.consume();
@@ -240,10 +241,10 @@ public class MainMenu extends Application {
         window.setScene(gameEndScene);
     }
 
-    public void resetGame() {
+    /*public void resetGame() {
         tetrisGame = new Tetris(10, 20, 30, this);
         tetrisGame.init();
-    }
+    }*/
 
     public AudioSubsystem getAudioSystem() {
         return audio;
