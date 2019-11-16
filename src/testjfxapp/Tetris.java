@@ -45,6 +45,9 @@ public class Tetris extends Application {
     private final Vector2I movement = new Vector2I(0, 1);
     private final Vector2I moveLeft = new Vector2I(-1, 0);
     private final Vector2I moveRight = new Vector2I(1, 0);
+    private int currentRotation;
+    private int newBlock;
+
     private final Random r = new Random();
     private static Vector2I[] playArea;
     private static ArrayList<TetrisBlock> blocks;
@@ -113,20 +116,28 @@ public class Tetris extends Application {
                     boolean touchdown = false;
                     int maxFall = 0;
                     touchdown = tickDown2();
-                    while (touchdown == false && maxFall != 18) {
+                    while (touchdown == false && maxFall != 16) {
                         touchdown = tickDown2();
                         maxFall++;
                     }
                     break;
-                case O:
-                    currentBlock.rotateBlock(-1);
+                case O: //0 = O, 1 = T, 2 = S, 3 = I, 4 = J
+                    if (newBlock > 0) { // O block doesn't rotate
+                        currentRotation--;
+                        currentBlock.rotateBlock(-1);
+                    }
+
                     break;
                 case P:
-                    currentBlock.rotateBlock(1);
+                    if (newBlock > 0) {
+                        currentRotation++;
+                        currentBlock.rotateBlock(1);
+                    }
+
                     break;
                 case ESCAPE: try {
                     this.pause();
-                    this.getBlockScore();
+//                    this.getBlockScore();
                     this.getTickScore();
                     igm.start(menu.window);
                 } catch (Exception ex) {
@@ -190,6 +201,36 @@ public class Tetris extends Application {
         }*/
         //Spawn our first tile
         makeTile();
+
+    }
+
+    public void rotateCheck(String direction) {
+        if (direction.equals("clockwise")) {
+            switch (currentRotation) {
+                case 4: currentRotation = 0;
+                    break;
+                case -1: currentRotation = 3;
+                    break;
+                case -2: currentRotation = 2;
+                    break;
+                case -3: currentRotation = 1;
+                    break;
+            }
+        }
+        if (direction.equals("counterClockwise")) {
+            switch (currentRotation) {
+                case -4: currentRotation = 0;
+                    break;
+                case 1: currentRotation = -3;
+                    break;
+                case 2: currentRotation = -2;
+                    break;
+                case 3: currentRotation = -1;
+                    break;
+            }
+            if (currentRotation == -4)
+                currentRotation = 0;
+        }
 
     }
 
@@ -326,6 +367,7 @@ public class Tetris extends Application {
 
         //Get an existing pattern
         int pattern = r.nextInt(Data.patterns.length);
+        newBlock = pattern;
         //Rotate it to one of four possible positions
         int rotate = r.nextInt(3);
         //Debug statement
@@ -340,6 +382,8 @@ public class Tetris extends Application {
 
         //Make a new block
         TetrisBlock block = new TetrisBlock(playArea[selectedTile], pattern, 0);
+        currentRotation=0;
+
 
         //Add it to our list of blocks
         blocks.add(block);
