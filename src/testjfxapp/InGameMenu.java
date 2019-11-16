@@ -52,11 +52,7 @@ public class InGameMenu {
         inGameVisualSettingsBTN = new Button("Visual Settings");
         inGameVisualSettingsBTN.setOnAction(e -> window.setScene(inGameVisualSettings));
 
-        musicVolume = new Slider(0, 100, 50);
-        //unsure how to handle volume change
 
-        sfxVolume = new Slider(0, 100, 50);
-        //unsure how to handle volume change
 
         fps = new Slider(30, 90, 60);
         //unsure how to handle

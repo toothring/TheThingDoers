@@ -30,13 +30,11 @@ public class MainMenu extends Application{
     Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
     Scene audioSettingsScene, graphicSettingsScene;
     Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
-    Button btm1, btm2, btm3, btm4, btm5, btm6;
+    Button btm1, btm2, btm3, btm4, btm5, btm6,igmbutton;
     Button audioSettings, graphicSettings;
-    Slider masterVolume, musicVolume, soundfxVolume;
-    Button btm1, btm2, btm3, btm4, btm5, btm6, igmbutton;
+
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
-    Label audioSettingLabel,graphicSettingsLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue;
-    CheckBox muteMusic,muteSoundFX, muteMaster;
+
 
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
@@ -73,12 +71,9 @@ public class MainMenu extends Application{
         singlePlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
         multiPlayerMenuLabel = new Label("I'm down for some multitasking. \n\nJust tell me what you're playing.");
         multiPlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
-        audioSettingLabel = new Label("Audio Settings");
-        graphicSettingsLabel = new Label("Graphic Settings");
-        masterVolumeLabel = new Label("Master Volume");
-        musicVolumeLabel = new Label("Music Volume");
-        soundfxLabel = new Label("Sound Effects Volume");
-        masterVolValue = new Label();
+        //audioSettingLabel = new Label("Audio Settings");
+        //graphicSettingsLabel = new Label("Graphic Settings");
+
         window = primaryStage;
 
         closeProgram = new Button("Quit");
@@ -152,78 +147,7 @@ public class MainMenu extends Application{
 
         graphicSettings = new Button("Graphic Settings");
 
-        masterVolume = new Slider(0.0,100,50);
-        //listen for master volume change
-        masterVolume.valueProperty().addListener(observable -> {
 
-                if (masterVolume.isValueChanging()) {
-                    audio.setMasterVolume(masterVolume.getValue() / 100.0);
-                }
-        });
-
-        //create music volume slider
-        musicVolume = new Slider(0,100,50);
-        musicVolume.setShowTickLabels(true);
-        musicVolume.setShowTickMarks(true);
-
-        //listen for music volume change
-        musicVolume.valueProperty().addListener(observable -> {
-            if (!muteMusic.isSelected()) {
-                if (musicVolume.isValueChanging()) {
-                    audio.setMusicVolume(musicVolume.getValue() / 100.0);
-                }
-            }
-        });
-
-        //listen for sound effects volume change
-        soundfxVolume = new Slider(0,100,50);
-
-        soundfxVolume.valueProperty().addListener(observable -> {
-            if (!muteSoundFX.isSelected()){
-                if (soundfxVolume.isValueChanging()) {
-                    audio.setSFXVolume(soundfxVolume.getValue() / 100.0);
-                }
-            }
-        });
-
-        muteMaster = new CheckBox("Mute Master Volume");
-        //if checked then mute music
-        muteMaster.setOnAction(e -> {
-            if (muteMaster.isSelected()) {
-                audio.setMasterVolume(0);
-            }
-            //else set volume to slider value
-            else{
-                audio.setMasterVolume(masterVolume.getValue()/100.0);
-            }
-        });
-
-
-        //Create mute music checkbox
-        muteMusic = new CheckBox("Mute Music");
-
-        //if checked then mute music
-        muteMusic.setOnAction(e -> {
-            if (muteMusic.isSelected()) {
-                audio.setMusicVolume(0);
-            }
-            //else set volume to slider value
-            else{
-                audio.setMusicVolume(musicVolume.getValue()/100.0);
-            }
-        });
-
-        muteSoundFX = new CheckBox("Mute Sound Effects");
-
-
-        muteSoundFX.setOnAction(e -> {
-            if (muteSoundFX.isSelected()) {
-                audio.setSFXVolume(0);
-            }
-            else{
-                audio.setSFXVolume(soundfxVolume.getValue()/100.0);
-            }
-        });
 
 
 
@@ -286,12 +210,13 @@ public class MainMenu extends Application{
         settings = new Scene(settingsLayout, 300, 500);
         settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        //Audio Settings layout
-        VBox audioSettingsLayout = new VBox(40);
-        audioSettingsLayout.getChildren().addAll(audioSettingLabel,muteMaster,masterVolumeLabel,masterVolume,musicVolumeLabel,muteMusic,musicVolume,soundfxLabel,muteSoundFX,soundfxVolume,btm4);
-        audioSettingsLayout.setAlignment(Pos.CENTER);
-        audioSettingsScene = new Scene(audioSettingsLayout, 300, 500);
-        audioSettingsScene.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+//        //Audio Settings layout
+//        VBox audioSettingsLayout = new VBox(40);
+//        audioSettingsLayout.getChildren().addAll(,btm4);
+//
+//        audioSettingsLayout.setAlignment(Pos.CENTER);
+//        audioSettingsScene = new Scene(audioSettingsLayout, 300, 500);
+//        audioSettingsScene.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
 
         window.setScene(mainMenu);
