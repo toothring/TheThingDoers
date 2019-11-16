@@ -53,7 +53,8 @@ public class Tetris extends Application {
     private int x = 0;
     private static double scorePerTick = 0; // To hold the score per line dropped.
     private static int scorePerLandedBlock = 0; // To hold the score per landed block
-    private static int scorePerRow = 0;
+    private static int scorePerRow = 1; // Starts at one otherwise no final score is given until a row is filled
+    // because scorePerRow is the multiplier for the other two scores
 
     private static Group root;
     private static Canvas CANVAS;
@@ -168,7 +169,6 @@ public class Tetris extends Application {
     public void stop() {
         running = false; // Stop the game from running
         System.exit(0);
-//        gameEnd(); // Call the method that commences game-end activities
     }
 
     public void pause() {
@@ -260,6 +260,14 @@ public class Tetris extends Application {
     // To retrieve the cumulative value for score per cleared row in other classes
     public static int getRowScore(){
         return scorePerRow;
+    }
+
+    public void gameIsOver(){
+        this.pause();
+        this.getBlockScore();
+        this.getTickScore();
+        gameOver = true;
+        igm.start(menu.window);
     }
 
     public boolean tickDown2() {
