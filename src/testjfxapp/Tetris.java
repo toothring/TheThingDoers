@@ -29,6 +29,8 @@ import orion.number.Vector2I;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,8 +56,10 @@ public class Tetris extends Application {
     private static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
-    private static int scorePerTick = 0; // To hold the score per line dropped.
+    private static double scorePerTick = 0; // To hold the score per line dropped.
     private static int scorePerLandedBlock = 0; // To hold the score per landed block
+    private static int scorePerRow = 1; // Starts at one otherwise no final score is given until a row is filled
+    // because scorePerRow is the multiplier for the other two scores
 
     private static Group root;
     private static Canvas CANVAS;
@@ -63,12 +67,16 @@ public class Tetris extends Application {
 
     private MainMenu menu;
     private InGameMenu igm;
+    private Scoreboard scoreboard;
     private Scene scene;
 
     private static int[] rowCount = new int[20];
 
     private double ticks = 2.0; // The larger this number is, the faster the game
     private double ns = 1000000000 / ticks;
+    private boolean gameOver = false; // This determines whether the 'game over' message is displayed in the IGM
+// ** REQUIRED FOR TETSAW:**
+    private boolean levelComplete = false; // This determines whether the 'level complete' message is displayed in the IGM
 
     public Tetris(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
@@ -81,7 +89,7 @@ public class Tetris extends Application {
         blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
-        igm = new InGameMenu(menu, this);
+        igm = new InGameMenu(menu, this, scoreboard);
     }
 
     /**
@@ -160,7 +168,7 @@ public class Tetris extends Application {
                     tickDown();
                     delta--;
                     if (ticks < 10) { // 10 ticks is pretty fast
-                        ticks = ticks + 0.01; // This will do 1000 ticks
+                        ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
                         ns = 1000000000 / ticks;
                     }
                 }
@@ -171,7 +179,7 @@ public class Tetris extends Application {
 
     @Override
     public void stop() {
-        running = false;
+        running = false; // Stop the game from running
         System.exit(0);
     }
 
@@ -186,6 +194,14 @@ public class Tetris extends Application {
     public void returnToMenu() {
         running = false;
         menu.showMenu();
+    }
+
+    public boolean getGameOverSwitch(){ //So that the IGM can access it
+        return gameOver;
+    }
+// **REQUIRED FOR TETSAW:**
+    public boolean getLevelCompleteSwitch(){ //So that the IGM can access it
+        return levelComplete;
     }
 
     @Override
@@ -249,38 +265,55 @@ public class Tetris extends Application {
     }
 
     public void tickDown() {
-        int scaleMult = screenSetup();
+            int scaleMult = screenSetup();
 
-        String direction = "down";
-        boolean intersects = checkForCollision(direction);
+            String direction = "down";
+            boolean intersects = checkForCollision(direction);
 
-        //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
-        if (!intersects) {
-            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
-            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+            //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
+            if (!intersects) {
+                //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+                if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                    //Mike is checking for line removal
+                    isCompletedRow();
+                    makeTile(); // The score per landed block is recorded in this method.
+                }
+            } else {
                 //Mike is checking for line removal
                 isCompletedRow();
-                makeTile(); // The score per landed block is recorded in this method.
+                makeTile();
             }
-        } else {
-            //Mike is checking for line removal
-            isCompletedRow();
-            makeTile();
-        }
-        scorePerTick++; // Increase the score with each tick
-        System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
+            scorePerTick = scorePerTick + 0.1; // Increase the score slightly with each tick
+            System.out.println(scorePerTick + " " + scorePerLandedBlock + " " + scorePerRow); // Print in console so BB can see it working
 
-        drawAllTiles(scaleMult);
-    }
+            drawAllTiles(scaleMult);
+        }
 
     // To retrieve the cumulative value for score per tick in other classes
-    public static int getTickScore(){
+    public static double getTickScore(){
         return scorePerTick;
     }
 
     // To retrieve the cumulative value for score per landed block in other classes
     public static int getBlockScore(){
         return scorePerLandedBlock;
+    }
+
+    // To retrieve the cumulative value for score per cleared row in other classes
+    public static int getRowScore(){
+        return scorePerRow;
+    }
+
+    public void gameIsOver(){
+        this.pause();
+        this.getBlockScore();
+        this.getTickScore();
+        gameOver = true;
+        try {
+            igm.start(menu.window);
+        } catch (Exception ex) {
+            Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean tickDown2() {
@@ -413,6 +446,7 @@ public class Tetris extends Application {
 
     // Mike trying to remove completed rows
     public void removeRow(int row) {
+        scorePerRow = scorePerRow + 10;
         System.out.println("Row " + row + " completed");
         for (TetrisBlock block : blocks) {
             block.completeTiles(row);
@@ -421,6 +455,12 @@ public class Tetris extends Application {
     }
 
     private boolean checkFilledRow(int row) {
+        for (var tile : currentBlock.getArea()){
+            if (tile.getY() < 0) {
+                gameIsOver();
+                return false;
+            }
+        }
         int rowIndex = row * PLAY_AREA_WIDTH;
         boolean rowFilled = true;
         for (int i = 0; i < PLAY_AREA_WIDTH; i++) {

@@ -1,5 +1,6 @@
 package testjfxapp;
 
+import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -22,6 +23,7 @@ public class ConfirmBox {
 
         Label label = new Label();
         label.setText(message);
+        label.setTextFill((Color.web("#363738", 1.0)));
         Button yes = new Button("Quit");
         yes.setOnAction(e -> {
             answer = true;
