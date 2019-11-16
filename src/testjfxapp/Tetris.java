@@ -116,86 +116,24 @@ public class Tetris extends Application {
                     boolean touchdown = false;
                     int maxFall = 0;
                     touchdown = tickDown2();
-                    while (touchdown == false && maxFall != 17) {
+                    while (touchdown == false && maxFall != 16) {
                         touchdown = tickDown2();
                         maxFall++;
                     }
                     break;
-                case O: currentRotation--;
-                    //0 = O, 1 = T, 2 = S, 3 = I, 4 = J
-                    if (currentRotation == -4)
-                        currentRotation = 0;
-                    currentBlock.rotateBlock(-1);
-                    if (newBlock == 0){
-                        if (currentRotation == -2 || currentRotation == 2)
-                            userMovement("left");
-                        if (currentRotation == 0)
-                            userMovement("right");
+                case O: //0 = O, 1 = T, 2 = S, 3 = I, 4 = J
+                    if (newBlock > 0) { // O block doesn't rotate
+                        currentRotation--;
+                        currentBlock.rotateBlock(-1);
                     }
+
                     break;
-                case P: currentRotation++;
-                    if (currentRotation == 4)
-                        currentRotation = 0;
-                    currentBlock.rotateBlock(1);
-                    // O block
-                    if (newBlock == 0){
-                        if (currentRotation == -1 || currentRotation == 3)
-                            userMovement("left");
-                        if (currentRotation == 0)
-                            userMovement("right");
+                case P:
+                    if (newBlock > 0) {
+                        currentRotation++;
+                        currentBlock.rotateBlock(1);
                     }
-                    // T block
-                    if (newBlock == 1) {
-                        if(currentRotation==0){
-                            userMovement("Right");
-                        }
-                        if (currentRotation == 1) {
-                            userMovement("Right");
-                            userMovement("Right");
-                        }
 
-                        if (currentRotation==2){
-                            userMovement("Right");
-                            userMovement("Right");
-                            userMovement("Right");
-                        }
-
-                    }
-                    // S block
-                    if (newBlock == 2) {
-
-                    }
-                    // I block
-                    if (newBlock == 3) {
-                        if (currentRotation == 0 || currentRotation == 4) {
-                            userMovement("left");
-                        }
-                        if (currentRotation == 1) {
-                            userMovement("right");
-                        }
-                        if (currentRotation == 2) {
-                            userMovement("right");
-                            userMovement("right");
-                        }
-                        if (currentRotation == 3) {
-                            userMovement("left");
-                            userMovement("left");
-                        }
-                    }
-                    // J block
-                    if (newBlock == 4) {
-                        if (currentRotation == 1) {
-                            tickDown2();
-                            userMovement("right");
-                        }
-                        if (currentRotation == 2) {
-                            userMovement("right");
-                        }
-                        if (currentRotation == 3) {
-                            userMovement("left");
-                            userMovement("left");
-                        }
-                    }
                     break;
                 case ESCAPE: try {
                     this.pause();
@@ -263,6 +201,36 @@ public class Tetris extends Application {
         }*/
         //Spawn our first tile
         makeTile();
+
+    }
+
+    public void rotateCheck(String direction) {
+        if (direction.equals("clockwise")) {
+            switch (currentRotation) {
+                case 4: currentRotation = 0;
+                    break;
+                case -1: currentRotation = 3;
+                    break;
+                case -2: currentRotation = 2;
+                    break;
+                case -3: currentRotation = 1;
+                    break;
+            }
+        }
+        if (direction.equals("counterClockwise")) {
+            switch (currentRotation) {
+                case -4: currentRotation = 0;
+                    break;
+                case 1: currentRotation = -3;
+                    break;
+                case 2: currentRotation = -2;
+                    break;
+                case 3: currentRotation = -1;
+                    break;
+            }
+            if (currentRotation == -4)
+                currentRotation = 0;
+        }
 
     }
 
