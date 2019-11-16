@@ -121,19 +121,17 @@ public class Tetris extends Application {
                         maxFall++;
                     }
                     break;
-                case O: //0 = O, 1 = T, 2 = S, 3 = I, 4 = J
+                case O:
                     if (newBlock > 0) { // O block doesn't rotate
                         currentRotation--;
                         currentBlock.rotateBlock(-1);
                     }
-
                     break;
                 case P:
                     if (newBlock > 0) {
                         currentRotation++;
                         currentBlock.rotateBlock(1);
                     }
-
                     break;
                 case ESCAPE: try {
                     this.pause();
@@ -375,7 +373,7 @@ public class Tetris extends Application {
 
         //Get the position our block will start at
         if (pattern >= 1 && pattern < 5) {
-            selectedTile = (PLAY_AREA_WIDTH / 2) - 2;
+            selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
         } else {
             selectedTile = (PLAY_AREA_WIDTH / 2) - 1;
         }
