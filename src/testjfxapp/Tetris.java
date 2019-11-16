@@ -51,6 +51,9 @@ public class Tetris extends Application {
     private int newBlock;
 
     private final Random r = new Random();
+    private static int[] patternTracker = {0,0,0,0,0,0,0}; // one for each tetris block
+    private static int patternCount = 0;
+
     private static Vector2I[] playArea;
     private static ArrayList<TetrisBlock> blocks;
     private static TetrisBlock currentBlock;
@@ -401,6 +404,39 @@ public class Tetris extends Application {
 
         //Get an existing pattern
         int pattern = r.nextInt(Data.patterns.length);
+
+        // Keeps pieces from being too random
+        int trackerCount = 0;
+        boolean patternFound = false;
+        if(patternCount == 14) {
+            for (int i=0; i<patternTracker.length; i++) {
+                patternTracker[i] = 0;
+            }
+            patternCount = 0;
+        }
+        do {
+            if (pattern == patternTracker[trackerCount]) {
+                if (patternTracker[trackerCount] < 2) {
+                    patternTracker[trackerCount]++;
+                    patternCount++;
+                    patternFound = true;
+                } else {
+                    trackerCount = 0;
+                    do {
+                        if (patternTracker[trackerCount] < 2) {
+                            System.out.println("\nBlock " + pattern + " was swapped for " + patternTracker[trackerCount]);
+                            pattern = patternTracker[trackerCount];
+                            patternTracker[trackerCount]++;
+                            patternCount++;
+                            patternFound = true;
+                        } else
+                            trackerCount++;
+                    } while (trackerCount < patternTracker.length && patternFound == false);
+                }
+            } else
+                trackerCount++;
+        } while (trackerCount < patternTracker.length && patternFound == false);
+
         newBlock = pattern;
         //Rotate it to one of four possible positions
         int rotate = r.nextInt(3);
