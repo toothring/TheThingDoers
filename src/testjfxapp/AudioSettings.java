@@ -17,10 +17,10 @@ public class AudioSettings extends ReversableMenu {
     Scene audioSettings;
     Button btm1, btm2;
 
-    Label audioSettingLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue;
+    Label audioSettingLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue, mainMenuLabel;
     CheckBox muteMusic,muteSoundFX, muteMaster;
     Slider masterVolume, musicVolume, soundfxVolume;
-    Label mainMenuLabel;
+    AudioSubsystem audio;
 
     MainMenu mainMenu;
 
@@ -129,7 +129,7 @@ public class AudioSettings extends ReversableMenu {
 
         // Audio Settings layout:
         VBox AudioSettingsLayout = new VBox(40);
-        AudioSettingsLayout.getChildren().addAll(btm1, audioSettingLabel,muteMaster,masterVolumeLabel,masterVolume,musicVolumeLabel,muteMusic,musicVolume,soundfxLabel,muteSoundFX,soundfxVolume);
+        AudioSettingsLayout.getChildren().addAll(btm1,audioSettingLabel,muteMaster,masterVolumeLabel,masterVolume,musicVolumeLabel,muteMusic,musicVolume,soundfxLabel,muteSoundFX,soundfxVolume);
         AudioSettingsLayout.setAlignment(Pos.CENTER);
         audioSettings = new Scene(AudioSettingsLayout, 300, 500);
         audioSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
