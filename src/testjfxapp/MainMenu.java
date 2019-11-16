@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -19,8 +18,11 @@ public class MainMenu extends Application{
 
     Stage window;
     Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer, gameEndScene;
+    Scene audioSettingsScene, graphicSettingsScene;
     Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
-    Button btm1, btm2, btm3, btm4, btm5, btm6, igmbutton;
+    Button btm1, btm2, btm3, btm4, btm5, btm6,igmbutton;
+    Button audioSettings, graphicSettings;
+
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
@@ -44,7 +46,7 @@ public class MainMenu extends Application{
     public void start(Stage primaryStage) throws Exception {
         initAudio();
 
-
+        audio.playMusic("main");
         // This will determine the screen size (width and height) which you can then assign to a scene.
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         double fullwidth = screenSize.getWidth();
@@ -133,6 +135,16 @@ public class MainMenu extends Application{
 
         btm6 = new Button("Back to Menu");
         btm6.setOnAction(e -> window.setScene(mainMenu));
+
+        audioSettings = new Button("Audio Settings");
+        audioSettings.setOnAction(e -> window.setScene(audioSettingsScene));
+
+        graphicSettings = new Button("Graphic Settings");
+
+
+
+
+
 
         igmbutton = new Button("Open In-Game Menu");
         igmbutton.setOnAction(e -> {
