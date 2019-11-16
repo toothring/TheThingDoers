@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import testjfxapp.subsystems.AudioSubsystem;
@@ -17,13 +19,13 @@ import java.awt.*;
 public class MainMenu extends Application{
 
     Stage window;
-    Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer, gameEndScene;
+    Scene mainMenu, tetsaw; //Unused: singlePlayer, multiPlayer
     Scene audioSettingsScene, graphicSettingsScene;
-    Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
-    Button btm1, btm2, btm3, btm4, btm5, btm6,igmbutton;
-    Button audioSettings, graphicSettings;
+    Button playTetris, playTetsaw, enterSettings, closeProgram; //Unused: playTetrisMP, playTetsawMP, enterScoreboard, sp, mp
+    Button btm1, btm2, btm3, igmbutton;
+    Button audioSettingsBtn, graphicSettings;
 
-    Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
+    Label mainMenuLabel, titleLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(10,20,30, this);
@@ -31,11 +33,10 @@ public class MainMenu extends Application{
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
     ReversableMenu sb = new Scoreboard(this, tetrisGame);
+    AudioSettings audioSettings = new AudioSettings(settingsMenu,this);
 
-    Scoreboard sboard = new Scoreboard(this, tetrisGame); //Added because I couldn't pass sb into the below
-    InGameMenu igm = new InGameMenu(this, tetrisGame, sboard); //Added sboard so the InGameMenu can access it
-    //AudioSettings audioSettings = new AudioSettings(this);
-    //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
+    Scoreboard sboard = new Scoreboard(this, tetrisGame);
+    InGameMenu igm = new InGameMenu(this, tetrisGame, sboard, audioSettings);
 
 
     public static void main(String[] args) {
@@ -53,15 +54,12 @@ public class MainMenu extends Application{
         double fullheight = screenSize.getHeight();
         final boolean running = false;
 
+        titleLabel = new Label("Hi!");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD,30));
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextFill(Color.web("#363738", 1.0));
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
-        singlePlayerMenuLabel = new Label("Two's a crowd. \nI'd go solo too if I were you. \n\n...What're you playing?");
-        singlePlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
-        singlePlayerMenuLabel.setTextFill(Color.web("#363738", 1.0));
-        multiPlayerMenuLabel = new Label("I'm down for some multitasking. \n\nJust tell me what you're playing.");
-        multiPlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
-        multiPlayerMenuLabel.setTextFill(Color.web("#363738", 1.0));
+
         window = primaryStage;
 
         closeProgram = new Button("Quit");
@@ -78,30 +76,9 @@ public class MainMenu extends Application{
             }
         );
 
-        playTetrisMP = new Button("Play Tetris");
-        playTetrisMP.setOnAction(e -> {
-            tetrisGame.init();
-            try {
-                tetrisGame.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
 
         playTetsaw = new Button("Play Tetsaw");
         playTetsaw.setOnAction(e -> window.setScene(tetsaw));
-
-        playTetsawMP = new Button("Play Tetsaw");
-        playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
-
-        enterScoreboard = new Button("Scoreboard");
-        enterScoreboard.setOnAction(e -> {
-            try{
-                sb.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
 
         enterSettings = new Button("Settings");
         enterSettings.setOnAction(e -> {
@@ -112,12 +89,6 @@ public class MainMenu extends Application{
             }
         });
 
-        sp = new Button("Single Player");
-        sp.setOnAction(e -> window.setScene(singlePlayer));
-
-        mp = new Button("Multi Player");
-        mp.setOnAction(e -> window.setScene(multiPlayer));
-
         btm1 = new Button("Back to Menu");
         btm1.setOnAction(e -> window.setScene(mainMenu));
 
@@ -127,24 +98,10 @@ public class MainMenu extends Application{
         btm3 = new Button("Back to Menu");
         btm3.setOnAction(e -> window.setScene(mainMenu));
 
-        btm4 = new Button("Back to Menu");
-        btm4.setOnAction(e -> window.setScene(mainMenu));
-
-        btm5 = new Button("Back to Menu");
-        btm5.setOnAction(e -> window.setScene(mainMenu));
-
-        btm6 = new Button("Back to Menu");
-        btm6.setOnAction(e -> window.setScene(mainMenu));
-
-        audioSettings = new Button("Audio Settings");
-        audioSettings.setOnAction(e -> window.setScene(audioSettingsScene));
+        audioSettingsBtn = new Button("Audio Settings");
+        audioSettingsBtn.setOnAction(e -> window.setScene(audioSettingsScene));
 
         graphicSettings = new Button("Graphic Settings");
-
-
-
-
-
 
         igmbutton = new Button("Open In-Game Menu");
         igmbutton.setOnAction(e -> {
@@ -157,24 +114,10 @@ public class MainMenu extends Application{
 
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
-        mainMenuLayout.getChildren().addAll(mainMenuLabel, sp, mp, enterSettings, enterScoreboard, closeProgram);
+        mainMenuLayout.getChildren().addAll(titleLabel, mainMenuLabel, playTetris, playTetsaw, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 500);
         mainMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
-
-        // Single player layout:
-        VBox singlePlayerLayout = new VBox(40);
-        singlePlayerLayout.getChildren().addAll(singlePlayerMenuLabel, playTetsaw, playTetris, btm5);
-        singlePlayerLayout.setAlignment(Pos.CENTER);
-        singlePlayer = new Scene(singlePlayerLayout, 300, 500);
-        singlePlayer.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
-
-        // Multi player layout:
-        VBox multiPlayerLayout = new VBox(40);
-        multiPlayerLayout.getChildren().addAll(multiPlayerMenuLabel, playTetsawMP, playTetrisMP, btm6);
-        multiPlayerLayout.setAlignment(Pos.CENTER);
-        multiPlayer = new Scene(multiPlayerLayout, 300, 500);
-        multiPlayer.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Tetsaw layout:
         VBox tetsawLayout = new VBox(40);
@@ -183,20 +126,11 @@ public class MainMenu extends Application{
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // End-of-game score screen layout:
-        Label tetrisScore = new Label("Your last score in Tetris was "+ Scoreboard.round(Scoreboard.calculateTetrisScore(), 2));
-        VBox gameEndLayout = new VBox(40);
-        gameEndLayout.getChildren().addAll(tetrisScore, btm2);
-        gameEndLayout.setAlignment(Pos.CENTER);
-        gameEndScene = new Scene(gameEndLayout, 300, 500);
-        gameEndScene.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
-
-
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
-//        window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
+       // window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
         window.setOnCloseRequest(e -> {
           e.consume();
           quitProgram();
@@ -216,10 +150,6 @@ public class MainMenu extends Application{
     public void showMenu() {
         window.setScene(mainMenu);
         }
-
-    public void showGameEndScene(){
-        window.setScene(gameEndScene);
-    }
 
     public void resetGame(){
         tetrisGame = new Tetris(10,20,30,this);
@@ -249,3 +179,60 @@ public class MainMenu extends Application{
     }
 }
 
+/* Code for implementation of semi-started other features below:
+
+ // Not required unless MP is developed:
+//        singlePlayerMenuLabel = new Label("Two's a crowd. \nI'd go solo too if I were you. \n\n...What're you playing?");
+//        singlePlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
+//        singlePlayerMenuLabel.setTextFill(Color.web("#363738", 1.0));
+//        multiPlayerMenuLabel = new Label("I'm down for some multitasking. \n\nJust tell me what you're playing.");
+//        multiPlayerMenuLabel.setTextAlignment(TextAlignment.CENTER);
+//        multiPlayerMenuLabel.setTextFill(Color.web("#363738", 1.0));
+
+// Multiplayer not being implemented presently
+//        playTetrisMP = new Button("Play Tetris");
+//        playTetrisMP.setOnAction(e -> {
+//            tetrisGame.init();
+//            try {
+//                tetrisGame.start(window);
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        });
+
+// Single player layout: **Not required unless MP is being implemented**
+//        VBox singlePlayerLayout = new VBox(40);
+//        singlePlayerLayout.getChildren().addAll(singlePlayerMenuLabel, playTetsaw, playTetris, btm2);
+//        singlePlayerLayout.setAlignment(Pos.CENTER);
+//        singlePlayer = new Scene(singlePlayerLayout, 300, 500);
+//        singlePlayer.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+
+//        // Multi player layout: **Not currently being implemented**
+//        VBox multiPlayerLayout = new VBox(40);
+//        multiPlayerLayout.getChildren().addAll(multiPlayerMenuLabel, playTetsawMP, playTetrisMP, btm3);
+//        multiPlayerLayout.setAlignment(Pos.CENTER);
+//        multiPlayer = new Scene(multiPlayerLayout, 300, 500);
+//        multiPlayer.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+
+            // Multiplayer not being implemented presently
+//        playTetsawMP = new Button("Play Tetsaw");
+//        playTetsawMP.setOnAction(e -> window.setScene(tetsaw));
+
+            // Scoreboard not yet ready
+//        enterScoreboard = new Button("Scoreboard");
+//        enterScoreboard.setOnAction(e -> {
+//            try{
+//                sb.start(window);
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        });
+
+        // Multiplayer not currenly being implemented
+//        sp = new Button("Single Player");
+//        sp.setOnAction(e -> window.setScene(singlePlayer));
+//
+//        mp = new Button("Multi Player");
+//        mp.setOnAction(e -> window.setScene(multiPlayer));
+
+ */
