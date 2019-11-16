@@ -1,15 +1,21 @@
 package testjfxapp;
 // Work in progress
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import testjfxapp.subsystems.AudioSubsystem;
+
+import java.util.List;
 
 public class AudioSettings extends ReversableMenu {
 
@@ -34,30 +40,37 @@ public class AudioSettings extends ReversableMenu {
 
         window = primaryStage;
 
-        audioSettingLabel = new Label("Audio Setting");
+        audioSettingLabel = new Label("Audio Settings");
+        audioSettingLabel.setFont(Font.font("Arial",FontWeight.BOLD,30));
 
         btm1 = new Button("Back to Main Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
+//        btm1.prefHeightProperty().bind(audioSettings.widthProperty());
 
         btm2 = new Button("Back");
         btm2.setOnAction(e -> setPreviousScene());
 
         masterVolumeLabel = new Label("Master Volume");
+        masterVolumeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         musicVolumeLabel = new Label("Music Volume");
+        musicVolumeLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         soundfxLabel = new Label("Sound Effects Volume");
-        masterVolValue = new Label();
+        soundfxLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
 
-        musicVolume = new Slider(0, 100, 50);
-        //unsure how to handle volume change
 
-        soundfxVolume = new Slider(0, 100, 50);
-        //unsure how to handle volume change
+
+//        soundfxVolume = new Slider(0, 100, 50);
+//        soundfxVolume.setShowTickLabels(true);
+//        soundfxVolume.setShowTickMarks(true);
+//        //unsure how to handle volume change
 
         masterVolume = new Slider(0.0,100,50);
+        masterVolume.setShowTickLabels(true);
+        masterVolume.setShowTickMarks(true);
         //listen for master volume change
         masterVolume.valueProperty().addListener(observable -> {
 
-            if (masterVolume.isValueChanging()) {
+            if (!masterVolume.isValueChanging()) {
                 AudioSubsystem.setMasterVolume(masterVolume.getValue() / 100.0);
             }
         });
@@ -78,6 +91,8 @@ public class AudioSettings extends ReversableMenu {
 
         //listen for sound effects volume change
         soundfxVolume = new Slider(0,100,50);
+        soundfxVolume.setShowTickLabels(true);
+        soundfxVolume.setShowTickMarks(true);
 
         soundfxVolume.valueProperty().addListener(observable -> {
             if (!muteSoundFX.isSelected()){
@@ -131,7 +146,13 @@ public class AudioSettings extends ReversableMenu {
 
         // Audio Settings layout:
         VBox AudioSettingsLayout = new VBox(40);
-        AudioSettingsLayout.getChildren().addAll(btm1,audioSettingLabel,muteMaster,masterVolumeLabel,masterVolume,musicVolumeLabel,muteMusic,musicVolume,soundfxLabel,muteSoundFX,soundfxVolume);
+        AudioSettingsLayout.setSpacing(15);
+        AudioSettingsLayout.setPadding(new Insets(20,20,20,20));
+        AudioSettingsLayout.setMargin(masterVolume,new Insets(0,30,0,30));
+        AudioSettingsLayout.setMargin(soundfxVolume,new Insets(0,30,0,30));
+        AudioSettingsLayout.setMargin(musicVolume,new Insets(0,30,0,30));
+        AudioSettingsLayout.setVgrow(AudioSettingsLayout, Priority.ALWAYS);
+        AudioSettingsLayout.getChildren().addAll(audioSettingLabel,masterVolumeLabel,muteMaster,masterVolume,musicVolumeLabel,muteMusic,musicVolume,soundfxLabel,muteSoundFX,soundfxVolume,btm1);
         AudioSettingsLayout.setAlignment(Pos.CENTER);
         audioSettings = new Scene(AudioSettingsLayout, 300, 500);
         audioSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());

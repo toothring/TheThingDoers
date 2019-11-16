@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+
 public class InGameMenu {
 
     Stage window;
@@ -22,6 +23,7 @@ public class InGameMenu {
     MainMenu mainMenu;
     Tetris tetris;
     Scoreboard scoreboard;
+
 
     public InGameMenu(MainMenu m, Tetris t, Scoreboard s) {
         tetris = t;
