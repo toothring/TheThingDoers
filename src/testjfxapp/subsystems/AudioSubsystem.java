@@ -151,4 +151,7 @@ public class AudioSubsystem {
         updateVolumes();
     }
     
+    public void musicPlayMultiplier(double multiplier) {
+        backgroundMusic.setRate(multiplier);
+    }
 }

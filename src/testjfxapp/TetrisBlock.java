@@ -24,6 +24,7 @@ public class TetrisBlock {
     protected Vector2I[] pattern = new Vector2I[4];
     protected Vector2I realPos;
     protected int rotate;
+    protected int patternValue;
 
     public TetrisBlock(Vector2I tile, int pattern, int rotate) {
         //Initialise the area
@@ -31,7 +32,7 @@ public class TetrisBlock {
         
         //Store our rotation
         this.rotate = rotate;
-        
+        patternValue = pattern;
         //Store a copy of our pattern, to ensure that we aren't messing up the master pattern list
         System.arraycopy(Data.patterns[pattern], 0, this.pattern, 0, 4);
         
@@ -44,8 +45,8 @@ public class TetrisBlock {
         //This is the real position
         realPos = tile.transformExternal(0, -2);
         
-        generateAreaData();
         
+        init();
         colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
         //Debug Statement
         /*for (Vector2I thing : area) {
@@ -136,7 +137,7 @@ public class TetrisBlock {
     }
     
     //Generate our tiles from our pattern and actual position
-    private void generateAreaData(){
+    protected void generateAreaData(){
         area[0] = realPos.transformExternal(this.pattern[0]);
         area[1] = realPos.transformExternal(this.pattern[1]);
         area[2] = realPos.transformExternal(this.pattern[2]);
@@ -145,5 +146,15 @@ public class TetrisBlock {
     
     public String reportType(){
         return "Tetris";
+    }
+    public void resetLocation(Vector2I vec){
+        realPos = vec.transformExternal(0, 0);
+        generateAreaData();
+    }
+    public boolean checkPositionFinality(){
+        return true;
+    }
+    private void init() {
+        generateAreaData();
     }
 }

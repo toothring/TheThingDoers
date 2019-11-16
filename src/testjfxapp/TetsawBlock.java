@@ -31,12 +31,14 @@ public class TetsawBlock extends TetrisBlock {
 
     private final Texture[] tileImages;
     private final Vector2I finalPos;
+    private final SpriteSheet ss;
 
     public TetsawBlock(Vector2I tile, Vector2I intendedResult, int pattern, int rotate, SpriteSheet ss) {
         super(tile, pattern, rotate);
+        this.ss = ss;
         tileImages = new Texture[4];
         for (int i = 0; i < area.length; i++) {
-            tileImages[i] = new Texture(ss, intendedResult.transformExternal(this.pattern[i]).getX(), Math.abs(intendedResult.transformExternal(this.pattern[i]).getY()));
+            tileImages[i] = new Texture(this.ss, intendedResult.transformExternal(this.pattern[i]).getX(), Math.abs(intendedResult.transformExternal(this.pattern[i]).getY()));
         }
         colour = Color.BLACK;
         System.out.println("Tetsaw BLAWK");
@@ -51,18 +53,20 @@ public class TetsawBlock extends TetrisBlock {
         for (int i = 0; i < area.length; i++) {
             g.drawImage(tileImages[i].getTexture(), area[i].getX() * scaleMultiplier, area[i].getY() * scaleMultiplier, scaleMultiplier, scaleMultiplier);
         }
+        for (int i = 0; i < area.length; i++) {
+            
+            g.drawImage(tileImages[i].getTexture(), (Data.patterns[patternValue][i].getX() + finalPos.getX()) * scaleMultiplier, (Data.patterns[patternValue][i].getY() + finalPos.getY()) * scaleMultiplier, scaleMultiplier, scaleMultiplier);
+        }
     }
 
     @Override
     public String reportType() {
         return "Tetsaw";
     }
-    
+    @Override
     public boolean checkPositionFinality(){
         return finalPos.equals(realPos);
     }
     
-    public void resetLocation(Vector2I vec){
-        realPos = vec.transformExternal(0, 0);
-    }
+    
 }

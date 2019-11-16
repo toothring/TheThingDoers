@@ -40,7 +40,7 @@ public class Tetsaw extends Tetris {
 
     @Override
     protected void makeTile() {
-        if (currentBlock == null) {
+        if (currentBlock == null || currentBlock.checkPositionFinality()) {
             //Semi-obsolete formatting from tech demo
             int selectedBlock;
 
@@ -66,6 +66,8 @@ public class Tetsaw extends Tetris {
             blocks.add(block);
             //Set it as our active block
             currentBlock = block;
+        } else {
+            currentBlock.resetLocation(playArea[(PLAY_AREA_WIDTH / 2) - 1]);
         }
         
     }
