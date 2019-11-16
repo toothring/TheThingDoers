@@ -262,6 +262,7 @@ public class Tetris extends Application {
         return scorePerRow;
     }
 
+    // Called when game ends to flip the gameOver switch and open IGM, without a resume game button
     public void gameIsOver(){
         this.pause();
         this.getBlockScore();
