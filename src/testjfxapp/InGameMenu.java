@@ -31,6 +31,7 @@ public class InGameMenu {
         scoreboard = s; // Added so its' methods can be called...
             }
 
+
     public void start(Stage primaryStage) throws Exception {
 
         tetrisScore = new Label("Your current score is " + scoreboard.round(scoreboard.calculateTetrisScore(), 2));
@@ -103,7 +104,7 @@ public class InGameMenu {
 
         // Audio Settings layout:
         VBox inGameAudioSettingsLayout = new VBox(40);
-        inGameAudioSettingsLayout.getChildren().addAll(musicVolume, sfxVolume, btm1);
+        inGameAudioSettingsLayout.getChildren().addAll(btm1);
         inGameAudioSettingsLayout.setAlignment(Pos.CENTER);
         inGameAudioSettings = new Scene(inGameAudioSettingsLayout, 300, 500);
         inGameAudioSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());

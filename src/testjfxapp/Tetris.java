@@ -96,7 +96,7 @@ public class Tetris {
         blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
-        igm = new InGameMenu(menu, this);
+        igm = new InGameMenu(menu, this, menu.sboard);
     }
 
     /**
