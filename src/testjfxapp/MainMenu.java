@@ -17,11 +17,11 @@ import java.awt.*;
 public class MainMenu extends Application{
 
     Stage window;
-    Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer, gameEndScene;
+    Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
     Scene audioSettingsScene, graphicSettingsScene;
     Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
     Button btm1, btm2, btm3, btm4, btm5, btm6,igmbutton;
-    Button audioSettings, graphicSettings;
+    Button audioSettingsBtn, graphicSettings;
 
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
@@ -31,11 +31,10 @@ public class MainMenu extends Application{
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
     ReversableMenu sb = new Scoreboard(this, tetrisGame);
+    AudioSettings audioSettings = new AudioSettings(settingsMenu,this);
 
     Scoreboard sboard = new Scoreboard(this, tetrisGame); //Added because I couldn't pass sb into the below
-    InGameMenu igm = new InGameMenu(this, tetrisGame, sboard); //Added sboard so the InGameMenu can access it
-    //AudioSettings audioSettings = new AudioSettings(this);
-    //AccessibilSettings accessibilSettings = new AccessibilSettings(this);
+    InGameMenu igm = new InGameMenu(this, tetrisGame, sboard, audioSettings); //Added sboard so the InGameMenu can access it
 
 
     public static void main(String[] args) {
@@ -136,15 +135,11 @@ public class MainMenu extends Application{
         btm6 = new Button("Back to Menu");
         btm6.setOnAction(e -> window.setScene(mainMenu));
 
-        audioSettings = new Button("Audio Settings");
-        audioSettings.setOnAction(e -> window.setScene(audioSettingsScene));
+        audioSettingsBtn = new Button("Audio Settings");
+        audioSettingsBtn.setOnAction(e -> window.setScene(audioSettingsScene));
+
 
         graphicSettings = new Button("Graphic Settings");
-
-
-
-
-
 
         igmbutton = new Button("Open In-Game Menu");
         igmbutton.setOnAction(e -> {
@@ -183,20 +178,12 @@ public class MainMenu extends Application{
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // End-of-game score screen layout:
-        Label tetrisScore = new Label("Your last score in Tetris was "+ Scoreboard.round(Scoreboard.calculateTetrisScore(), 2));
-        VBox gameEndLayout = new VBox(40);
-        gameEndLayout.getChildren().addAll(tetrisScore, btm2);
-        gameEndLayout.setAlignment(Pos.CENTER);
-        gameEndScene = new Scene(gameEndLayout, 300, 500);
-        gameEndScene.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
-
 
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
-//        window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
+       // window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
         window.setOnCloseRequest(e -> {
           e.consume();
           quitProgram();
@@ -216,10 +203,6 @@ public class MainMenu extends Application{
     public void showMenu() {
         window.setScene(mainMenu);
         }
-
-    public void showGameEndScene(){
-        window.setScene(gameEndScene);
-    }
 
     public void resetGame(){
         tetrisGame = new Tetris(10,20,30,this);

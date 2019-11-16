@@ -69,6 +69,7 @@ public class Tetris extends Application {
     private InGameMenu igm;
     private Scoreboard scoreboard;
     private Scene scene;
+    private AudioSettings audioSettings;
 
     private static int[] rowCount = new int[20];
 
@@ -89,7 +90,7 @@ public class Tetris extends Application {
         blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
-        igm = new InGameMenu(menu, this, scoreboard);
+        igm = new InGameMenu(menu, this, scoreboard, audioSettings);
     }
 
     /**
@@ -194,6 +195,11 @@ public class Tetris extends Application {
     public void returnToMenu() {
         running = false;
         menu.showMenu();
+    }
+
+    public void goToAudioSett(){
+        running = false;
+        audioSettings.setCurrentScene();
     }
 
     public boolean getGameOverSwitch(){ //So that the IGM can access it
@@ -432,6 +438,9 @@ public class Tetris extends Application {
             if (!rowCheck.contains(y)) {
                 rowCheck.add(y);
                 System.out.println(y);
+                if (y < 2) {
+                    gameIsOver();
+                }
             }
         }
         System.out.println();

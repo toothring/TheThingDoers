@@ -22,11 +22,13 @@ public class InGameMenu {
     MainMenu mainMenu;
     Tetris tetris;
     Scoreboard scoreboard;
+    AudioSettings audioSettings;
 
-    public InGameMenu(MainMenu m, Tetris t, Scoreboard s) {
+    public InGameMenu(MainMenu m, Tetris t, Scoreboard s, AudioSettings as) {
         tetris = t;
         mainMenu = m;
         scoreboard = s; // Added so its' methods can be called...
+        audioSettings = as;
             }
 
     public void start(Stage primaryStage) throws Exception {
@@ -61,12 +63,11 @@ public class InGameMenu {
         });
 
         AudioSettingsBTN = new Button("Audio Settings");
-        AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));
+        AudioSettingsBTN.setOnAction(e -> tetris.goToAudioSett());
+
 
         inGameVisualSettingsBTN = new Button("Visual Settings");
         inGameVisualSettingsBTN.setOnAction(e -> window.setScene(inGameVisualSettings));
-
-
 
         fps = new Slider(30, 90, 60);
         //unsure how to handle
@@ -99,12 +100,12 @@ public class InGameMenu {
         inGameMenu = new Scene(inGameMenuLayout, 300, 500);
         inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // Audio Settings layout:
-        VBox inGameAudioSettingsLayout = new VBox(40);
-        inGameAudioSettingsLayout.getChildren().addAll(musicVolume, sfxVolume, btm1);
-        inGameAudioSettingsLayout.setAlignment(Pos.CENTER);
-        inGameAudioSettings = new Scene(inGameAudioSettingsLayout, 300, 500);
-        inGameAudioSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+//        // Audio Settings layout: **NOT REQUIRED, AUDIO BUTTON ROUTES TO MAIN AUDIO SETTINGS**
+//        VBox inGameAudioSettingsLayout = new VBox(40);
+//        inGameAudioSettingsLayout.getChildren().addAll(musicVolume, sfxVolume, btm1);
+//        inGameAudioSettingsLayout.setAlignment(Pos.CENTER);
+//        inGameAudioSettings = new Scene(inGameAudioSettingsLayout, 300, 500);
+//        inGameAudioSettings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
 
         // Visual Settings layout:
