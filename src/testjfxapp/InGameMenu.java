@@ -59,7 +59,7 @@ public class InGameMenu {
                 ex.printStackTrace();
             }
         });
-        
+
         btm1 = new Button("Back to In-Game Menu");
         btm1.setOnAction(e -> window.setScene(inGameMenu));
 

@@ -43,9 +43,8 @@ public class Settings extends ReversableMenu {
         audioSet = new Button("Audio Settings");
         audioSet.setOnAction(e -> audioSettings.setCurrentScene());
 
-        // Graphics Options layout:
         VBox graphicsOptionsLayout = new VBox(40);
-        graphicsOptionsLayout.getChildren().addAll(graphicsOpts, accessSet, audioSet, btm1);
+        graphicsOptionsLayout.getChildren().addAll(graphicsOpts, audioSet, btm1); //Removed accessibility settings until ready
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
         settings = new Scene(graphicsOptionsLayout, 300, 500);
         settings.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
