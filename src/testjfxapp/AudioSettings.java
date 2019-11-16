@@ -21,7 +21,6 @@ public class AudioSettings extends ReversableMenu {
     CheckBox muteMusic,muteSoundFX, muteMaster;
     Slider masterVolume, musicVolume, soundfxVolume;
     Label mainMenuLabel;
-    AudioSubsystem audio;
 
     MainMenu mainMenu;
 
@@ -38,7 +37,7 @@ public class AudioSettings extends ReversableMenu {
         btm1 = new Button("Back to Main Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
 
-        btm2 = new Button("Back to Menu");
+        btm2 = new Button("Back");
         btm2.setOnAction(e -> setPreviousScene());
 
         masterVolumeLabel = new Label("Master Volume");
