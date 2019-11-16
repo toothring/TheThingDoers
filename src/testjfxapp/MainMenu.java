@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import testjfxapp.subsystems.AudioSubsystem;
@@ -23,7 +25,7 @@ public class MainMenu extends Application{
     Button btm1, btm2, btm3, igmbutton;
     Button audioSettingsBtn, graphicSettings;
 
-    Label mainMenuLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
+    Label mainMenuLabel, titleLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(10,20,30, this);
@@ -52,6 +54,8 @@ public class MainMenu extends Application{
         double fullheight = screenSize.getHeight();
         final boolean running = false;
 
+        titleLabel = new Label("Hi!");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD,30));
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextFill(Color.web("#363738", 1.0));
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
@@ -110,7 +114,7 @@ public class MainMenu extends Application{
 
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
-        mainMenuLayout.getChildren().addAll(mainMenuLabel, playTetris, playTetsaw, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
+        mainMenuLayout.getChildren().addAll(titleLabel, mainMenuLabel, playTetris, playTetsaw, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 500);
         mainMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
