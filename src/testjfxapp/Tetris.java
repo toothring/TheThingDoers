@@ -146,6 +146,19 @@ public class Tetris extends Application {
                     }
                     // T block
                     if (newBlock == 1) {
+                        if(currentRotation==0){
+                            userMovement("Right");
+                        }
+                        if (currentRotation == 1) {
+                            userMovement("Right");
+                            userMovement("Right");
+                        }
+
+                        if (currentRotation==2){
+                            userMovement("Right");
+                            userMovement("Right");
+                            userMovement("Right");
+                        }
 
                     }
                     // S block
