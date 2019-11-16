@@ -197,11 +197,6 @@ public class Tetris extends Application {
         menu.showMenu();
     }
 
-    public void goToAudioSett(){
-        running = false;
-        audioSettings.setCurrentScene();
-    }
-
     public boolean getGameOverSwitch(){ //So that the IGM can access it
         return gameOver;
     }
