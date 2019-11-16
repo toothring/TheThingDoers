@@ -17,7 +17,7 @@ public class InGameMenu {
     Button resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN;
     Slider musicVolume, sfxVolume, fps, brightness;
     Button btm1, btm2, btm3;
-    Label inGameMenuLabel, audioSettingsLabel, visualSettingsLabel, tetrisScore, tetsawScore;
+    Label inGameMenuLabel, audioSettingsLabel, visualSettingsLabel, tetrisScore, tetsawScore, gameOverLabel, levelCompleteLabel;
 
     MainMenu mainMenu;
     Tetris tetris;
@@ -32,14 +32,18 @@ public class InGameMenu {
     public void start(Stage primaryStage) throws Exception {
 
         tetrisScore = new Label("Your current score is " + scoreboard.round(scoreboard.calculateTetrisScore(), 2));
+        tetrisScore.setTextAlignment(TextAlignment.CENTER);
         if (scoreboard.round(Scoreboard.calculateTetrisScore(), 2) < 100.0) {
             tetrisScore.setTextFill(Color.web("#bd1509", 1.0));
-        }
-        else{
+        } else {
             tetrisScore.setTextFill(Color.web("#0930bd", 1.0));
         }
-        tetrisScore.setTextAlignment(TextAlignment.CENTER);
-       // tetsawScore = new Label("Your last score in Tetsaw was "+scoreboard.round(scoreboard.calculateTetrisScore(), 2));
+
+        // tetsawScore = new Label("Your last score in Tetsaw was "+scoreboard.round(scoreboard.calculateTetrisScore(), 2));
+
+        gameOverLabel = new Label("Game Over.");
+        levelCompleteLabel = new Label("Level Complete!");
+
         inGameMenuLabel = new Label("Needed a break?");
         inGameMenuLabel.setTextFill(Color.web("#363738", 1.0));
 
@@ -56,7 +60,7 @@ public class InGameMenu {
             }
         });
 
-                AudioSettingsBTN = new Button("Audio Settings");
+        AudioSettingsBTN = new Button("Audio Settings");
         AudioSettingsBTN.setOnAction(e -> window.setScene(inGameAudioSettings));
 
         inGameVisualSettingsBTN = new Button("Visual Settings");
@@ -85,7 +89,16 @@ public class InGameMenu {
 
         // in-game menu layout:
         VBox inGameMenuLayout = new VBox(40);
-        inGameMenuLayout.getChildren().addAll(tetrisScore, inGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
+        if (tetris.getGameOverSwitch()){ // If the game is over, display "Game Over" before the score.
+            inGameMenuLayout.getChildren().addAll(gameOverLabel, tetrisScore, inGameMenuLabel, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
+        }
+        // **ADJUST REFERENCE TO TETSAW CLASS**
+        else if (tetris.getLevelCompleteSwitch()) {// If a level is finished, display "Level completed" before the score.
+            inGameMenuLayout.getChildren().addAll(levelCompleteLabel, tetrisScore, inGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
+        }
+        else{ // Otherwise, don't :)
+            inGameMenuLayout.getChildren().addAll(tetrisScore, inGameMenuLabel, resumeGame, AudioSettingsBTN, inGameVisualSettingsBTN, btm3);
+        }
         inGameMenuLayout.setAlignment(Pos.CENTER);
         inGameMenu = new Scene(inGameMenuLayout, 300, 500);
         inGameMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());

@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
@@ -44,7 +45,7 @@ public class Scoreboard extends ReversableMenu {
         graphicsOptionsLayout.getChildren().addAll(tetrisScore, btm1);
         graphicsOptionsLayout.setAlignment(Pos.CENTER);
         scoreboard = new Scene(graphicsOptionsLayout, 300, 500);
-        //scoreboard.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString()); *Using different theme for scoreboard
+        scoreboard.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         setCurrentScene();
 
@@ -72,7 +73,7 @@ public class Scoreboard extends ReversableMenu {
 //    ***Add when tetsaw class exists***
 //    public double calculateTetsawScore(){
 //        double finalScore;
-//        finalScore = (tetsaw.getScore);
+//        finalScore = (Tetsaw.getScore);
 //        return finalScore;
 //    }
 

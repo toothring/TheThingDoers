@@ -18,7 +18,7 @@ import java.awt.*;
 public class MainMenu extends Application{
 
     Stage window;
-    Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer;
+    Scene mainMenu, tetris, tetsaw, settings, scoreboard, singlePlayer, multiPlayer, gameEndScene;
     Button playTetris, playTetrisMP, playTetsaw, playTetsawMP, enterSettings, enterScoreboard, closeProgram, sp, mp;
     Button btm1, btm2, btm3, btm4, btm5, btm6, igmbutton;
     Label tetrisMenuLabel, mainMenuLabel, tetsawMenuLabel, scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
@@ -171,6 +171,13 @@ public class MainMenu extends Application{
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
+        // End-of-game score screen layout:
+        Label tetrisScore = new Label("Your last score in Tetris was "+ Scoreboard.round(Scoreboard.calculateTetrisScore(), 2));
+        VBox gameEndLayout = new VBox(40);
+        gameEndLayout.getChildren().addAll(tetrisScore, btm2);
+        gameEndLayout.setAlignment(Pos.CENTER);
+        gameEndScene = new Scene(gameEndLayout, 300, 500);
+        gameEndScene.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
 
         window.setScene(mainMenu);
@@ -189,14 +196,18 @@ public class MainMenu extends Application{
     public void quitProgram() {
         Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
         if(answer) {
-            tetrisGame.stop();
             window.close();
+            tetrisGame.stop();
         }
     }
 
     public void showMenu() {
         window.setScene(mainMenu);
         }
+
+    public void showGameEndScene(){
+        window.setScene(gameEndScene);
+    }
 
     public void resetGame(){
         tetrisGame = new Tetris(10,20,30,this);

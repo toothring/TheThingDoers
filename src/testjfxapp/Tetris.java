@@ -68,6 +68,9 @@ public class Tetris extends Application {
 
     private double ticks = 2.0; // The larger this number is, the faster the game
     private double ns = 1000000000 / ticks;
+    private boolean gameOver = false; // This determines whether the 'game over' message is displayed in the IGM
+// ** REQUIRED FOR TETSAW:**
+    private boolean levelComplete = false; // This determines whether the 'level complete' message is displayed in the IGM
 
     public Tetris(int Width, int Height, int Scale, MainMenu menu) {
         PLAY_AREA_WIDTH = Width;
@@ -163,8 +166,9 @@ public class Tetris extends Application {
 
     @Override
     public void stop() {
-        running = false;
+        running = false; // Stop the game from running
         System.exit(0);
+//        gameEnd(); // Call the method that commences game-end activities
     }
 
     public void pause() {
@@ -180,9 +184,12 @@ public class Tetris extends Application {
         menu.showMenu();
     }
 
-    public void endGame(){
-        boolean gameEndTimer = true; //set scene to scoreboard, count down, end game using stop().
-
+    public boolean getGameOverSwitch(){ //So that the IGM can access it
+        return gameOver;
+    }
+// **REQUIRED FOR TETSAW:**
+    public boolean getLevelCompleteSwitch(){ //So that the IGM can access it
+        return levelComplete;
     }
 
     @Override
@@ -216,29 +223,29 @@ public class Tetris extends Application {
     }
 
     public void tickDown() {
-        int scaleMult = screenSetup();
+            int scaleMult = screenSetup();
 
-        String direction = "down";
-        boolean intersects = checkForCollision(direction);
+            String direction = "down";
+            boolean intersects = checkForCollision(direction);
 
-        //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
-        if (!intersects) {
-            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
-            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+            //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
+            if (!intersects) {
+                //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+                if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                    //Mike is checking for line removal
+                    isCompletedRow();
+                    makeTile(); // The score per landed block is recorded in this method.
+                }
+            } else {
                 //Mike is checking for line removal
                 isCompletedRow();
-                makeTile(); // The score per landed block is recorded in this method.
+                makeTile();
             }
-        } else {
-            //Mike is checking for line removal
-            isCompletedRow();
-            makeTile();
-        }
-        scorePerTick = scorePerTick+0.1; // Increase the score slightly with each tick
-        System.out.println(scorePerTick + " " + scorePerLandedBlock + " " + scorePerRow); // Print in console so BB can see it working
+            scorePerTick = scorePerTick + 0.1; // Increase the score slightly with each tick
+            System.out.println(scorePerTick + " " + scorePerLandedBlock + " " + scorePerRow); // Print in console so BB can see it working
 
-        drawAllTiles(scaleMult);
-    }
+            drawAllTiles(scaleMult);
+        }
 
     // To retrieve the cumulative value for score per tick in other classes
     public static double getTickScore(){
