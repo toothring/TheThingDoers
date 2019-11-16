@@ -184,7 +184,7 @@ public class MainMenu extends Application{
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
-        window.getIcons().add(new Image("/icon.png"));
+//        window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
         window.setOnCloseRequest(e -> {
           e.consume();
           quitProgram();
