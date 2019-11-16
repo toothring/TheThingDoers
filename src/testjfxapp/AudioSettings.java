@@ -151,7 +151,6 @@ public class AudioSettings extends ReversableMenu {
         AudioSettingsLayout.setMargin(masterVolume,new Insets(0,30,0,30));
         AudioSettingsLayout.setMargin(soundfxVolume,new Insets(0,30,0,30));
         AudioSettingsLayout.setMargin(musicVolume,new Insets(0,30,0,30));
-        AudioSettingsLayout.setVgrow(AudioSettingsLayout, Priority.ALWAYS);
         AudioSettingsLayout.getChildren().addAll(audioSettingLabel,masterVolumeLabel,muteMaster,masterVolume,musicVolumeLabel,muteMusic,musicVolume,soundfxLabel,muteSoundFX,soundfxVolume,btm1);
         AudioSettingsLayout.setAlignment(Pos.CENTER);
         audioSettings = new Scene(AudioSettingsLayout, 300, 500);
