@@ -273,6 +273,7 @@ public class Tetris extends Application {
         try {
             igm.start(menu.window);
         } catch (Exception ex) {
+            //ex.printStackTrace();
             Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
