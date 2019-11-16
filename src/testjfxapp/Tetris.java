@@ -29,6 +29,8 @@ import orion.number.Vector2I;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -267,7 +269,11 @@ public class Tetris extends Application {
         this.getBlockScore();
         this.getTickScore();
         gameOver = true;
-        igm.start(menu.window);
+        try {
+            igm.start(menu.window);
+        } catch (Exception ex) {
+            Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean tickDown2() {
@@ -406,6 +412,12 @@ public class Tetris extends Application {
     }
 
     private boolean checkFilledRow(int row) {
+        for (var tile : currentBlock.getArea()){
+            if (tile.getY() < 0) {
+                gameIsOver();
+                return false;
+            }
+        }
         int rowIndex = row * PLAY_AREA_WIDTH;
         boolean rowFilled = true;
         for (int i = 0; i < PLAY_AREA_WIDTH; i++) {
