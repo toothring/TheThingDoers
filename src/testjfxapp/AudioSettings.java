@@ -17,7 +17,7 @@ public class AudioSettings extends ReversableMenu {
     Scene audioSettings;
     Button btm1, btm2;
 
-    Label audioSettingLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue, mainMenuLabel;
+    Label audioSettingLabel,masterVolumeLabel,musicVolumeLabel,soundfxLabel, masterVolValue;
     CheckBox muteMusic,muteSoundFX, muteMaster;
     Slider masterVolume, musicVolume, soundfxVolume;
     AudioSubsystem audio;
@@ -33,6 +33,8 @@ public class AudioSettings extends ReversableMenu {
     public void start(Stage primaryStage) throws Exception {
 
         window = primaryStage;
+
+        audioSettingLabel = new Label("Audio Setting");
 
         btm1 = new Button("Back to Main Menu");
         btm1.setOnAction(e -> mainMenu.showMenu());
