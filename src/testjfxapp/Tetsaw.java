@@ -37,7 +37,7 @@ public class Tetsaw extends Tetris {
     private SpriteSheet ss;
     private boolean[] selectedChunks;
     private int currentPositionBlock = 0;
-    private Image gameImage = new Image("/test2.png", true);
+    private Image gameImage;
     private TetsawLevelData level;
 
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu, TetsawLevelData level) {
@@ -45,6 +45,7 @@ public class Tetsaw extends Tetris {
         System.out.println("Oh lawd we doin dis");
         selectedChunks = new boolean[playArea.length];
         this.level = level;
+        gameImage = level.gameImage;
         AudioSubsystem.playMusic(this.level.track);
     }
 
