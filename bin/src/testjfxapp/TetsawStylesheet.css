@@ -1,9 +1,0 @@
-.root{
-    -fx-font: 11pt "Arial";
-    -fx-background-image: url("/TetsawImage.jpg");
-    -fx-font-weight: BOLD;
-    -fx-text-alignment: center;
-    -fx-text-fill: #363738;
-    -fx-text-inner-color: #363738;
-    -fx-fill: #363738;
-}
