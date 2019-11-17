@@ -46,6 +46,10 @@ public class Tetsaw extends Tetris {
 
     @Override
     protected void makeTile() {
+        if(currentPositionBlock >= Data.easyMode.data.size()) {
+            gameIsOver();
+            return;
+        }
         if (currentBlock == null || currentBlock.checkPositionFinality()) {
             //Semi-obsolete formatting from tech demo
             int selectedBlock;
