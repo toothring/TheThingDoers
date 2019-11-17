@@ -51,7 +51,7 @@ public class Tetsaw extends Tetris {
 
     @Override
     protected void makeTile() {
-        if(currentPositionBlock >= Data.easyMode.data.size()) {
+        if(currentPositionBlock >= level.data.size()) {
             gameIsOver();
             return;
         }
