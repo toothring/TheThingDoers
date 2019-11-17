@@ -34,12 +34,12 @@ public  class Data {
     public static final TetsawLevelData easyMode = new TetsawLevelData(easyModeLevel, "easy", "/test2.png");
     
     private static final TetsawBlockData[] normalModeLevel = {
-        new TetsawBlockData(0, 0, 0, 0)
+        new TetsawBlockData(0, 22, 0, 0)
     };
     public static final TetsawLevelData normalMode = new TetsawLevelData(normalModeLevel, "main", "/test3.png");
     
     private static final TetsawBlockData[] hardModeLevel = {
-        new TetsawBlockData(0, 0, 0, 0)
+        new TetsawBlockData(0, 22, 0, 0)
     };
     public static final TetsawLevelData hardMode = new TetsawLevelData(hardModeLevel, "hard", "/test4.png");
 }
