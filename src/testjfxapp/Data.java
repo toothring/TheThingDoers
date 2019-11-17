@@ -25,8 +25,11 @@ public  class Data {
 
     
     private static final TetsawBlockData[] easyModeLevel = {
-        new TetsawBlockData(1, 23, 0, 4),
-        new TetsawBlockData(4, 22, 0, 2)
+        new TetsawBlockData(1, 23, 3, 5),
+        new TetsawBlockData(4, 23, 0, 4),
+        new TetsawBlockData(1, 21, 0, 2),
+        new TetsawBlockData(3, 21, 1, 1),
+        new TetsawBlockData(4, 21, 0, 0)
     };
     public static final TetsawLevelData easyMode = new TetsawLevelData(easyModeLevel);
     
