@@ -21,7 +21,7 @@ public class MainMenu extends Application {
     Stage window;
     Scene mainMenu, tetsaw; //Unused: singlePlayer, multiPlayer
     Scene audioSettingsScene, graphicSettingsScene;
-    Button playTetris, playTetsaw, enterSettings, closeProgram; //Unused: playTetrisMP, playTetsawMP, enterScoreboard, sp, mp
+    Button playTetris, playTetsawE, playTetsawN, playTetsawH, enterSettings, closeProgram; //Unused: playTetrisMP, playTetsawMP, enterScoreboard, sp, mp
     Button btm1, btm2, btm3, igmbutton;
     Button audioSettingsBtn, graphicSettings;
 
@@ -79,9 +79,33 @@ public class MainMenu extends Application {
         );
 
 
-        playTetsaw = new Button("Play Tetsaw (Easy)");
-        playTetsaw.setOnAction(e -> {
+        playTetsawE = new Button("Play Tetsaw (Easy)");
+        playTetsawE.setOnAction(e -> {
             tetsawGame = new Tetsaw(30, 24, 30, this, Data.easyMode);
+            tetsawGame.init();
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            try {
+                tetsawGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        
+        playTetsawN = new Button("Play Tetsaw (Normal)");
+        playTetsawN.setOnAction(e -> {
+            tetsawGame = new Tetsaw(30, 24, 30, this, Data.normalMode);
+            tetsawGame.init();
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            try {
+                tetsawGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        
+        playTetsawH = new Button("Play Tetsaw (Hard)");
+        playTetsawH.setOnAction(e -> {
+            tetsawGame = new Tetsaw(30, 24, 30, this, Data.hardMode);
             tetsawGame.init();
             //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
             try {
@@ -127,7 +151,7 @@ public class MainMenu extends Application {
 
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
-        mainMenuLayout.getChildren().addAll(titleLabel, mainMenuLabel, playTetris, playTetsaw, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
+        mainMenuLayout.getChildren().addAll(titleLabel, mainMenuLabel, playTetris, playTetsawE, playTetsawN, playTetsawH, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 500);
         mainMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
