@@ -1,4 +1,6 @@
 .root{
+    -fx-background-image: url("/images/TetsawImage.jpg");
+    -fx-font: 11pt "Arial";
     -fx-background-image: url("/TetsawImage.jpg");
     -fx-font: 11pt "Helvetica";
     -fx-font-weight: BOLD;

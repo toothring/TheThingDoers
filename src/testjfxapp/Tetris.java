@@ -76,7 +76,7 @@ public class Tetris {
     protected Scene scene;
 
     private Scoreboard scoreboard;
-
+    private AudioSettings audioSettings;
 
     private static int[] rowCount = new int[20];
 
@@ -97,8 +97,7 @@ public class Tetris {
         blocks = new ArrayList<>();
         playArea = new Vector2I[PLAY_AREA_WIDTH * PLAY_AREA_HEIGHT];
         this.menu = menu;
-        igm = new InGameMenu(menu, this, menu.sboard);
-        System.out.println(PLAY_AREA_WIDTH);
+        igm = new InGameMenu(menu, this, scoreboard, audioSettings);
     }
 
     /**
@@ -316,6 +315,7 @@ public class Tetris {
         return scorePerRow;
     }
 
+    // Called when game ends to flip the gameOver switch and open IGM, without a resume game button
     public void gameIsOver(){
         this.pause();
         this.getBlockScore();
@@ -324,6 +324,7 @@ public class Tetris {
         try {
             igm.start(menu.window);
         } catch (Exception ex) {
+            //ex.printStackTrace();
             Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -475,6 +476,9 @@ public class Tetris {
             if (!rowCheck.contains(y)) {
                 rowCheck.add(y);
                 System.out.println(y);
+                if (y < 2) {
+                    gameIsOver();
+                }
             }
         }
         System.out.println();
