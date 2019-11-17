@@ -88,6 +88,9 @@ public class Tetsaw extends Tetris {
         } else {
             currentBlock.resetLocation(playArea[(PLAY_AREA_WIDTH / 2) - 1]);
             deaths++;
+            if (deaths >= 3) {
+                gameIsOver();
+            }
         }
         
     }
