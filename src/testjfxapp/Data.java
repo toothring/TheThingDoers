@@ -34,7 +34,7 @@ public  class Data {
         new TetsawBlockData(9, 22, 0, 3),
         new TetsawBlockData(11, 23, 2, 1),
         new TetsawBlockData(14, 23, 1, 6),
-        new TetsawBlockData(16, 22, 1, 4),
+        new TetsawBlockData(16, 21, 1, 4),
         new TetsawBlockData(17, 22, 2, 6),
         new TetsawBlockData(19, 22, 0, 5),
         new TetsawBlockData(20, 22, 0, 0),
