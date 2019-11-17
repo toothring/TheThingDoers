@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /**
  *
@@ -116,6 +117,10 @@ public class AudioSubsystem {
         }
         backgroundMusic = music;
         backgroundMusic.setVolume(musicVolume * masterVolume);
+        backgroundMusic.setOnEndOfMedia(() -> {
+            backgroundMusic.seek(Duration.ZERO);
+            backgroundMusic.play();
+        });
         backgroundMusic.play();
     }
     

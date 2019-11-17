@@ -29,6 +29,7 @@ public class InGameMenu {
         audioSettings = as;
             }
 
+
     public void start(Stage primaryStage) throws Exception {
 
         tetrisScore = new Label("Your current score is " + scoreboard.round(scoreboard.calculateTetrisScore(), 2));

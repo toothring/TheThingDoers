@@ -31,47 +31,51 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import testjfxapp.subsystems.AudioSubsystem;
 
 /**
  *
  * @author Orion
  */
-public class Tetris extends Application {
+public class Tetris {
 
     private static final long serialVersionUID = 1L;
 
-    private static int PLAY_AREA_WIDTH;
-    private static int PLAY_AREA_HEIGHT;
-    private static int TILE_SIZE;
+    protected static int PLAY_AREA_WIDTH;
+    protected static int PLAY_AREA_HEIGHT;
+    protected static int TILE_SIZE;
 
-    private final Vector2I movement = new Vector2I(0, 1);
-    private final Vector2I moveLeft = new Vector2I(-1, 0);
-    private final Vector2I moveRight = new Vector2I(1, 0);
     private int currentRotation;
-    private int newBlock;
+    protected int newBlock;
 
-    private final Random r = new Random();
+
     private static int[] patternTracker = {0,0,0,0,0,0,0}; // one for each tetris block
     private static int patternCount = 0;
 
-    private static Vector2I[] playArea;
-    private static ArrayList<TetrisBlock> blocks;
-    private static TetrisBlock currentBlock;
+
+    protected final Vector2I movement = new Vector2I(0, 1);
+    protected final Vector2I moveLeft = new Vector2I(-1, 0);
+    protected final Vector2I moveRight = new Vector2I(1, 0);
+    protected final Random r = new Random();
+    protected static Vector2I[] playArea;
+    protected static ArrayList<TetrisBlock> blocks;
+    protected static TetrisBlock currentBlock;
     private Boolean running = true;
     private int x = 0;
-    private static double scorePerTick = 0; // To hold the score per line dropped.
-    private static int scorePerLandedBlock = 0; // To hold the score per landed block
+    protected static double scorePerTick = 0; // To hold the score per line dropped.
+    protected static int scorePerLandedBlock = 0; // To hold the score per landed block
     private static int scorePerRow = 1; // Starts at one otherwise no final score is given until a row is filled
     // because scorePerRow is the multiplier for the other two scores
 
     private static Group root;
     private static Canvas CANVAS;
-    private static GraphicsContext GRAPHICS;
+    protected static GraphicsContext GRAPHICS;
 
-    private MainMenu menu;
-    private InGameMenu igm;
+    protected MainMenu menu;
+    protected InGameMenu igm;
+    protected Scene scene;
+
     private Scoreboard scoreboard;
-    private Scene scene;
     private AudioSettings audioSettings;
 
     private static int[] rowCount = new int[20];
@@ -104,7 +108,6 @@ public class Tetris extends Application {
 
     }
 
-    @Override
     public void start(Stage arg0) throws Exception {
         arg0.setTitle("Tetris");
         running = true;
@@ -154,9 +157,14 @@ public class Tetris extends Application {
                     ex.printStackTrace();
                 };
                     break;
+                case T:
+                    makeTile();
             }
         });
-
+        arg0.setWidth(PLAY_AREA_WIDTH * TILE_SIZE + 0.5 * TILE_SIZE);
+        arg0.setHeight(PLAY_AREA_HEIGHT * TILE_SIZE + 1.5 * TILE_SIZE);
+        CANVAS.setWidth(PLAY_AREA_WIDTH * TILE_SIZE);
+        CANVAS.setHeight(PLAY_AREA_HEIGHT * TILE_SIZE);
         arg0.setScene(scene);
         arg0.show();
         System.out.println("ARGH");
@@ -173,6 +181,7 @@ public class Tetris extends Application {
                     delta--;
                     if (ticks < 10) { // 10 ticks is pretty fast
                         ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
+                        AudioSubsystem.setPlaybackMultiplier(ticks / 2);
                         ns = 1000000000 / ticks;
                     }
                 }
@@ -181,7 +190,6 @@ public class Tetris extends Application {
         }).start();
     }
 
-    @Override
     public void stop() {
         running = false; // Stop the game from running
         System.exit(0);
@@ -208,7 +216,6 @@ public class Tetris extends Application {
         return levelComplete;
     }
 
-    @Override
     public void init() {
         //Set up the play area
         for (int i = 0; i < playArea.length; i++) {
@@ -395,7 +402,7 @@ public class Tetris extends Application {
     }
 
     //Make a new tile
-    private void makeTile() {
+    protected void makeTile() {
         // Increase the scorePerBlockLanded (A block must've just landed if a new one is being made)
         scorePerLandedBlock++;
 

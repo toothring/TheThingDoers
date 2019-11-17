@@ -17,13 +17,15 @@ import orion.number.Vector2I;
  */
 public class TetrisBlock {
 
-    private final Vector2I[] area;
+    protected final Vector2I[] area;
+
     public boolean[] completedTile = {false, false, false, false};
     //We're all special snowflakes with unique colours
-    public final Color colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
-    private Vector2I[] pattern = new Vector2I[4];
-    private Vector2I realPos;
-    private int rotate;
+    public Color colour;
+    protected Vector2I[] pattern = new Vector2I[4];
+    protected Vector2I realPos;
+    protected int rotate;
+    protected int patternValue;
     public boolean readyToDelete = false;
 
     public TetrisBlock(Vector2I tile, int pattern, int rotate) {
@@ -32,9 +34,13 @@ public class TetrisBlock {
 
         //Store our rotation
         this.rotate = rotate;
+        patternValue = pattern;
 
         //Store a copy of our pattern, to ensure that we aren't messing up the master pattern list
-        System.arraycopy(Data.patterns[pattern], 0, this.pattern, 0, 4);
+        for (int i = 0; i < 4; i++){
+            this.pattern[i] = Data.patterns[pattern][i].transformExternal(0, 0);
+        }
+        
 
         //Rotate our pattern
         for (var offset : this.pattern) {
@@ -44,8 +50,10 @@ public class TetrisBlock {
         }
         //This is the real position
         realPos = tile.transformExternal(0, -2);
-
-        generateAreaData();
+        
+        
+        init();
+        colour = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
         //Debug Statement
         /*for (Vector2I thing : area) {
             System.out.println(Arrays.toString(thing.getPos()));
@@ -56,6 +64,7 @@ public class TetrisBlock {
         for (var offset : this.pattern) {
             offset.rotate(direction);
         }
+        rotate = (rotate + direction) % 4;
         generateAreaData();
     }
 
@@ -140,7 +149,7 @@ public class TetrisBlock {
     }
 
     //Generate our tiles from our pattern and actual position
-    private void generateAreaData() {
+    protected void generateAreaData(){
         for (int i = 0; i < 4; i++) {
             if (!completedTile[i]) {
                 area[i] = realPos.transformExternal(this.pattern[i]);
@@ -171,5 +180,19 @@ public class TetrisBlock {
             output = (area[i].equals(input) && !completedTile[i] ) || output;
         }
         return output;
+    }
+    
+    public String reportType(){
+        return "Tetris";
+    }
+    public void resetLocation(Vector2I vec){
+        realPos = vec.transformExternal(0, 0);
+        generateAreaData();
+    }
+    public boolean checkPositionFinality(){
+        return true;
+    }
+    private void init() {
+        generateAreaData();
     }
 }

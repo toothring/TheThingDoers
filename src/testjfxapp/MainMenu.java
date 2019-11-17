@@ -16,7 +16,7 @@ import testjfxapp.subsystems.AudioSubsystem;
 
 import java.awt.*;
 
-public class MainMenu extends Application{
+public class MainMenu extends Application {
 
     Stage window;
     Scene mainMenu, tetsaw; //Unused: singlePlayer, multiPlayer
@@ -28,7 +28,8 @@ public class MainMenu extends Application{
     Label mainMenuLabel, titleLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
-    Tetris tetrisGame = new Tetris(10,20,30, this);
+    Tetris tetrisGame = new Tetris(0, 0, 0, this);
+    Tetsaw tetsawGame = new Tetsaw(0, 0, 0, this, Data.easyMode);
 
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
@@ -38,16 +39,15 @@ public class MainMenu extends Application{
     Scoreboard sboard = new Scoreboard(this, tetrisGame);
     InGameMenu igm = new InGameMenu(this, tetrisGame, sboard, audioSettings);
 
-
     public static void main(String[] args) {
         launch(args);
-        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         initAudio();
 
-        audio.playMusic("main");
+        AudioSubsystem.playMusic("main");
         // This will determine the screen size (width and height) which you can then assign to a scene.
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         double fullwidth = screenSize.getWidth();
@@ -67,18 +67,31 @@ public class MainMenu extends Application{
 
         playTetris = new Button("Play Tetris");
         playTetris.setOnAction(e -> {
-            this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
-                try {
-                    tetrisGame.start(window);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            tetrisGame = new Tetris(10, 20, 30, this);
+            tetrisGame.init();
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            try {
+                tetrisGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+        }
         );
 
 
-        playTetsaw = new Button("Play Tetsaw");
-        playTetsaw.setOnAction(e -> window.setScene(tetsaw));
+        playTetsaw = new Button("Play Tetsaw (Easy)");
+        playTetsaw.setOnAction(e -> {
+            tetsawGame = new Tetsaw(30, 24, 30, this, Data.easyMode);
+            tetsawGame.init();
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            try {
+                tetsawGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        
 
         enterSettings = new Button("Settings");
         enterSettings.setOnAction(e -> {
@@ -132,8 +145,8 @@ public class MainMenu extends Application{
         window.setMinHeight(500);
        // window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
         window.setOnCloseRequest(e -> {
-          e.consume();
-          quitProgram();
+            e.consume();
+            quitProgram();
         });
         window.show();
 
@@ -141,9 +154,14 @@ public class MainMenu extends Application{
 
     public void quitProgram() {
         Boolean answer = ConfirmBox.display("Are you sure you want to quit?", "That was fun. Come back soon, yeah?");
-        if(answer) {
+        if (answer) {
             window.close();
-            tetrisGame.stop();
+            if (tetrisGame != null) {
+                tetrisGame.stop();
+            }
+            if (tetsawGame != null) {
+                tetsawGame.stop();
+            }
         }
     }
 
@@ -151,12 +169,12 @@ public class MainMenu extends Application{
         window.setScene(mainMenu);
         }
 
-    public void resetGame(){
-        tetrisGame = new Tetris(10,20,30,this);
+    /*public void resetGame() {
+        tetrisGame = new Tetris(10, 20, 30, this);
         tetrisGame.init();
-    }
-    
-    public AudioSubsystem getAudioSystem(){
+    }*/
+
+    public AudioSubsystem getAudioSystem() {
         return audio;
     }
 
@@ -171,11 +189,11 @@ public class MainMenu extends Application{
         
         Sound Effects:
         levelend - Level ending sound effect - N/A
-        */
+         */
         audio = new AudioSubsystem();
         audio.registerSound("levelend", "levelDone.mp3");
         audio.registerMusic("main", "main.mp3");
-        audio.playMusic("main");
+        AudioSubsystem.playMusic("main");
     }
 }
 
