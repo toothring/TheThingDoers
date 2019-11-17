@@ -45,9 +45,10 @@ public class TetsawBlock extends TetrisBlock {
         this.intendedResult = intendedResult;
         finalPos = intendedResult.finishPos;
         for (int i = 0; i < area.length; i++) {
-            Vector2I thisTile = intendedResult.finishPos.transformExternal(Data.patterns[intendedResult.pattern][i]);
+            Vector2I thisTile = Data.patterns[intendedResult.pattern][i].transformExternal(0, 0);
             thisTile.rotate(intendedResult.rotation);
-            tileImages[i] = new Texture(this.ss, thisTile.getX(), thisTile.getY());
+            thisTile.transform(finalPos);
+            tileImages[i] = new Texture(this.ss, thisTile.getY(), thisTile.getX());
         }
     }
 
@@ -60,11 +61,14 @@ public class TetsawBlock extends TetrisBlock {
             g.strokeRect(area[i].getX() * scaleMultiplier, area[i].getY() * scaleMultiplier, scaleMultiplier, scaleMultiplier);
             g.drawImage(tileImages[i].getTexture(), area[i].getX() * scaleMultiplier, area[i].getY() * scaleMultiplier, scaleMultiplier, scaleMultiplier);
         }
+        g.setGlobalAlpha(0.7);
         for (int i = 0; i < area.length; i++) {
-            Vector2I thisTile = intendedResult.finishPos.transformExternal(Data.patterns[intendedResult.pattern][i]);
+            Vector2I thisTile = Data.patterns[intendedResult.pattern][i].transformExternal(0, 0);
             thisTile.rotate(intendedResult.rotation);
+            thisTile.transform(finalPos);
             g.drawImage(tileImages[i].getTexture(), (thisTile.getX()) * scaleMultiplier, (thisTile.getY()) * scaleMultiplier, scaleMultiplier, scaleMultiplier);
         }
+        g.setGlobalAlpha(1.0);
     }
 
     @Override
@@ -81,9 +85,12 @@ public class TetsawBlock extends TetrisBlock {
     protected void generateAreaData() {
         super.generateAreaData();
         if (tileImages != null) {
-            
+
             for (int i = 0; i < area.length; i++) {
-                tileImages[i] = new Texture(this.ss, intendedResult.finishPos.transformExternal(Data.patterns[intendedResult.pattern][i]).getX(), intendedResult.finishPos.transformExternal(Data.patterns[intendedResult.pattern][i]).getY());
+                Vector2I thisTile = Data.patterns[intendedResult.pattern][i].transformExternal(0, 0);
+            thisTile.rotate(intendedResult.rotation);
+            thisTile.transform(finalPos);
+                tileImages[i] = new Texture(this.ss, thisTile.getY(), thisTile.getX());
             }
         }
     }

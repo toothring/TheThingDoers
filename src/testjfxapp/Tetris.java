@@ -41,9 +41,9 @@ public class Tetris {
 
     private static final long serialVersionUID = 1L;
 
-    protected final int PLAY_AREA_WIDTH;
-    protected final int PLAY_AREA_HEIGHT;
-    protected final int TILE_SIZE;
+    protected static int PLAY_AREA_WIDTH;
+    protected static int PLAY_AREA_HEIGHT;
+    protected static int TILE_SIZE;
 
     private int currentRotation;
     protected int newBlock;
@@ -87,9 +87,9 @@ public class Tetris {
     private boolean levelComplete = false; // This determines whether the 'level complete' message is displayed in the IGM
 
     public Tetris(int Width, int Height, int Scale, MainMenu menu) {
-        this.PLAY_AREA_WIDTH = Width;
-        this.PLAY_AREA_HEIGHT = Height;
-        this.TILE_SIZE = Scale;
+        PLAY_AREA_WIDTH = Width;
+        PLAY_AREA_HEIGHT = Height;
+        TILE_SIZE = Scale;
         root = new Group();
         CANVAS = new Canvas(PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
         GRAPHICS = CANVAS.getGraphicsContext2D();

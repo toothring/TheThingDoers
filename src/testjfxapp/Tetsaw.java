@@ -23,6 +23,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import orion.general.graphics.SpriteSheet;
+import orion.general.graphics.Texture;
 import orion.number.Vector2I;
 import static testjfxapp.Tetris.GRAPHICS;
 
@@ -45,7 +46,7 @@ public class Tetsaw extends Tetris {
 
     @Override
     protected void makeTile() {
-        if (currentBlock == null || currentBlock != null/* || currentBlock.checkPositionFinality()*/) {
+        if (currentBlock == null || currentBlock.checkPositionFinality()) {
             //Semi-obsolete formatting from tech demo
             int selectedBlock;
 
@@ -58,8 +59,8 @@ public class Tetsaw extends Tetris {
 
             //Get the position our block will start at
             selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
-            selectedBlock = r.nextInt(playArea.length);
-            TetsawBlockData d = new TetsawBlockData(playArea[selectedBlock], rotate, pattern);
+            //selectedBlock = r.nextInt(playArea.length);
+            //TetsawBlockData d = new TetsawBlockData(playArea[selectedBlock], rotate, pattern);
             int targetBlock;
             do {
                 targetBlock = r.nextInt(PLAY_AREA_WIDTH * (PLAY_AREA_HEIGHT - 3));
@@ -67,9 +68,9 @@ public class Tetsaw extends Tetris {
             selectedChunks[targetBlock] = true;
             System.out.println("We doin dis bois");
             //Make a new block
-            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], d, rotate, ss);
-            //newBlock = Data.easyMode.getBlock(currentPositionBlock).pattern;
-            //currentPositionBlock++;
+            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], Data.easyMode.getBlock(currentPositionBlock), rotate, ss);
+            newBlock = Data.easyMode.getBlock(currentPositionBlock).pattern;
+            currentPositionBlock++;
 
             //Add it to our list of blocks
             blocks.add(block);
@@ -89,18 +90,17 @@ public class Tetsaw extends Tetris {
         boolean intersects = checkForCollision(direction);
 
         //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
-        /*if (!intersects) {
+        if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
                 makeTile();
             }
         } else {
             makeTile();
-        }*/
+        }
         //makeTile();
         scorePerTick++; // Increase the score with each tick
         //System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
-        System.out.println("Meep");
         drawAllTiles(scaleMult);
     }
 
@@ -127,13 +127,16 @@ public class Tetsaw extends Tetris {
         //Blank the screen
         GRAPHICS.setFill(Color.WHITE);
         GRAPHICS.fillRect(0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
-        GRAPHICS.drawImage(gameImage, 0, 0);
+        //GRAPHICS.drawImage(gameImage, 0, 0);
 
         //Draw the background grid
         GRAPHICS.setFill(Color.BLACK);
-        /*for (Vector2I tile : playArea) {
-            GRAPHICS.drawImage(ss.requestTile(tile.getX(), tile.getY()), tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
-        }*/
+        GRAPHICS.setGlobalAlpha(0.2);
+        for (Vector2I tile : playArea) {
+            Texture t = new Texture(ss, tile.getY(), tile.getX());
+            GRAPHICS.drawImage(t.getTexture(), tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
+        }
+        GRAPHICS.setGlobalAlpha(1.0);
         return scaleMult;
     }
 }
