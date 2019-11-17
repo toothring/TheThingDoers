@@ -19,6 +19,7 @@ package testjfxapp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -26,16 +27,19 @@ import java.util.Arrays;
  */
 public class TetsawLevelData {
     public ArrayList<TetsawBlockData> data = new ArrayList<>();
-    
+    public String track;
+    public Image gameImage;
     public TetsawLevelData(){
         
     }
     
-    public TetsawLevelData(TetsawBlockData[] initData){
+    public TetsawLevelData(TetsawBlockData[] initData, String track, String path){
         data.addAll(Arrays.asList(initData));
+        this.track = track;
+        gameImage = new Image(path);
     }
     
-    public void addBlock(TetsawBlockData d){
+    public void addBlock(TetsawBlockData d, String track){
         data.add(d);
     }
     

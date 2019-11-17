@@ -111,7 +111,8 @@ public class AudioSubsystem {
     }
     
     public static void playMusic(String title) {
-        MediaPlayer music = new MediaPlayer(musicData.get(title));
+        Media m = musicData.get(title);
+        MediaPlayer music = new MediaPlayer(m);
         if (backgroundMusic != null) {
             backgroundMusic.dispose();
         }
