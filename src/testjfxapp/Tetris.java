@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import testjfxapp.subsystems.AudioSubsystem;
 
 /**
@@ -327,13 +328,15 @@ public class Tetris {
         this.getBlockScore();
         this.getTickScore();
         gameOver = true;
-        AudioSubsystem.playSound("levelend");
-        try {
-            igm.start(menu.window);
-        } catch (Exception ex) {
-            //ex.printStackTrace();
-            Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        Platform.runLater(() -> {
+            try {
+                igm.start(menu.window);
+            } catch (Exception ex) {
+                Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        AudioSubsystem.playSound("levelEnd");
     }
 
     public boolean tickDown2() {
