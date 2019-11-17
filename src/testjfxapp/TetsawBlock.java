@@ -41,7 +41,7 @@ public class TetsawBlock extends TetrisBlock {
         this.ss = ss;
         tileImages = new Texture[4];
         colour = Color.BLACK;
-        System.out.println("Tetsaw BLAWK");
+        //System.out.println("Tetsaw BLAWK");
         this.intendedResult = intendedResult;
         finalPos = intendedResult.finishPos;
         for (int i = 0; i < area.length; i++) {

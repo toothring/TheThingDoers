@@ -79,7 +79,7 @@ public class Tetris {
 
     private static int[] rowCount = new int[20];
 
-    private double ticks = 2.0; // The larger this number is, the faster the game
+    private double ticks = 24.0; // The larger this number is, the faster the game
     private double ns = 1000000000 / ticks;
     private boolean gameOver = false; // This determines whether the 'game over' message is displayed in the IGM
 // ** REQUIRED FOR TETSAW:**
@@ -378,6 +378,9 @@ public class Tetris {
                 }
                 if ("right".equals(direction)) {
                     intersects = (currentBlock.moveTest(moveRight).intersects(block) || intersects);
+                }
+                if ("self".equals(direction)) {
+                    intersects = (currentBlock.moveTest(new Vector2I(0, 0)).intersects(block) || intersects);
                 }
             }
         }

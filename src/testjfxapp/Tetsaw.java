@@ -33,7 +33,9 @@ import testjfxapp.subsystems.AudioSubsystem;
  * @author Orion
  */
 public class Tetsaw extends Tetris {
+
     private int deaths = 0;
+    boolean stop = false;
     private SpriteSheet ss;
     private boolean[] selectedChunks;
     private int currentPositionBlock = 0;
@@ -42,7 +44,7 @@ public class Tetsaw extends Tetris {
 
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu, TetsawLevelData level) {
         super(Width, Height, Scale, menu);
-        System.out.println("Oh lawd we doin dis");
+        //System.out.println("Oh lawd we doin dis");
         selectedChunks = new boolean[playArea.length];
         this.level = level;
         gameImage = level.gameImage;
@@ -51,62 +53,68 @@ public class Tetsaw extends Tetris {
 
     @Override
     protected void makeTile() {
-        if(currentPositionBlock >= Data.easyMode.data.size()) {
+        if (currentPositionBlock >= Data.easyMode.data.size()) {
             gameIsOver();
             return;
         }
-        if (currentBlock == null || currentBlock.checkPositionFinality()) {
-            //Semi-obsolete formatting from tech demo
-            int selectedBlock;
+        //if (currentBlock == null || currentBlock.checkPositionFinality()) {
+        //Semi-obsolete formatting from tech demo
+        int selectedBlock;
 
-            //Get an existing pattern
-            int pattern = r.nextInt(Data.patterns.length);
-            //Rotate it to one of four possible positions
-            int rotate =0;
-            //Debug statement
-            //System.out.println(rotate);
+        //Get an existing pattern
+        int pattern = r.nextInt(Data.patterns.length);
+        //Rotate it to one of four possible positions
+        int rotate = 0;
+        //Debug statement
+        //System.out.println(rotate);
 
-            //Get the position our block will start at
-            selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
-            //selectedBlock = r.nextInt(playArea.length);
-            //TetsawBlockData d = new TetsawBlockData(playArea[selectedBlock], rotate, pattern);
-            int targetBlock;
-            do {
-                targetBlock = r.nextInt(PLAY_AREA_WIDTH * (PLAY_AREA_HEIGHT - 3));
-            } while (selectedChunks[targetBlock] == true);
-            selectedChunks[targetBlock] = true;
-            System.out.println("We doin dis bois");
-            //Make a new block
-            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], level.getBlock(currentPositionBlock), rotate, ss);
-            newBlock = level.getBlock(currentPositionBlock).pattern;
-            currentPositionBlock++;
+        //Get the position our block will start at
+        selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
+        //selectedBlock = r.nextInt(playArea.length);
+        //TetsawBlockData d = new TetsawBlockData(playArea[selectedBlock], rotate, pattern);
+        int targetBlock;
+        do {
+            targetBlock = r.nextInt(PLAY_AREA_WIDTH * (PLAY_AREA_HEIGHT - 3));
+        } while (selectedChunks[targetBlock] == true);
+        selectedChunks[targetBlock] = true;
+        //System.out.println("We doin dis bois");
+        //Make a new block
+        System.out.println(currentPositionBlock);
+        TetsawBlock block = new TetsawBlock(level.getBlock(currentPositionBlock).finishPos, level.getBlock(currentPositionBlock), level.getBlock(currentPositionBlock).rotation, ss);
+        newBlock = level.getBlock(currentPositionBlock).pattern;
+        currentPositionBlock++;
 
-            //Add it to our list of blocks
-            blocks.add(block);
-            //Set it as our active block
-            currentBlock = block;
-        } else {
-            currentBlock.resetLocation(playArea[(PLAY_AREA_WIDTH / 2) - 1]);
-            deaths++;
-        }
-        
+        //Add it to our list of blocks
+        blocks.add(block);
+        //Set it as our active block
+        currentBlock = block;
+        //} else {
+        //    currentBlock.resetLocation(playArea[(PLAY_AREA_WIDTH / 2) - 1]);
+        //    deaths++;
+        //}
+
     }
 
     @Override
     public void tickDown() {
         int scaleMult = screenSetup();
 
-        String direction = "down";
+        String direction = "self";
         boolean intersects = checkForCollision(direction);
 
         //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
-        if (!intersects) {
-            //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
-            if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+        if (!stop) {
+            if (!intersects) {
+                //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
+                //if (!currentBlock.boundedMove(new Vector2I(0, 0), PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
+                //System.out.println("Conflict: " + currentPositionBlock);
                 makeTile();
+                //}
+            } else {
+                System.out.println("Conflict: " + currentPositionBlock + " with pattern " + newBlock + " at pos " + level.getBlock(currentPositionBlock - 1).finishPos.toString());
+                stop = true;
+                return;
             }
-        } else {
-            makeTile();
         }
         //makeTile();
         scorePerTick++; // Increase the score with each tick
@@ -122,10 +130,15 @@ public class Tetsaw extends Tetris {
 
     }
 
+    @Override
+    public void removeRow(int row) {
+
+    }
+
     private void initialiseImageHandler() {
         ss = new SpriteSheet(gameImage, TILE_SIZE);
     }
-    
+
     @Override
     public int screenSetup() {
         //THIS IS THE DRAWING CODE
@@ -143,14 +156,15 @@ public class Tetsaw extends Tetris {
         //Draw the background grid
         GRAPHICS.setFill(Color.BLACK);
         GRAPHICS.setGlobalAlpha(0.2);
-        for (Vector2I tile : playArea) {
-            Texture t = new Texture(ss, tile.getY(), tile.getX());
-            GRAPHICS.drawImage(t.getTexture(), tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
-        }
+        //for (Vector2I tile : playArea) {
+        //Texture t = new Texture(ss, tile.getY(), tile.getX());
+        GRAPHICS.drawImage(gameImage, 0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
+        //}
         GRAPHICS.setGlobalAlpha(1.0);
         return scaleMult;
     }
+
     @Override
-    protected void tickRateUp(){
+    protected void tickRateUp() {
     }
 }
