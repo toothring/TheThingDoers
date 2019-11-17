@@ -158,6 +158,8 @@ public class Tetris {
                     ex.printStackTrace();
                 };
                     break;
+                case T:
+                    makeTile();
             }
         });
         arg0.setWidth(PLAY_AREA_WIDTH * TILE_SIZE + 0.5 * TILE_SIZE);
@@ -218,7 +220,6 @@ public class Tetris {
     public void init() {
         //Set up the play area
         for (int i = 0; i < playArea.length; i++) {
-            System.out.println(PLAY_AREA_WIDTH);
             playArea[i] = new Vector2I(i % PLAY_AREA_WIDTH, (int) Math.floor(i / PLAY_AREA_WIDTH));
         }
         /*for (int i = 0; i < playArea.length; i++) {

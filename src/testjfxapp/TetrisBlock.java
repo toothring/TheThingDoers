@@ -64,6 +64,7 @@ public class TetrisBlock {
         for (var offset : this.pattern) {
             offset.rotate(direction);
         }
+        rotate = (rotate + direction) % 4;
         generateAreaData();
     }
 

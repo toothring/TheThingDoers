@@ -20,8 +20,11 @@ package testjfxapp;
 import java.util.ArrayList;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import orion.general.graphics.SpriteSheet;
 import orion.number.Vector2I;
+import static testjfxapp.Tetris.GRAPHICS;
 
 /**
  *
@@ -32,6 +35,7 @@ public class Tetsaw extends Tetris {
     private SpriteSheet ss;
     private boolean[] selectedChunks;
     private int currentPositionBlock = 0;
+    private Image gameImage = new Image("/test2.png", true);
 
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu) {
         super(Width, Height, Scale, menu);
@@ -41,19 +45,21 @@ public class Tetsaw extends Tetris {
 
     @Override
     protected void makeTile() {
-        if (currentBlock == null || currentBlock.checkPositionFinality()) {
+        if (currentBlock == null || currentBlock != null/* || currentBlock.checkPositionFinality()*/) {
             //Semi-obsolete formatting from tech demo
             int selectedBlock;
 
             //Get an existing pattern
             int pattern = r.nextInt(Data.patterns.length);
             //Rotate it to one of four possible positions
-            int rotate = r.nextInt(3);
+            int rotate =0;
             //Debug statement
             //System.out.println(rotate);
 
             //Get the position our block will start at
             selectedBlock = (PLAY_AREA_WIDTH / 2) - 1;
+            selectedBlock = r.nextInt(playArea.length);
+            TetsawBlockData d = new TetsawBlockData(playArea[selectedBlock], rotate, pattern);
             int targetBlock;
             do {
                 targetBlock = r.nextInt(PLAY_AREA_WIDTH * (PLAY_AREA_HEIGHT - 3));
@@ -61,9 +67,9 @@ public class Tetsaw extends Tetris {
             selectedChunks[targetBlock] = true;
             System.out.println("We doin dis bois");
             //Make a new block
-            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], Data.easyMode.getBlock(currentPositionBlock), rotate, ss);
-            newBlock = Data.easyMode.getBlock(currentPositionBlock).pattern;
-            currentPositionBlock++;
+            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], d, rotate, ss);
+            //newBlock = Data.easyMode.getBlock(currentPositionBlock).pattern;
+            //currentPositionBlock++;
 
             //Add it to our list of blocks
             blocks.add(block);
@@ -83,17 +89,18 @@ public class Tetsaw extends Tetris {
         boolean intersects = checkForCollision(direction);
 
         //Does it intersect with anything? If yes, make a new tile, if no, try to move down.
-        if (!intersects) {
+        /*if (!intersects) {
             //Tell the tile to move down. If it fails to move, it has hit the bottom and we should make a new tile
             if (!currentBlock.boundedMove(movement, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT)) {
                 makeTile();
             }
         } else {
             makeTile();
-        }
+        }*/
+        //makeTile();
         scorePerTick++; // Increase the score with each tick
         //System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
-        //System.out.println("Meep");
+        System.out.println("Meep");
         drawAllTiles(scaleMult);
     }
 
@@ -105,6 +112,28 @@ public class Tetsaw extends Tetris {
     }
 
     private void initialiseImageHandler() {
-        ss = new SpriteSheet("/TetsawImage.jpg", TILE_SIZE);
+        ss = new SpriteSheet(gameImage, TILE_SIZE);
+    }
+    
+    @Override
+    public int screenSetup() {
+        //THIS IS THE DRAWING CODE
+        //And also some game logic
+        //Whoops
+        //Just in case we decide to split logic and rendering, don't try to push frames to JavaFX more than about 1000 times per second, it gets mad
+
+        //Scale multiplier, just equal to TILE_SIZE
+        int scaleMult = TILE_SIZE;
+        //Blank the screen
+        GRAPHICS.setFill(Color.WHITE);
+        GRAPHICS.fillRect(0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
+        GRAPHICS.drawImage(gameImage, 0, 0);
+
+        //Draw the background grid
+        GRAPHICS.setFill(Color.BLACK);
+        /*for (Vector2I tile : playArea) {
+            GRAPHICS.drawImage(ss.requestTile(tile.getX(), tile.getY()), tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
+        }*/
+        return scaleMult;
     }
 }
