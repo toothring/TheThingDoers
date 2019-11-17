@@ -31,15 +31,15 @@ public  class Data {
         new TetsawBlockData(3, 21, 1, 1),
         new TetsawBlockData(4, 21, 0, 0)
     };
-    public static final TetsawLevelData easyMode = new TetsawLevelData(easyModeLevel);
+    public static final TetsawLevelData easyMode = new TetsawLevelData(easyModeLevel, "easy");
     
     private static final TetsawBlockData[] normalModeLevel = {
         new TetsawBlockData(0, 0, 0, 0)
     };
-    public static final TetsawLevelData normalMode = new TetsawLevelData(normalModeLevel);
+    public static final TetsawLevelData normalMode = new TetsawLevelData(normalModeLevel, "main");
     
     private static final TetsawBlockData[] hardModeLevel = {
         new TetsawBlockData(0, 0, 0, 0)
     };
-    public static final TetsawLevelData hardMode = new TetsawLevelData(hardModeLevel);
+    public static final TetsawLevelData hardMode = new TetsawLevelData(hardModeLevel, "hard");
 }

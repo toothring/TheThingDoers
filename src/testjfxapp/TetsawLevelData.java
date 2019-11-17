@@ -26,16 +26,18 @@ import java.util.Arrays;
  */
 public class TetsawLevelData {
     public ArrayList<TetsawBlockData> data = new ArrayList<>();
+    public String track;
     
     public TetsawLevelData(){
         
     }
     
-    public TetsawLevelData(TetsawBlockData[] initData){
+    public TetsawLevelData(TetsawBlockData[] initData, String track){
         data.addAll(Arrays.asList(initData));
+        this.track = track;
     }
     
-    public void addBlock(TetsawBlockData d){
+    public void addBlock(TetsawBlockData d, String track){
         data.add(d);
     }
     

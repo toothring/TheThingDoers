@@ -26,6 +26,7 @@ import orion.general.graphics.SpriteSheet;
 import orion.general.graphics.Texture;
 import orion.number.Vector2I;
 import static testjfxapp.Tetris.GRAPHICS;
+import testjfxapp.subsystems.AudioSubsystem;
 
 /**
  *
@@ -44,6 +45,7 @@ public class Tetsaw extends Tetris {
         System.out.println("Oh lawd we doin dis");
         selectedChunks = new boolean[playArea.length];
         this.level = level;
+        AudioSubsystem.playMusic(this.level.track);
     }
 
     @Override
@@ -144,5 +146,8 @@ public class Tetsaw extends Tetris {
         }
         GRAPHICS.setGlobalAlpha(1.0);
         return scaleMult;
+    }
+    @Override
+    protected void tickRateUp(){
     }
 }
