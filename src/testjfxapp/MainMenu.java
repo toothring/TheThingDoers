@@ -15,21 +15,22 @@ import javafx.stage.Stage;
 import testjfxapp.subsystems.AudioSubsystem;
 
 import java.awt.*;
+import javafx.application.Platform;
 
 public class MainMenu extends Application {
 
     Stage window;
-    Scene mainMenu, tetsaw; //Unused: singlePlayer, multiPlayer
+    Scene mainMenu, tetsaw, tetris; //Unused: singlePlayer, multiPlayer
     Scene audioSettingsScene, graphicSettingsScene;
-    Button playTetris, playTetsaw, enterSettings, closeProgram; //Unused: playTetrisMP, playTetsawMP, enterScoreboard, sp, mp
+    Button playTetris, tetrisSplashScreen, playTetsawE, playTetsawN, playTetsawH, enterSettings, closeProgram, playTetsaw; //Unused: playTetrisMP, playTetsawMP, enterScoreboard, sp, mp
     Button btm1, btm2, btm3, igmbutton;
     Button audioSettingsBtn, graphicSettings;
 
-    Label mainMenuLabel, titleLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
+    Label mainMenuLabel, titleLabel, playInstructions, playInstructions2, tetsawWelcomeLabel, tetrisWelcomeLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(0, 0, 0, this);
-    Tetsaw tetsawGame = new Tetsaw(0, 0, 0, this, Data.easyMode);
+    Tetsaw tetsawGame;
 
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
@@ -46,7 +47,7 @@ public class MainMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         initAudio();
-
+        Platform.setImplicitExit(false);
         AudioSubsystem.playMusic("main");
         // This will determine the screen size (width and height) which you can then assign to a scene.
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,6 +60,16 @@ public class MainMenu extends Application {
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextFill(Color.web("#363738", 1.0));
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
+        playInstructions = new Label("Choose a difficulty below.\n\nGame controls:\n A: Left\n D: Right\n W: Drop\n S: Speed up descent\n O/P: Rotate block\n ESC: Pause / open menu");
+        playInstructions.setTextAlignment(TextAlignment.CENTER);
+        playInstructions2 = new Label("Game controls:\n A: Left\n D: Right\n W: Drop\n S: Speed up descent\n O/P: Rotate block\n ESC: Pause / open menu");
+        playInstructions2.setTextAlignment(TextAlignment.CENTER);
+        tetsawWelcomeLabel = new Label("Puzzle time!");
+        tetsawWelcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD,20));
+        tetsawWelcomeLabel.setTextAlignment(TextAlignment.CENTER);
+        tetrisWelcomeLabel = new Label("Firing up the classic, are we?");
+        tetrisWelcomeLabel.setTextAlignment(TextAlignment.CENTER);
+        tetrisWelcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD,20));
 
         window = primaryStage;
 
@@ -79,8 +90,8 @@ public class MainMenu extends Application {
         );
 
 
-        playTetsaw = new Button("Play Tetsaw (Easy)");
-        playTetsaw.setOnAction(e -> {
+        playTetsawE = new Button("Play Tetsaw (Easy)");
+        playTetsawE.setOnAction(e -> {
             tetsawGame = new Tetsaw(30, 24, 30, this, Data.easyMode);
             tetsawGame.init();
             //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
@@ -90,8 +101,40 @@ public class MainMenu extends Application {
                 ex.printStackTrace();
             }
         });
-
         
+        playTetsawN = new Button("Play Tetsaw (Normal)");
+        playTetsawN.setOnAction(e -> {
+            tetsawGame = new Tetsaw(30, 24, 30, this, Data.normalMode);
+            tetsawGame.init();
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            try {
+                tetsawGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        
+        playTetsawH = new Button("Play Tetsaw (Hard)");
+        playTetsawH.setOnAction(e -> {
+            tetsawGame = new Tetsaw(30, 24, 30, this, Data.hardMode);
+            tetsawGame.init();
+            //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
+            try {
+                tetsawGame.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        playTetsaw = new Button("Play Tetsaw");
+        playTetsaw.setOnAction(e -> {
+            window.setScene(tetsaw);
+        });
+
+        tetrisSplashScreen = new Button("Play Tetris");
+        tetrisSplashScreen.setOnAction(e -> {
+            window.setScene(tetris);
+        });
 
         enterSettings = new Button("Settings");
         enterSettings.setOnAction(e -> {
@@ -127,23 +170,31 @@ public class MainMenu extends Application {
 
         // Main menu layout:
         VBox mainMenuLayout = new VBox(40);
-        mainMenuLayout.getChildren().addAll(titleLabel, mainMenuLabel, playTetris, playTetsaw, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
+        mainMenuLayout.getChildren().addAll(titleLabel, mainMenuLabel, tetrisSplashScreen, playTetsaw, enterSettings, closeProgram); //Removed SP/MP buttons, scoreboard button until fully developed
         mainMenuLayout.setAlignment(Pos.CENTER);
         mainMenu = new Scene(mainMenuLayout, 300, 500);
         mainMenu.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
-        // Tetsaw layout:
+        // Tetsaw splash screen layout:
         VBox tetsawLayout = new VBox(40);
-        tetsawLayout.getChildren().addAll(btm1, igmbutton);
+        tetsawLayout.getChildren().addAll(tetsawWelcomeLabel, playInstructions, playTetsawE, playTetsawN, playTetsawH, btm1);
         tetsawLayout.setAlignment(Pos.CENTER);
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+
+        // Tetris splash screen layout
+        VBox tetrisLayout = new VBox(40);
+        tetrisLayout.getChildren().addAll(tetrisWelcomeLabel, playInstructions2, playTetris, btm2);
+        tetrisLayout.setAlignment(Pos.CENTER);
+        tetris = new Scene(tetrisLayout, 300, 500);
+        tetris.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
+
 
         window.setScene(mainMenu);
         window.setTitle("Tetsaw Main Menu");
         window.setMinWidth(300);
         window.setMinHeight(500);
-       // window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
+     //   window.getIcons().add(new Image(getClass().getClassLoader().getResource("/icon.png").toExternalForm()));
         window.setOnCloseRequest(e -> {
             e.consume();
             quitProgram();
@@ -166,6 +217,7 @@ public class MainMenu extends Application {
     }
 
     public void showMenu() {
+        AudioSubsystem.playMusic("main");
         window.setScene(mainMenu);
         }
 
@@ -193,6 +245,8 @@ public class MainMenu extends Application {
         audio = new AudioSubsystem();
         audio.registerSound("levelend", "levelDone.mp3");
         audio.registerMusic("main", "main.mp3");
+        audio.registerMusic("hard", "hard.mp3");
+        audio.registerMusic("easy", "easy.mp3");
         AudioSubsystem.playMusic("main");
     }
 }
