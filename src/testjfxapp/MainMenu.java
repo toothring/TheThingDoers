@@ -29,7 +29,7 @@ public class MainMenu extends Application {
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(0, 0, 0, this);
-    Tetsaw tetsawGame = new Tetsaw(0, 0, 0, this);
+    Tetsaw tetsawGame = new Tetsaw(0, 0, 0, this, Data.easyMode);
 
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
@@ -79,9 +79,9 @@ public class MainMenu extends Application {
         );
 
 
-        playTetsaw = new Button("Play Tetsaw");
+        playTetsaw = new Button("Play Tetsaw (Easy)");
         playTetsaw.setOnAction(e -> {
-            tetsawGame = new Tetsaw(30, 24, 30, this);
+            tetsawGame = new Tetsaw(30, 24, 30, this, Data.easyMode);
             tetsawGame.init();
             //this.resetGame(); //this method is required for when a game is already in progress (i.e. player returned to menu)
             try {

@@ -37,11 +37,13 @@ public class Tetsaw extends Tetris {
     private boolean[] selectedChunks;
     private int currentPositionBlock = 0;
     private Image gameImage = new Image("/test2.png", true);
+    private TetsawLevelData level;
 
-    public Tetsaw(int Width, int Height, int Scale, MainMenu menu) {
+    public Tetsaw(int Width, int Height, int Scale, MainMenu menu, TetsawLevelData level) {
         super(Width, Height, Scale, menu);
         System.out.println("Oh lawd we doin dis");
         selectedChunks = new boolean[playArea.length];
+        this.level = level;
     }
 
     @Override
@@ -72,8 +74,8 @@ public class Tetsaw extends Tetris {
             selectedChunks[targetBlock] = true;
             System.out.println("We doin dis bois");
             //Make a new block
-            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], Data.easyMode.getBlock(currentPositionBlock), rotate, ss);
-            newBlock = Data.easyMode.getBlock(currentPositionBlock).pattern;
+            TetsawBlock block = new TetsawBlock(playArea[selectedBlock], level.getBlock(currentPositionBlock), rotate, ss);
+            newBlock = level.getBlock(currentPositionBlock).pattern;
             currentPositionBlock++;
 
             //Add it to our list of blocks
