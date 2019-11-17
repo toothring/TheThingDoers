@@ -423,6 +423,7 @@ public class Tetris {
         int pattern = r.nextInt(Data.patterns.length);
 
         // Keeps pieces from being too random
+        int trackerCount = 0;
         boolean patternFound = false;
 
         if (patternCount == 14) {
