@@ -336,7 +336,7 @@ public class Tetris {
                 Logger.getLogger(Tetris.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        AudioSubsystem.playSound("levelEnd");
+        AudioSubsystem.playSound("levelend");
     }
 
     public boolean tickDown2() {
