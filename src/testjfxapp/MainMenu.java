@@ -26,7 +26,7 @@ public class MainMenu extends Application {
     Button btm1, btm2, btm3, igmbutton;
     Button audioSettingsBtn, graphicSettings;
 
-    Label mainMenuLabel, titleLabel, playInstructions, tetsawWelcomeLabel, twlAddition, tetrisWelcomeLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
+    Label mainMenuLabel, titleLabel, playInstructions, playInstructions2, tetsawWelcomeLabel, tetrisWelcomeLabel; //Unused: scoreboardMenuLabel, settingsMenuLabel, singlePlayerMenuLabel, multiPlayerMenuLabel;
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(0, 0, 0, this);
@@ -60,13 +60,13 @@ public class MainMenu extends Application {
         mainMenuLabel = new Label("How's things? \nPick a button below to get started.");
         mainMenuLabel.setTextFill(Color.web("#363738", 1.0));
         mainMenuLabel.setTextAlignment(TextAlignment.CENTER);
-        playInstructions = new Label("Game controls:\n A: Left\n D: Right\n W: Drop\n S: Speed up descent\n O: Rotate block\n ESC: Pause / open menu");
+        playInstructions = new Label("Choose a difficulty below.\n\nGame controls:\n A: Left\n D: Right\n W: Drop\n S: Speed up descent\n O: Rotate block\n ESC: Pause / open menu");
         playInstructions.setTextAlignment(TextAlignment.CENTER);
+        playInstructions2 = new Label("Game controls:\n A: Left\n D: Right\n W: Drop\n S: Speed up descent\n O: Rotate block\n ESC: Pause / open menu");
+        playInstructions2.setTextAlignment(TextAlignment.CENTER);
         tetsawWelcomeLabel = new Label("Puzzle time!");
         tetsawWelcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD,20));
         tetsawWelcomeLabel.setTextAlignment(TextAlignment.CENTER);
-        twlAddition = new Label("Choose a difficulty below");
-        twlAddition.setTextAlignment(TextAlignment.CENTER);
         tetrisWelcomeLabel = new Label("Firing up the classic, are we?");
         tetrisWelcomeLabel.setTextAlignment(TextAlignment.CENTER);
         tetrisWelcomeLabel.setFont(Font.font("Arial", FontWeight.BOLD,20));
@@ -177,14 +177,14 @@ public class MainMenu extends Application {
 
         // Tetsaw splash screen layout:
         VBox tetsawLayout = new VBox(40);
-        tetsawLayout.getChildren().addAll(tetsawWelcomeLabel, twlAddition, playInstructions, playTetsawE, playTetsawN, playTetsawH, btm1);
+        tetsawLayout.getChildren().addAll(tetsawWelcomeLabel, playInstructions, playTetsawE, playTetsawN, playTetsawH, btm1);
         tetsawLayout.setAlignment(Pos.CENTER);
         tetsaw = new Scene(tetsawLayout, 300, 500);
         tetsaw.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
 
         // Tetris splash screen layout
         VBox tetrisLayout = new VBox(40);
-        tetrisLayout.getChildren().addAll(tetrisWelcomeLabel, playInstructions, playTetris, btm2);
+        tetrisLayout.getChildren().addAll(tetrisWelcomeLabel, playInstructions2, playTetris, btm2);
         tetrisLayout.setAlignment(Pos.CENTER);
         tetris = new Scene(tetrisLayout, 300, 500);
         tetris.getStylesheets().add(getClass().getResource("TetsawStylesheet.css").toString());
