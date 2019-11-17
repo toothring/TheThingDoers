@@ -420,14 +420,16 @@ public class Tetris {
         int pattern = r.nextInt(Data.patterns.length);
 
         // Keeps pieces from being too random
-        int trackerCount = 0;
         boolean patternFound = false;
+
         if (patternCount == 14) {
             for (int i = 0; i < patternTracker.length; i++) {
                 patternTracker[i] = 0;
             }
             patternCount = 0;
+            System.out.println("Tracking blocks has been reset.");
         }
+
         do {
             if (pattern == patternTracker[trackerCount]) {
                 if (patternTracker[trackerCount] < 2) {
