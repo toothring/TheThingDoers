@@ -429,30 +429,31 @@ public class Tetris {
                 patternTracker[i] = 0;
             }
             patternCount = 0;
-//            System.out.println("Tracking blocks has been reset.");
+            System.out.println("Tracking blocks has been reset.");
         }
         if (pattern >= 0 && pattern <= 6) {
-//            System.out.println("Pattern tracking has started.");
+            System.out.println("Pattern tracking has started.");
 
             if (patternTracker[pattern] < 2) {
                 patternTracker[pattern]++;
-                patternFound = true;
-//                System.out.println("Pattern was accepted.");
+                patternCount++;
+                System.out.println("Pattern was accepted.");
             } else {
-//                System.out.println("Pattern " + pattern + " has been used too many times. Changing...");
-                int trackerCount = 0;
-                while (trackerCount <= 6 && patternFound == false) {
-                    if (patternTracker[trackerCount] < 2) {
-                        patternTracker[trackerCount]++;
-                        pattern = patternTracker[trackerCount];
+                System.out.println("Pattern " + pattern + " has been used too many times. Changing...");
+                int blockCount = 0;
+                while (blockCount <= 6 && patternFound == false) {
+                    if (patternTracker[blockCount] < 2) {
+                        pattern = blockCount;
+                        patternTracker[blockCount]++;
                         patternFound = true;
-//                        System.out.println("New Pattern is: " + pattern);
+                        patternCount++;
+                        System.out.println("New Pattern is: " + pattern);
                     }
-                    trackerCount++;
+                    blockCount++;
                 }
             }
         } else
-//            System.out.println("Pattern " + pattern + " is out of the scope of the tracker.");
+            System.out.println("Pattern " + pattern + " is out of the scope of the tracker.");
 
         newBlock = pattern;
         //Rotate it to one of four possible positions

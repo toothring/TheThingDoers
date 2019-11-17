@@ -436,19 +436,20 @@ public class Tetris {
 
             if (patternTracker[pattern] < 2) {
                 patternTracker[pattern]++;
-                patternFound = true;
+                patternCount++;
                 System.out.println("Pattern was accepted.");
             } else {
                 System.out.println("Pattern " + pattern + " has been used too many times. Changing...");
-                int trackerCount = 0;
-                while (trackerCount <= 6 && patternFound == false) {
-                    if (patternTracker[trackerCount] < 2) {
-                        patternTracker[trackerCount]++;
-                        pattern = patternTracker[trackerCount];
+                int blockCount = 0;
+                while (blockCount <= 6 && patternFound == false) {
+                    if (patternTracker[blockCount] < 2) {
+                        pattern = blockCount;
+                        patternTracker[blockCount]++;
                         patternFound = true;
+                        patternCount++;
                         System.out.println("New Pattern is: " + pattern);
                     }
-                    trackerCount++;
+                    blockCount++;
                 }
             }
         } else
