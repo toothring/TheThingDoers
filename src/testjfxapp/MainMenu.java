@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import testjfxapp.subsystems.AudioSubsystem;
 
 import java.awt.*;
+import javafx.application.Platform;
 
 public class MainMenu extends Application {
 
@@ -29,7 +30,7 @@ public class MainMenu extends Application {
 
     //Create an object of the InGameMenu and TestJFXApp class so we can use it
     Tetris tetrisGame = new Tetris(0, 0, 0, this);
-    Tetsaw tetsawGame = new Tetsaw(0, 0, 0, this, Data.easyMode);
+    Tetsaw tetsawGame;
 
     AudioSubsystem audio;
     ReversableMenu settingsMenu = new Settings(this);
@@ -46,7 +47,7 @@ public class MainMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         initAudio();
-
+        Platform.setImplicitExit(false);
         AudioSubsystem.playMusic("main");
         // This will determine the screen size (width and height) which you can then assign to a scene.
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -190,6 +191,7 @@ public class MainMenu extends Application {
     }
 
     public void showMenu() {
+        AudioSubsystem.playMusic("main");
         window.setScene(mainMenu);
         }
 
@@ -217,6 +219,8 @@ public class MainMenu extends Application {
         audio = new AudioSubsystem();
         audio.registerSound("levelend", "levelDone.mp3");
         audio.registerMusic("main", "main.mp3");
+        audio.registerMusic("hard", "hard.mp3");
+        audio.registerMusic("easy", "easy.mp3");
         AudioSubsystem.playMusic("main");
     }
 }

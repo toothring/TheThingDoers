@@ -26,17 +26,18 @@ import orion.general.graphics.SpriteSheet;
 import orion.general.graphics.Texture;
 import orion.number.Vector2I;
 import static testjfxapp.Tetris.GRAPHICS;
+import testjfxapp.subsystems.AudioSubsystem;
 
 /**
  *
  * @author Orion
  */
 public class Tetsaw extends Tetris {
-
+    private int deaths = 0;
     private SpriteSheet ss;
     private boolean[] selectedChunks;
     private int currentPositionBlock = 0;
-    private Image gameImage = new Image("/test2.png", true);
+    private Image gameImage;
     private TetsawLevelData level;
 
     public Tetsaw(int Width, int Height, int Scale, MainMenu menu, TetsawLevelData level) {
@@ -44,6 +45,8 @@ public class Tetsaw extends Tetris {
         System.out.println("Oh lawd we doin dis");
         selectedChunks = new boolean[playArea.length];
         this.level = level;
+        gameImage = level.gameImage;
+        AudioSubsystem.playMusic(this.level.track);
     }
 
     @Override
@@ -84,6 +87,7 @@ public class Tetsaw extends Tetris {
             currentBlock = block;
         } else {
             currentBlock.resetLocation(playArea[(PLAY_AREA_WIDTH / 2) - 1]);
+            deaths++;
         }
         
     }
@@ -108,6 +112,7 @@ public class Tetsaw extends Tetris {
         scorePerTick++; // Increase the score with each tick
         //System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
         drawAllTiles(scaleMult);
+        GRAPHICS.strokeText("Deaths: " + deaths, 0, TILE_SIZE / 2);
     }
 
     @Override
@@ -144,5 +149,8 @@ public class Tetsaw extends Tetris {
         }
         GRAPHICS.setGlobalAlpha(1.0);
         return scaleMult;
+    }
+    @Override
+    protected void tickRateUp(){
     }
 }

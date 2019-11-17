@@ -180,11 +180,7 @@ public class Tetris {
                 while (delta > 1) {
                     tickDown();
                     delta--;
-                    if (ticks < 10) { // 10 ticks is pretty fast
-                        ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
-                        AudioSubsystem.setPlaybackMultiplier(ticks / 2);
-                        ns = 1000000000 / ticks;
-                    }
+                    tickRateUp();
                 }
 
             }
@@ -332,6 +328,7 @@ public class Tetris {
         this.getBlockScore();
         this.getTickScore();
         gameOver = true;
+
         Platform.runLater(() -> {
             try {
                 igm.start(menu.window);
@@ -426,14 +423,16 @@ public class Tetris {
         int pattern = r.nextInt(Data.patterns.length);
 
         // Keeps pieces from being too random
-        int trackerCount = 0;
         boolean patternFound = false;
+
         if (patternCount == 14) {
             for (int i = 0; i < patternTracker.length; i++) {
                 patternTracker[i] = 0;
             }
             patternCount = 0;
+            System.out.println("Tracking blocks has been reset.");
         }
+
         do {
             if (pattern == patternTracker[trackerCount]) {
                 if (patternTracker[trackerCount] < 2) {
@@ -541,6 +540,14 @@ public class Tetris {
             if (blocks.get(i).readyToDelete) {
                 blocks.remove(i);
             }
+        }
+    }
+
+    protected void tickRateUp() {
+        if (ticks < 10) { // 10 ticks is pretty fast
+            ticks = ticks + 0.01; // This will do 1000 ticks before it gets to 10
+            AudioSubsystem.setPlaybackMultiplier(ticks / 2);
+            ns = 1000000000 / ticks;
         }
     }
 }
