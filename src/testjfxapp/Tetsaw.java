@@ -143,10 +143,7 @@ public class Tetsaw extends Tetris {
         //Draw the background grid
         GRAPHICS.setFill(Color.BLACK);
         GRAPHICS.setGlobalAlpha(0.2);
-        for (Vector2I tile : playArea) {
-            Texture t = new Texture(ss, tile.getY(), tile.getX());
-            GRAPHICS.drawImage(t.getTexture(), tile.getX() * scaleMult, tile.getY() * scaleMult, scaleMult, scaleMult);
-        }
+        GRAPHICS.drawImage(gameImage, 0, 0, PLAY_AREA_WIDTH * TILE_SIZE, PLAY_AREA_HEIGHT * TILE_SIZE);
         GRAPHICS.setGlobalAlpha(1.0);
         return scaleMult;
     }
