@@ -423,41 +423,37 @@ public class Tetris {
         int pattern = r.nextInt(Data.patterns.length);
 
         // Keeps pieces from being too random
-        int trackerCount = 0;
         boolean patternFound = false;
-
-        if (patternCount == 14) {
-            for (int i = 0; i < patternTracker.length; i++) {
+        if(patternCount > 13) {
+            for (int i=0; i<patternTracker.length; i++) {
                 patternTracker[i] = 0;
             }
             patternCount = 0;
             System.out.println("Tracking blocks has been reset.");
         }
+        if (pattern >= 0 && pattern <= 6) {
+            System.out.println("Pattern tracking has started.");
 
-        do {
-            if (pattern == patternTracker[trackerCount]) {
-                if (patternTracker[trackerCount] < 2) {
-                    patternTracker[trackerCount]++;
-                    patternCount++;
-                    patternFound = true;
-                } else {
-                    trackerCount = 0;
-                    do {
-                        if (patternTracker[trackerCount] < 2) {
-                            System.out.println("\nBlock " + pattern + " was swapped for " + patternTracker[trackerCount]);
-                            pattern = patternTracker[trackerCount];
-                            patternTracker[trackerCount]++;
-                            patternCount++;
-                            patternFound = true;
-                        } else {
-                            trackerCount++;
-                        }
-                    } while (trackerCount < patternTracker.length && patternFound == false);
-                }
+            if (patternTracker[pattern] < 2) {
+                patternTracker[pattern]++;
+                patternCount++;
+                System.out.println("Pattern was accepted.");
             } else {
-                trackerCount++;
+                System.out.println("Pattern " + pattern + " has been used too many times. Changing...");
+                int blockCount = 0;
+                while (blockCount <= 6 && patternFound == false) {
+                    if (patternTracker[blockCount] < 2) {
+                        pattern = blockCount;
+                        patternTracker[blockCount]++;
+                        patternFound = true;
+                        patternCount++;
+                        System.out.println("New Pattern is: " + pattern);
+                    }
+                    blockCount++;
+                }
             }
-        } while (trackerCount < patternTracker.length && patternFound == false);
+        } else
+            System.out.println("Pattern " + pattern + " is out of the scope of the tracker.");
 
         newBlock = pattern;
         //Rotate it to one of four possible positions
