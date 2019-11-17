@@ -33,7 +33,7 @@ import testjfxapp.subsystems.AudioSubsystem;
  * @author Orion
  */
 public class Tetsaw extends Tetris {
-
+    private int deaths = 0;
     private SpriteSheet ss;
     private boolean[] selectedChunks;
     private int currentPositionBlock = 0;
@@ -86,6 +86,7 @@ public class Tetsaw extends Tetris {
             currentBlock = block;
         } else {
             currentBlock.resetLocation(playArea[(PLAY_AREA_WIDTH / 2) - 1]);
+            deaths++;
         }
         
     }
@@ -110,6 +111,7 @@ public class Tetsaw extends Tetris {
         scorePerTick++; // Increase the score with each tick
         //System.out.println(scorePerTick + " " + scorePerLandedBlock); // Print in console so BB can see it working
         drawAllTiles(scaleMult);
+        GRAPHICS.strokeText("Deaths: " + deaths, 0, TILE_SIZE / 2);
     }
 
     @Override
